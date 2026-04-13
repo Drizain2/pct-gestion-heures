@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="stat-card gold">
+            <div class="stat-card blue">
                 <i class="bi bi-clock-fill stat-icon"></i>
                 <div>
                     <div class="stat-number">320h</div>
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="stat-card dark">
+            <div class="stat-card orange">
                 <i class="bi bi-collection-fill stat-icon"></i>
                 <div>
                     <div class="stat-number">156</div>
