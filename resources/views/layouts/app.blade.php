@@ -68,11 +68,11 @@
             @role('admin|secretaire')
             <div class="sidebar-section-label">Gestion</div>
 
-            {{-- <a href="{{ route('enseignants.index') }}"
+            <a href="{{ route('enseignants.index') }}"
                class="nav-item {{ request()->routeIs('enseignants.*') ? 'active' : '' }}">
                 <i class="bi bi-people-fill"></i>
                 <span>Enseignants</span>
-            </a> --}}
+            </a>
 
             {{-- <a href="{{ route('cours.index') }}"
                class="nav-item {{ request()->routeIs('cours.*') ? 'active' : '' }}">
