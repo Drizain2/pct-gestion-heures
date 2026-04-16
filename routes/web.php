@@ -42,3 +42,10 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+Auth::routes();
+Route::resource('heures', App\Http\Controllers\HeureController::class)->middleware('auth');
+
+
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

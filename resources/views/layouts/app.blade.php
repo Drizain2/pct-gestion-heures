@@ -1,273 +1,80 @@
-<!-- resources/views/layouts/app.blade.php -->
-<!DOCTYPE html>
-<html lang="fr">
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UVCI — {{ $title ?? 'Gestion des Heures' }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Bootstrap 5 (grid + utilitaires uniquement) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- CSS UVCI -->
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    @stack('styles')
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+
+    <!-- Scripts -->
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
+    <div id="app">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+            <div class="container">
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    {{ config('app.name', 'Laravel') }}
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-<!-- Overlay sidebar (mobile) -->
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="navbar-nav me-auto">
 
-<div class="app-wrapper">
+                    </ul>
 
-    <!-- ══ SIDEBAR ══════════════════════════════════════════ -->
-    <aside class="sidebar" id="sidebar">
+                    <!-- Right Side Of Navbar -->
+                    <ul class="navbar-nav ms-auto">
+                        <!-- Authentication Links -->
+                        @guest
+                            @if (Route::has('login'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                </li>
+                            @endif
 
-        <!-- Logo -->
-        <a href="#" class="sidebar-brand">
-            <div class="sidebar-brand-icon">
-                <i class="bi bi-mortarboard-fill"></i>
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
+                        @else
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }}
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        @endguest
+                    </ul>
+                </div>
             </div>
-            <div class="sidebar-brand-text">
-                <h4>UVCI</h4>
-                <span>Gestion des Heures</span>
-            </div>
-        </a>
-
-        <!-- Navigation -->
-        <nav class="sidebar-nav">
-
-            <div class="sidebar-section-label">Principal</div>
-
-            @role('admin')
-            <a href="{{ route('admin.dashboard') }}"
-               class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                <i class="bi bi-speedometer2"></i>
-                <span>Tableau de bord</span>
-            </a>
-            @endrole
-
-            @role('secretaire')
-            <a href="{{ route('secretaire.dashboard') }}"
-               class="nav-item {{ request()->routeIs('secretaire.dashboard') ? 'active' : '' }}">
-                <i class="bi bi-speedometer2"></i>
-                <span>Tableau de bord</span>
-            </a>
-            @endrole
-
-            @role('enseignant')
-            <a href="{{ route('enseignant.dashboard') }}"
-               class="nav-item {{ request()->routeIs('enseignant.dashboard') ? 'active' : '' }}">
-                <i class="bi bi-speedometer2"></i>
-                <span>Mon espace</span>
-            </a>
-            @endrole
-
-            @role('admin|secretaire')
-            <div class="sidebar-section-label">Gestion</div>
-
-            {{-- <a href="{{ route('enseignants.index') }}"
-               class="nav-item {{ request()->routeIs('enseignants.*') ? 'active' : '' }}">
-                <i class="bi bi-people-fill"></i>
-                <span>Enseignants</span>
-            </a> --}}
-
-            {{-- <a href="{{ route('cours.index') }}"
-               class="nav-item {{ request()->routeIs('cours.*') ? 'active' : '' }}">
-                <i class="bi bi-book-fill"></i>
-                <span>Cours</span>
-            </a> --}}
-            @endrole
-
-            @role('admin|secretaire|enseignant')
-            {{-- <a href="{{ route('activites.index') }}"
-               class="nav-item {{ request()->routeIs('activites.*') ? 'active' : '' }}">
-                <i class="bi bi-clock-history"></i>
-                <span>Activités</span>
-                @php
-                    $enAttente = \App\Models\Activite::where('statut','en_attente')
-                        ->when(auth()->user()->hasRole('enseignant'),
-                            fn($q) => $q->where('enseignant_id', auth()->user()->enseignant?->id))
-                        ->count();
-                @endphp
-                @if($enAttente > 0)
-                    <span class="nav-badge">{{ $enAttente }}</span>
-                @endif
-            </a> --}}
-            @endrole
-
-            @role('admin|secretaire')
-            <div class="sidebar-section-label">Exports</div>
-
-            {{-- <a href="{{ route('exports.index') }}"
-               class="nav-item {{ request()->routeIs('exports.*') ? 'active' : '' }}">
-                <i class="bi bi-download"></i>
-                <span>Exports & Rapports</span>
-            </a> --}}
-            @endrole
-
-            @role('admin')
-            <div class="sidebar-section-label">Administration</div>
-
-            {{-- <a href="{{ route('admin.users.index') }}"
-               class="nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                <i class="bi bi-shield-lock-fill"></i>
-                <span>Utilisateurs</span>
-            </a>
-
-            <a href="{{ route('admin.parametres.index') }}"
-               class="nav-item {{ request()->routeIs('admin.parametres.*') ? 'active' : '' }}">
-                <i class="bi bi-gear-fill"></i>
-                <span>Paramètres</span>
-            </a> --}}
-            @endrole
-
         </nav>
 
-        <!-- Profil + Déconnexion -->
-        <div class="sidebar-footer">
-            <div class="sidebar-user">
-                <div class="sidebar-avatar">
-                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                </div>
-                <div class="sidebar-user-info">
-                    <div class="sidebar-user-name">{{ auth()->user()->name }}</div>
-                    <div class="sidebar-user-role">
-                        {{ ucfirst(auth()->user()->getRoleNames()->first()) }}
-                    </div>
-                </div>
-            </div>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="btn-logout">
-                    <i class="bi bi-box-arrow-left"></i>
-                    Déconnexion
-                </button>
-            </form>
-        </div>
-
-    </aside>
-
-    <!-- ══ MAIN ═════════════════════════════════════════════ -->
-    <div class="main-wrapper">
-
-        <!-- Topbar -->
-        <header class="topbar">
-            <div class="topbar-left">
-                <!-- Toggle mobile -->
-                <button class="sidebar-toggle" id="sidebarToggle" type="button">
-                    <i class="bi bi-list fs-5"></i>
-                </button>
-                <h5 class="topbar-title">{{ $title ?? 'Tableau de bord' }}</h5>
-            </div>
-            <div class="topbar-right">
-                <!-- Notifications -->
-                {{-- <a href="{{ route('activites.index', ['statut' => 'en_attente']) }}"
-                   class="topbar-notif" title="Activités en attente">
-                    <i class="bi bi-bell"></i>
-                    @if(isset($enAttente) && $enAttente > 0)
-                        <span class="topbar-notif-dot"></span>
-                    @endif
-                </a> --}}
-                <!-- Profil -->
-                <div class="topbar-user">
-                    <div class="topbar-avatar">
-                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                    </div>
-                    <div class="d-none d-md-block">
-                        <div class="topbar-user-name">{{ auth()->user()->name }}</div>
-                        <div class="topbar-user-role">
-                            {{ ucfirst(auth()->user()->getRoleNames()->first()) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Contenu principal -->
-        <main class="page-content">
-
-            <!-- Flash messages -->
-            @if(session('success'))
-                <div class="alert alert-success fade-in-up">
-                    <i class="bi bi-check-circle-fill"></i>
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if(session('error'))
-                <div class="alert alert-danger fade-in-up">
-                    <i class="bi bi-exclamation-triangle-fill"></i>
-                    {{ session('error') }}
-                </div>
-            @endif
-
-            @if($errors->any())
-                <div class="alert alert-danger fade-in-up">
-                    <i class="bi bi-exclamation-triangle-fill"></i>
-                    <div>
-                        <strong>Erreurs de validation :</strong>
-                        <ul class="mb-0 mt-1" style="padding-left:16px;">
-                            @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            @endif
-
-            {{ $slot }}
-
+        <main class="py-4">
+            @yield('content')
         </main>
-
     </div>
-</div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-    // ── Toggle sidebar mobile ──────────────────────────────
-    const sidebar        = document.getElementById('sidebar');
-    const overlay        = document.getElementById('sidebarOverlay');
-    const toggleBtn      = document.getElementById('sidebarToggle');
-
-    function openSidebar() {
-        sidebar.classList.add('is-open');
-        overlay.classList.add('is-open');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeSidebar() {
-        sidebar.classList.remove('is-open');
-        overlay.classList.remove('is-open');
-        document.body.style.overflow = '';
-    }
-
-    toggleBtn?.addEventListener('click', () => {
-        sidebar.classList.contains('is-open') ? closeSidebar() : openSidebar();
-    });
-
-    overlay?.addEventListener('click', closeSidebar);
-
-    // Fermer avec Échap
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeSidebar();
-    });
-
-    // Auto-fermer les alertes après 5s
-    setTimeout(() => {
-        document.querySelectorAll('.alert').forEach(el => {
-            el.style.transition = 'opacity 0.5s';
-            el.style.opacity = '0';
-            setTimeout(() => el.remove(), 500);
-        });
-    }, 5000);
-</script>
-
-@stack('scripts')
-
 </body>
 </html>
