@@ -16,9 +16,27 @@
                             placeholder="Rechercher par nom, prénom, email..." value="{{ request('search') }}">
                     </div>
                     <div class="col-md-2">
+                    <select name="grade" class="form-select">
+                        <option value="">Tous les grades</option>
+                        <option value="Assistant" {{ request('grade') == 'Assistant' ? 'selected' : '' }}>Assistant</option>
+                        <option value="Maitre-Assistant" {{ request('grade') == 'Maitre-Assistant' ? 'selected' : '' }}>Maître-Assistant</option>
+                        <option value="Professeur" {{ request('grade') == 'Professeur' ? 'selected' : '' }}>Professeur</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="statut" class="form-select">
+                        <option value="">Tous les statuts</option>
+                        <option value="Permanent" {{ request('statut') == 'Permanent' ? 'selected' : '' }}>Permanent</option>
+                        <option value="Vacataire" {{ request('statut') == 'Vacataire' ? 'selected' : '' }}>Vacataire</option>
+                    </select>
+                </div>
+                    <div class="col-md-2 gap-2 d-flex ">
                         <button type="submit" class="btn btn-outline-primary w-100">
                             <i class="bi bi-search me-1"></i> Rechercher
                         </button>
+                        <a href="{{ route('enseignants.index') }}" class="btn btn-outline-secondary w-100">
+                            <i class="bi bi-arrow-clockwise me-1"></i> Réinitialiser
+                        </a>
                     </div>
                 </form>
             </div>

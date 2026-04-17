@@ -28,6 +28,7 @@ class EnseignantController extends Controller
         // filtre statut
         if ($request->filled('statut')) {
             $query->where('statut', $request->input('statut'));
+            // dd($query);
         }
 
         // par grade
@@ -35,7 +36,7 @@ class EnseignantController extends Controller
             $query->where('grade', $request->input('grade'));
         }
 
-        $enseignants = $query->orderBy('id', 'desc')->paginate(10);
+        $enseignants = $query->orderBy('id', 'desc')->paginate(5);
 
         return view('enseignants.index', compact('enseignants'));
     }

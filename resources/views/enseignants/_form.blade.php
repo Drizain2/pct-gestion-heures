@@ -56,14 +56,25 @@
                     <label for="grade" class="form-label">
                         Grade <span class="text-danger">*</span>
                     </label>
-                    <input
+                    {{-- <input
                         type="text"
                         class="form-control @error('grade') is-invalid @enderror"
                         id="grade"
                         name="grade"
                         value="{{ old('grade', $enseignant->grade ?? '') }}"
                         required
-                    >
+                    > --}}
+                    <select class="form-select @error('grade') is-invalid @enderror"
+                        id="grade"
+                        name="grade"
+                        required>
+                    <option value="" selected disabled>Sélectionnez un grade</option>
+                    @foreach (["Assistant","Maitre-Assistant","Professeur"] as $grade )
+                        <option value="{{ $grade }}" {{ old('grade', $enseignant->grade ?? '') == $grade ? 'selected' : '' }}>
+                            {{ $grade }}
+                        </option>
+                    @endforeach
+                    </select>
                     @error('grade')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -82,9 +93,9 @@
                         <option value="Permanent" {{ old('statut', $enseignant->statut ?? '') == 'Permanent' ? 'selected' : '' }}>
                             Permanent
                         </option>
-                        <option value="Contractuel" {{ old('statut', $enseignant->statut ?? '') == 'Contractuel' ? 'selected' : '' }}>
+                        {{-- <option value="Contractuel" {{ old('statut', $enseignant->statut ?? '') == 'Contractuel' ? 'selected' : '' }}>
                             Contractuel
-                        </option>
+                        </option> --}}
                         <option value="Vacataire" {{ old('statut', $enseignant->statut ?? '') == 'Vacataire' ? 'selected' : '' }}>
                             Vacataire
                         </option>
@@ -169,16 +180,16 @@
                 {{ isset($enseignant) ? 'Mettre à jour' : 'Enregistrer' }}
             </button>
         </div>
-    </div>
-    @if(!isset($enseignant))
-       <div class="col-12">
-           <div class="alert py-2" style="background: #f0fdf4;border-left:4px solid #2E7D32;">
-               <i class="bi bi-info-circle me-2" style="color: #2E7D32;"></i>
-               Un compte d'enseignant sera créer pour cet enseignant avec l'email saisie.
-               Le mot de passe par defaut sera : <strong>uvci@2026</strong>.
+        @if(!isset($enseignant))
+           <div class="col-12">
+               <div class="alert py-2" style="background: #f0fdf4;border-left:4px solid #2E7D32;">
+                   <i class="bi bi-info-circle me-2" style="color: #2E7D32;"></i>
+                   Un compte d'enseignant sera créer pour cet enseignant avec l'email saisie.
+                   Le mot de passe par defaut sera : <strong>uvci@2026</strong>.
+               </div>
            </div>
-       </div>
-       @endif
+           @endif
+    </div>
 </form>
 
 <!-- Script pour la validation côté client -->
