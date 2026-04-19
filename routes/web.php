@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EnseignantController;
+use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\AnneeAcademiqueController;
+use App\Http\Controllers\admin\ParametreController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +21,24 @@ Route::middleware(['auth'])->group(function () {
         ->group(function () {
             Route::get('/dashboard', [DashboardController::class, 'admin'])
                 ->name('dashboard');
+            
+            // Utilisateurs
+            Route::get('users', [UserController::class, 'index'])->name('users.index');
+            Route::post('users', [UserController::class, 'store'])->name('users.store');
+            Route::put('users/{user}/role', [UserController::class, 'updateRole'])->name('users.role');
+            Route::put('users/{user}/password', [UserController::class, 'resetPassword'])->name('users.password');
+            Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+            // Annees academiques
+            Route::get('annees', [AnneeAcademiqueController::class, 'index'])->name('annees.index');
+            Route::post('annees', [AnneeAcademiqueController::class, 'store'])->name('annees.store');
+            Route::post('annees/{annee}/activer', [AnneeAcademiqueController::class, 'activer'])->name('annees.activer');
+            Route::delete('annees/{annee}', [AnneeAcademiqueController::class, 'destroy'])->name('annees.destroy');
+
+            // Parametres
+            Route::get('parametres', [ParametreController::class, 'index'])->name('parametres.index');
+            Route::post('parametres/systeme', [ParametreController::class, 'updateSysteme'])->name('parametres.systeme');
+            Route::post('parametres/calcul', [ParametreController::class, 'updateCalcul'])->name('parametres.calcul');
         });
 
     // Secretaire

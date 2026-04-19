@@ -111,7 +111,7 @@
             @role('admin')
             <div class="sidebar-section-label">Administration</div>
 
-            {{-- <a href="{{ route('admin.users.index') }}"
+            <a href="{{ route('admin.users.index') }}"
                class="nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                 <i class="bi bi-shield-lock-fill"></i>
                 <span>Utilisateurs</span>
@@ -121,7 +121,7 @@
                class="nav-item {{ request()->routeIs('admin.parametres.*') ? 'active' : '' }}">
                 <i class="bi bi-gear-fill"></i>
                 <span>Paramètres</span>
-            </a> --}}
+            </a>
             @endrole
 
         </nav>
