@@ -12,7 +12,7 @@ class StoreSequenceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,20 @@ class StoreSequenceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "cours_id"=>"required|exists:cours,id",
+            "titre"=>"required|string|max:200",
+            "ordre"=>"required|integer|min:1",
+            "description"=>"nullable|string"
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            "cours_id.resuired"=>"Le cours est obligatoire. ",
+            "cours_id.exists"=>"Le cours selectionné est invalide",
+            "titre.required"=>"Le titre de la sequence est obligatoire",
+            "ordre.required"=>"L'ordre est oblligatoire"
         ];
     }
 }

@@ -29,7 +29,7 @@ class RessourcePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->hasAnyRole(['admin', 'secretaire', 'enseignant']);
     }
 
     /**
@@ -37,7 +37,14 @@ class RessourcePolicy
      */
     public function update(User $user, Ressource $ressource): bool
     {
-        return false;
+        // Admin et secretaire peuvent tout modifier
+        if ($user->hasAnyRole(['admin', 'secretaire'])) {
+            return true;
+        }
+
+        // L'enseignant ne peut modifier que ses propres ressources
+        return $user->hasRole('enseignant')
+            && $ressource->enseignant_id == $user->enseignant?->id;
     }
 
     /**
@@ -45,8 +52,16 @@ class RessourcePolicy
      */
     public function delete(User $user, Ressource $ressource): bool
     {
-        return false;
+        // Admin et secretaire peuvent tout modifier
+        if ($user->hasAnyRole(['admin', 'secretaire'])) {
+            return true;
+        }
+
+        // L'enseignant ne peut modifier que ses propres ressources
+        return $user->hasRole('enseignant')
+            && $ressource->enseignant_id == $user->enseignant?->id;
     }
+
 
     /**
      * Determine whether the user can restore the model.

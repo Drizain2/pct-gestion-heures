@@ -8,39 +8,39 @@
                 <a href="{{ route('cours.index') }}" class="btn btn-outline-secondary btn-sm">
                     <i class="bi bi-arrow-left me-1"></i>Retour
                 </a>
-                <a href="{{ route('cours.edit', $cours) }}" class="btn btn-warning btn-sm">
+                <a href="{{ route('cours.edit', $cour) }}" class="btn btn-warning btn-sm">
                     <i class="bi bi-pencil me-1"></i>Modifier
                 </a>
-                <a href="{{ route('cours.sequences.create', $cours) }}" class="btn btn-warning btn-sm">
+                <a href="{{ route('cours.sequences.create', $cour) }}" class="btn btn-warning btn-sm">
                     <i class="bi bi-pencil me-1"></i>créer
                 </a>
             </div>
 
             <div class="card mb-4">
                 <div class="card-header">
-                    <i class="bi bi-book-fill me-2"></i>{{ $cours->intitule }}
+                    <i class="bi bi-book-fill me-2"></i>{{ $cour->intitule }}
                 </div>
                 <div class="card-body p-4">
                     <div class="row g-3">
                         <div class="col-md-4">
                             <small class="text-muted d-block">Filière</small>
-                            <strong>{{ $cours->filiere }}</strong>
+                            <strong>{{ $cour->filiere }}</strong>
                         </div>
                         <div class="col-md-4">
                             <small class="text-muted d-block">Niveau</small>
-                            <span class="badge" style="background:#2E7D32;">{{ $cours->niveau }}</span>
+                            <span class="badge" style="background:#2E7D32;">{{ $cour->niveau }}</span>
                         </div>
                         <div class="col-md-4">
                             <small class="text-muted d-block">Semestre</small>
-                            <span class="badge bg-secondary">{{ $cours->semestre }}</span>
+                            <span class="badge bg-secondary">{{ $cour->semestre }}</span>
                         </div>
                         <div class="col-md-4">
                             <small class="text-muted d-block">Nombre d'heures</small>
-                            <strong>{{ $cours->nombre_heures }}h</strong>
+                            <strong>{{ $cour->nombre_heures }}h</strong>
                         </div>
                         <div class="col-md-4">
                             <small class="text-muted d-block">Crédits</small>
-                            <strong>{{ $cours->nombre_credits }}</strong>
+                            <strong>{{ $cour->nombre_credits }}</strong>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($cours->enseignants as $enseignant)
+                            @forelse($cour->enseignants as $enseignant)
                             <tr>
                                 <td>{{ $enseignant->nom_complet }}</td>
                                 <td>

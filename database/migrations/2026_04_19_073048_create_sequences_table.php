@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sequences', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("cour_id")->constrained("cours")->onDelete("cascade");
+            $table->foreignId("cours_id")->constrained("cours")->onDelete("cascade");
             $table->string("titre");
             $table->integer("ordre")->default(1);
             $table->text("description")->nullable();

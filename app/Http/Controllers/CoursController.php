@@ -68,10 +68,10 @@ class CoursController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Cours $cours)
+    public function show(Cours $cour)
     {
-        $cours->load(['enseignants', 'sequences']);
-        return view("cours.show", compact("cours"));
+        $cour->load(['enseignants', 'sequences']);
+        return view("cours.show", compact("cour"));
     }
 
     /**
