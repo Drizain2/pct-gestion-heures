@@ -5,7 +5,10 @@ use App\Http\Controllers\EnseignantController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\AnneeAcademiqueController;
 use App\Http\Controllers\admin\ParametreController;
+use App\Http\Controllers\CoursController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RessourceController;
+use App\Http\Controllers\SequenceController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -21,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
         ->group(function () {
             Route::get('/dashboard', [DashboardController::class, 'admin'])
                 ->name('dashboard');
-            
+
             // Utilisateurs
             Route::get('users', [UserController::class, 'index'])->name('users.index');
             Route::post('users', [UserController::class, 'store'])->name('users.store');
@@ -53,7 +56,7 @@ Route::middleware(['auth'])->group(function () {
     //enseignant
     Route::middleware(["role:enseignant"])
         ->prefix('enseignant')
-            ->name('enseignant.')
+        ->name('enseignant.')
         ->group(function () {
             Route::get('/dashboard', [DashboardController::class, 'enseignant'])
                 ->name('dashboard');
@@ -64,7 +67,14 @@ Route::middleware(['auth'])->group(function () {
         ->group(function () {
             // routes partagées
             Route::resource('enseignants', EnseignantController::class);
+            Route::resource("cours", CoursController::class);
+            // Sequence imbriquées dans cours
+            Route::resource('cours.sequences', SequenceController::class)->except(['show']);
+            // Ressource imbriquées dans cours
+            Route::resource('cours.sequences.ressources', RessourceController::class)->except(['index', 'show']);
         });
+
+
 });
 
 require __DIR__ . '/auth.php';

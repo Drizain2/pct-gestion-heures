@@ -74,11 +74,11 @@
                 <span>Enseignants</span>
             </a>
 
-            {{-- <a href="{{ route('cours.index') }}"
+            <a href="{{ route('cours.index') }}"
                class="nav-item {{ request()->routeIs('cours.*') ? 'active' : '' }}">
                 <i class="bi bi-book-fill"></i>
                 <span>Cours</span>
-            </a> --}}
+            </a>
             @endrole
 
             @role('admin|secretaire|enseignant')
