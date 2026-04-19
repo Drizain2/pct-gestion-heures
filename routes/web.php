@@ -5,6 +5,7 @@ use App\Http\Controllers\EnseignantController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\AnneeAcademiqueController;
 use App\Http\Controllers\admin\ParametreController;
+use App\Http\Controllers\CoursController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -64,6 +65,7 @@ Route::middleware(['auth'])->group(function () {
         ->group(function () {
             // routes partagées
             Route::resource('enseignants', EnseignantController::class);
+            Route::resource("cours",CoursController::class);
         });
 });
 

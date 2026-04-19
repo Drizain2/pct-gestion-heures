@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('cours_enseignant', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cour_id')->constrained('cours')->onDelete('cascade');
+            $table->foreignId('cours_id')->constrained('cours')->onDelete('cascade');
             $table->foreignId('enseignant_id')->constrained('enseignants')->onDelete('cascade');
             $table->string("annee_academique");
             $table->timestamps();
 
             // Un enseignant ne peut enseigner qu'une seule fois un cours
-            $table->unique(['cour_id', 'enseignant_id', 'annee_academique']);
+            $table->unique(['cours_id', 'enseignant_id', 'annee_academique']);
         });
     }
 
