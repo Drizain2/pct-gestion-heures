@@ -82,7 +82,7 @@
             @endrole
 
             @role('admin|secretaire|enseignant')
-            {{-- <a href="{{ route('activites.index') }}"
+            <a href="{{ route('activites.index') }}"
                class="nav-item {{ request()->routeIs('activites.*') ? 'active' : '' }}">
                 <i class="bi bi-clock-history"></i>
                 <span>Activités</span>
@@ -95,7 +95,7 @@
                 @if($enAttente > 0)
                     <span class="nav-badge">{{ $enAttente }}</span>
                 @endif
-            </a> --}}
+            </a>
             @endrole
 
             @role('admin|secretaire')

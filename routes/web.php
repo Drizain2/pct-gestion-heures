@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\EnseignantController;
-use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\ActiviteController;
 use App\Http\Controllers\admin\AnneeAcademiqueController;
 use App\Http\Controllers\admin\ParametreController;
+use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\CoursController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EnseignantController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RessourceController;
 use App\Http\Controllers\SequenceController;
@@ -69,10 +70,21 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('enseignants', EnseignantController::class);
             Route::resource("cours", CoursController::class);
             // Sequence imbriquées dans cours
-            Route::resource('cours.sequences', SequenceController::class)->except(['show']);
+            // Route::resource('cours.sequences', SequenceController::class)->except(['show']);
             // Ressource imbriquées dans cours
-            Route::resource('cours.sequences.ressources', RessourceController::class)->except(['index', 'show']);
+            // Route::resource('cours.sequences.ressources', RessourceController::class)->except(['index', 'show']);
+            // Activités
+            Route::post('activites/{activite}/valider', [ActiviteController::class, 'valider'])->name('activites.valider');
+            Route::post('activites/{activite}/rejeter', [ActiviteController::class, 'rejeter'])->name('activites.rejeter');
+            // Route::get('activites/{enseignant}/recapitulatif', [ActiviteController::class, 'recapitulatif'])->name('activites.recapitulatif');
         });
+
+    Route::get('activites/{enseignant}/recapitulatif', [ActiviteController::class, 'recapitulatif'])->name('activites.recapitulatif');
+    // Sequence imbriquées dans cours
+    Route::resource('cours.sequences', SequenceController::class)->except(['show']);
+    // Ressource imbriquées dans cours
+    Route::resource('cours.sequences.ressources', RessourceController::class)->except(['index', 'show']);
+    Route::resource('activites', ActiviteController::class)->except(['edit', 'update']);
 
 
 });
