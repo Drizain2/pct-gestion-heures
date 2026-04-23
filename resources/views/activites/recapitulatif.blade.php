@@ -147,8 +147,7 @@
                     <tr>
                         <th>Date</th>
                         <th>Cours</th>
-                        <th>Cours</th>
-                        <th>Type</th>
+                        <th>Nombre de Séquences</th>
                         <th>Complexité</th>
                         <th>Action</th>
                         <th>Heures</th>
@@ -159,9 +158,9 @@
                         <tr>
                             <td>{{ $activite->date_activite->format('d/m/Y') }}</td>
                             <td>{{ $activite->cours->intitule }}</td>
-                            {{-- <td>
-                                <small>{{ $activite->ressource->sequence->cours->intitule }}</small>
-                            </td> --}}
+                            <td>
+                                <span class="badge bg-primary">{{ $activite->nb_sequences }}</span>
+                            </td>
                             {{-- <td>
                                 <span class="badge"
                                     style="background:{{ $activite->ressource->type_couleur }}; font-size:0.75rem;">
@@ -191,7 +190,7 @@
                 @if ($activites->count() > 0)
                     <tfoot>
                         <tr style="background:#f5f5f5;">
-                            <td colspan="6" class="text-end fw-bold">Total</td>
+                            <td colspan="5" class="text-end fw-bold">Total</td>
                             <td>
                                 <strong style="color:#E65100; font-size:1.1rem;">
                                     {{ $volume['total'] }}h
