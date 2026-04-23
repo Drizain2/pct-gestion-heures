@@ -70,7 +70,8 @@
                     <tr>
                         <th>Date</th>
                         <th>Enseignant</th>
-                        <th>Ressource</th>
+                        <th>cours</th>
+
                         <th>Type action</th>
                         <th>Heures</th>
                         <th>Statut</th>
@@ -79,14 +80,15 @@
                 </thead>
                 <tbody>
                     @forelse($activites as $activite)
+                    {{-- {{ dd($activite->cours->intitule) }} --}}
                     <tr>
                         <td>{{ $activite->date_activite->format('d/m/Y') }}</td>
                         <td>{{ $activite->enseignant->nom_complet }}</td>
                         <td>
-                            <div>{{ $activite->ressource->titre }}</div>
+                            <div>{{ $activite->cours?->intitule }}</div>
                             <small class="text-muted">
-                                {{ $activite->ressource->type_label }}
-                                — {{ $activite->ressource->complexite }}
+                                {{ $activite?->nb_sequences }} séquence(s)
+                                — {{ $activite?->complexite }}
                             </small>
                         </td>
                         <td>

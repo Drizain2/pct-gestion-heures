@@ -26,21 +26,16 @@
                             <strong>{{ $activite->date_activite->format('d/m/Y') }}</strong>
                         </div>
                         <div class="col-md-6">
-                            <small class="text-muted d-block">Ressource</small>
-                            <strong>{{ $activite->ressource->titre }}</strong>
+                            <small class="text-muted d-block">Cours</small>
+                            <strong>{{ $activite->cours?->intitule }}</strong>
                             <small class="text-muted d-block">
-                                {{ $activite->ressource->sequence->cours?->intitule }}
+                                {{ $activite->nb_sequences }} séquence(s)
                             </small>
                         </div>
                         <div class="col-md-6">
-                            <small class="text-muted d-block">Type de ressource</small>
-                            <span class="badge"
-                                  style="background:{{ $activite->ressource->type_couleur }}">
-                                {{ $activite->ressource->type_label }}
-                            </span>
-                            —
+                            <small class="text-muted d-block">Complexité</small>
                             <span class="badge bg-secondary">
-                                {{ $activite->ressource->complexite }}
+                                {{ $activite->complexite }}
                             </span>
                         </div>
                         <div class="col-md-6">

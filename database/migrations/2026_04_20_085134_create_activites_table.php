@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('activites', function (Blueprint $table) {
             $table->id();
             $table->foreignId('enseignant_id')->constrained('enseignants')->cascadeOnDelete();
-            $table->foreignId('ressource_id')->constrained('ressources')->cascadeOnDelete();
+            $table->foreignId('cours_id')->constrained('cours')->cascadeOnDelete();
+            $table->integer('nb_sequences')->default(0);
+            $table->enum('complexite', ['niveau_1', 'niveau_2', 'niveau_3'])->default('niveau_1');
             $table->enum('type_action', ['creation', 'mise_a_jour']);
             $table->decimal('heures_calculees', 5, 2)->default(0);
             $table->date('date_activite');

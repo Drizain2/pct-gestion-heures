@@ -23,11 +23,11 @@ class Sequence extends Model
 
     public function ressources()
     {
-        return $this->hasMany(Ressource::class)->orderBy(("created_at"), "asc");
+        return $this->hasMany(Ressource::class)->orderBy("created_at", "asc");
     }
 
     public function cours()
     {
-        return $this->belongsTo(Cours::class,"cour_id");
+        return $this->belongsTo(Cours::class,"cours_id");
     }
 }

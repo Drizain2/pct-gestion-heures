@@ -12,7 +12,9 @@ class Activite extends Model
 
     protected $fillable = [
         "enseignant_id",
-        "ressource_id",
+        "cours_id",
+        "nb_sequences",
+        "complexite",
         "type_action",
         "heures_calculees",
         "date_activite",
@@ -35,6 +37,10 @@ class Activite extends Model
     public function ressource()
     {
         return $this->belongsTo(Ressource::class);
+    }
+    public function cours()
+    {
+        return $this->belongsTo(Cours::class,'cours_id');
     }
 
     public function validateurUser()
