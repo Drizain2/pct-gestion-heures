@@ -20,13 +20,11 @@
             <form method="GET" class="row g-2 align-items-end">
                 <div class="col-md-3">
                     <label class="form-label mb-1 small">Date début</label>
-                    <input type="date" name="debut" class="form-control"
-                           value="{{ $debut }}">
+                    <input type="date" name="debut" class="form-control" value="{{ $debut }}">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label mb-1 small">Date fin</label>
-                    <input type="date" name="fin" class="form-control"
-                           value="{{ $fin }}">
+                    <input type="date" name="fin" class="form-control" value="{{ $fin }}">
                 </div>
                 <div class="col-md-3">
                     <button type="submit" class="btn btn-primary">
@@ -77,6 +75,67 @@
         </div>
     </div>
 
+    <!-- Détail heures normales / complémentaires -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h6 class="card-header-title">
+                <i class="bi bi-pie-chart-fill"></i>
+                Répartition des heures
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div
+                        style="background:var(--uvci-green-light);
+                            border-radius:var(--radius-md); padding:16px; text-align:center;">
+                        <div style="font-size:1.8rem; font-weight:800; color:var(--uvci-green-dark);">
+                            {{ $volume['heures_normales'] }}h
+                        </div>
+                        <div style="font-size:0.82rem; color:var(--text-secondary);">
+                            Heures normales
+                        </div>
+                        <div style="font-size:0.75rem; color:var(--text-muted);">
+                            Seuil : {{ $volume['seuil'] }}h
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div
+                        style="background:var(--uvci-orange-light);
+                            border-radius:var(--radius-md); padding:16px; text-align:center;">
+                        <div style="font-size:1.8rem; font-weight:800; color:var(--uvci-orange-dark);">
+                            {{ $volume['heures_complementaires'] }}h
+                        </div>
+                        <div style="font-size:0.82rem; color:var(--text-secondary);">
+                            Heures complémentaires
+                        </div>
+                        <div style="font-size:0.75rem; color:var(--text-muted);">
+                            Au-delà du seuil
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div
+                        style="background:rgba(0,59,122,0.06);
+                            border-radius:var(--radius-md); padding:16px; text-align:center;">
+                        <div style="font-size:1.8rem; font-weight:800; color:var(--uvci-blue);">
+                            {{ $volume['total'] }}h
+                        </div>
+                        <div style="font-size:0.82rem; color:var(--text-secondary);">
+                            Total général
+                        </div>
+                        @if ($volume['depasse_seuil'])
+                            <span class="badge badge-orange">Seuil dépassé</span>
+                        @else
+                            <span class="badge badge-green">Dans les limites</span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Tableau activités -->
     <div class="card">
         <div class="card-header">
@@ -87,7 +146,7 @@
                 <thead>
                     <tr>
                         <th>Date</th>
-                        <th>Ressource</th>
+                        <th>Cours</th>
                         <th>Cours</th>
                         <th>Type</th>
                         <th>Complexité</th>
@@ -97,49 +156,49 @@
                 </thead>
                 <tbody>
                     @forelse($activites as $activite)
-                    <tr>
-                        <td>{{ $activite->date_activite->format('d/m/Y') }}</td>
-                        <td>{{ $activite->ressource->titre }}</td>
-                        <td>
-                            <small>{{ $activite->ressource->sequence->cours->intitule }}</small>
-                        </td>
-                        <td>
-                            <span class="badge"
-                                  style="background:{{ $activite->ressource->type_couleur }}; font-size:0.75rem;">
-                                {{ $activite->ressource->type_label }}
-                            </span>
-                        </td>
-                        <td>{{ $activite->ressource->complexite }}</td>
-                        <td>
-                            @if($activite->type_action === 'creation')
-                                <span class="badge bg-success">Création</span>
-                            @else
-                                <span class="badge" style="background:#1565C0;">MAJ</span>
-                            @endif
-                        </td>
-                        <td>
-                            <strong style="color:#E65100;">{{ $activite->heures_calculees }}h</strong>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>{{ $activite->date_activite->format('d/m/Y') }}</td>
+                            <td>{{ $activite->cours->intitule }}</td>
+                            {{-- <td>
+                                <small>{{ $activite->ressource->sequence->cours->intitule }}</small>
+                            </td> --}}
+                            {{-- <td>
+                                <span class="badge"
+                                    style="background:{{ $activite->ressource->type_couleur }}; font-size:0.75rem;">
+                                    {{ $activite->ressource->type_label }}
+                                </span>
+                            </td> --}}
+                            <td>{{ $activite->complexite }}</td>
+                            <td>
+                                @if ($activite->type_action === 'creation')
+                                    <span class="badge bg-success">Création</span>
+                                @else
+                                    <span class="badge" style="background:#1565C0;">MAJ</span>
+                                @endif
+                            </td>
+                            <td>
+                                <strong style="color:#E65100;">{{ $activite->heures_calculees }}h</strong>
+                            </td>
+                        </tr>
                     @empty
-                    <tr>
-                        <td colspan="7" class="text-center text-muted py-4">
-                            Aucune activité validée sur cette période
-                        </td>
-                    </tr>
+                        <tr>
+                            <td colspan="7" class="text-center text-muted py-4">
+                                Aucune activité validée sur cette période
+                            </td>
+                        </tr>
                     @endforelse
                 </tbody>
-                @if($activites->count() > 0)
-                <tfoot>
-                    <tr style="background:#f5f5f5;">
-                        <td colspan="6" class="text-end fw-bold">Total</td>
-                        <td>
-                            <strong style="color:#E65100; font-size:1.1rem;">
-                                {{ $volume['total'] }}h
-                            </strong>
-                        </td>
-                    </tr>
-                </tfoot>
+                @if ($activites->count() > 0)
+                    <tfoot>
+                        <tr style="background:#f5f5f5;">
+                            <td colspan="6" class="text-end fw-bold">Total</td>
+                            <td>
+                                <strong style="color:#E65100; font-size:1.1rem;">
+                                    {{ $volume['total'] }}h
+                                </strong>
+                            </td>
+                        </tr>
+                    </tfoot>
                 @endif
             </table>
         </div>

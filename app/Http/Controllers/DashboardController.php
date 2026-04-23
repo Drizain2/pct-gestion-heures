@@ -7,9 +7,14 @@ use App\Models\Cours;
 use App\Models\Enseignant;
 use App\Models\Ressource;
 use Illuminate\Support\Facades\DB;
+use App\Services\CalculHoraireService;
 
 class DashboardController extends Controller
 {
+    public function __construct(private CalculHoraireService $calculHoraireService)
+    {
+       
+    }
     public function admin()
     {
          // Stat generales
@@ -44,6 +49,15 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
+            //Enseignants ayant dépassé leur charge
+            $enseignantsDepasses = Enseignant::with("activites")
+            ->get()
+            ->filter(function($enseignant){
+                $volume = $this->calculHoraireService->volumeHoraireEnseignant($enseignant->id);
+                $enseignant->volume = $volume;
+                return $volume["depasse_seuil"];
+            });
+            
         // Heures par departement ce mois
         $heuresParDepartement = Activite::where('activites.statut', 'validee')
             ->whereMonth('date_activite', now()->month)
@@ -73,7 +87,7 @@ class DashboardController extends Controller
             'activitesEnAttente',
             'topEnseignants',
             'heuresParDepartement',
-            'statsParMois'
+            'statsParMois','enseignantsDepasses'
         ));
     }
 
@@ -118,6 +132,7 @@ class DashboardController extends Controller
             return redirect()->back()->with('error', 'vous n\'avez pas de compte enseignant');
         }
 
+        $volume = $this->calculHoraireService->volumeHoraireEnseignant($enseignant->id);
         // Stats personnelles
         $stats = [
             'heures_mois' => Activite::where('enseignant_id', $enseignant->id)
@@ -125,12 +140,14 @@ class DashboardController extends Controller
                 ->whereMonth('date_activite', now()->month)
                 ->whereYear('date_activite', now()->year)
                 ->sum('heures_calculees'),
-            'heures_totales' => Activite::where('enseignant_id', $enseignant->id)
-                ->where('statut', 'validee')
-                ->sum('heures_calculees'),
-            'en_attente' => Activite::where('enseignant_id', $enseignant->id)
-                ->where('statut', 'en_attente')
-                ->count(),
+
+            'heures_totales' => $volume['total'],
+            'heures_normales' => $volume['heures_normales'],
+            'heures_complementaires' => $volume['heures_complementaires'],
+            "seuil"=>$volume['seuil'],
+            "depasse_seuil"=>$volume['depasse_seuil'],
+            "pourcentage_charge"=>$enseignant->pourcentage_charge,
+            'en_attente' => Activite::where("enseignant_id", $enseignant->id)->where("statut", "en_attente")->count(),
             'ressources' => Ressource::where('enseignant_id', $enseignant->id)
                 ->count(),
         ];
@@ -143,13 +160,14 @@ class DashboardController extends Controller
             ->get();
 
         // Repartir par type de ressource
-        $repartitionTypes = Activite::where('activites.enseignant_id', $enseignant->id)
+        $repartitionTypes = Activite::where('enseignant_id', $enseignant->id)
             ->where('statut', 'validee')
-            ->join('ressources', 'activites.cours_id', '=', 'ressources.id')
-            ->select('ressources.type', DB::raw('SUM(activites.heures_calculees) as total'))
-            ->groupBy('ressources.type')
+            ->select('type_action', DB::raw('SUM(heures_calculees) as total'))
+            ->groupBy('type_action')
             ->get();
+            
+            
 
-        return view('dashboard.enseignant', compact('enseignant', 'stats', 'derniereActivites', 'repartitionTypes'));
+        return view('dashboard.enseignant', compact('enseignant', 'stats', 'derniereActivites', 'repartitionTypes','volume'));
     }
 }

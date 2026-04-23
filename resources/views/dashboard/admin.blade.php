@@ -89,7 +89,7 @@
                         <thead>
                             <tr>
                                 <th>Enseignant</th>
-                                <th>Ressource</th>
+                                <th>Cours</th>
                                 <th>Heures</th>
                                 <th>Action</th>
                             </tr>
@@ -101,7 +101,7 @@
                                         <small>{{ $activite->enseignant->nom_complet }}</small>
                                     </td>
                                     <td>
-                                        <small>{{ Str::limit($activite->ressource->titre, 25) }}</small>
+                                        <small>{{ Str::limit($activite->cours->intitule, 25) }}</small>
                                     </td>
                                     <td>
                                         <strong style="color:#E65100;">
@@ -192,6 +192,81 @@
                 </div>
             </div>
         </div>
+
+<!--  enseignants ayant dépassés leur seuil-->
+
+<div class="col-12 fade-in-up">
+    <div class="card">
+        <div class="card-header">
+            <h6 class="card-header-title">
+                <i class="bi bi-lightning-fill"></i>
+                Enseignants ayant dépassé leur charge
+            </h6>
+            @if($enseignantsDepasses->count() > 0)
+                <span class="badge badge-orange">
+                    {{ $enseignantsDepasses->count() }}
+                </span>
+            @endif
+        </div>
+        <div class="card-body card-body-flush">
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Enseignant</th>
+                            <th>Grade</th>
+                            <th>Seuil normal</th>
+                            <th>Total heures</th>
+                            <th>Heures complémentaires</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($enseignantsDepasses as $enseignant)
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="avatar avatar-sm">
+                                        {{ strtoupper(substr($enseignant->prenom, 0, 1)) }}
+                                    </div>
+                                    <span class="fw-600">{{ $enseignant->nom_complet }}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge badge-blue">{{ $enseignant->grade }}</span>
+                            </td>
+                            <td>{{ $enseignant->volume['seuil'] }}h</td>
+                            <td>
+                                <strong class="text-uvci-blue">
+                                    {{ $enseignant->volume['total'] }}h
+                                </strong>
+                            </td>
+                            <td>
+                                <strong class="text-uvci-orange">
+                                    +{{ $enseignant->volume['heures_complementaires'] }}h
+                                </strong>
+                            </td>
+                            <td>
+                                <a href="{{ route('activites.recapitulatif', $enseignant) }}"
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i> Voir
+                                </a>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="6" class="text-center text-muted py-4">
+                                <i class="bi bi-check-all fs-3 d-block mb-2"></i>
+                                Aucun enseignant n'a dépassé son seuil
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
     </div>
 

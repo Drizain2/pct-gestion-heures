@@ -34,44 +34,102 @@
         </div>
 
         <!-- Mes stats -->
-        <div class="row g-3 mb-4">
-            <div class="col-md-3">
-                <div class="stat-card green">
-                    <i class="bi bi-clock-fill stat-icon"></i>
-                    <div>
-                        <div class="stat-number">{{ $stats['heures_mois'] }}h</div>
-                        <div class="stat-label">Heures ce mois</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stat-card orange">
-                    <i class="bi bi-clock-history stat-icon"></i>
-                    <div>
-                        <div class="stat-number">{{ $stats['heures_totales'] }}h</div>
-                        <div class="stat-label">Total heures</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stat-card gold">
-                    <i class="bi bi-hourglass-split stat-icon"></i>
-                    <div>
-                        <div class="stat-number">{{ $stats['en_attente'] }}</div>
-                        <div class="stat-label">En attente</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stat-card dark">
-                    <i class="bi bi-collection-fill stat-icon"></i>
-                    <div>
-                        <div class="stat-number">{{ $stats['ressources'] }}</div>
-                        <div class="stat-label">Mes ressources</div>
-                    </div>
-                </div>
+        <!-- resources/views/dashboard/enseignant.blade.php -->
+<!-- Remplacer les stat cards par ceci -->
+
+<!-- Stat cards -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3 fade-in-up">
+        <div class="stat-card blue">
+            <div class="stat-icon"><i class="bi bi-clock-fill"></i></div>
+            <div class="stat-info">
+                <div class="stat-number">{{ $stats['heures_mois'] }}h</div>
+                <div class="stat-label">Heures ce mois</div>
             </div>
         </div>
+    </div>
+    <div class="col-md-3 fade-in-up">
+        <div class="stat-card green">
+            <div class="stat-icon"><i class="bi bi-check-circle-fill"></i></div>
+            <div class="stat-info">
+                <div class="stat-number">{{ $stats['heures_normales'] }}h</div>
+                <div class="stat-label">Heures normales</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 fade-in-up">
+        <div class="stat-card {{ $stats['depasse_seuil'] ? 'orange' : 'navy' }}">
+            <div class="stat-icon">
+                <i class="bi bi-{{ $stats['depasse_seuil'] ? 'lightning-fill' : 'hourglass-split' }}"></i>
+            </div>
+            <div class="stat-info">
+                <div class="stat-number">{{ $stats['heures_complementaires'] }}h</div>
+                <div class="stat-label">Heures complémentaires</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 fade-in-up">
+        <div class="stat-card navy">
+            <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
+            <div class="stat-info">
+                <div class="stat-number">{{ $stats['en_attente'] }}</div>
+                <div class="stat-label">En attente</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Jauge de charge horaire -->
+<div class="card mb-4 fade-in-up">
+    <div class="card-header">
+        <h6 class="card-header-title">
+            <i class="bi bi-speedometer2"></i>
+            Ma charge horaire — {{ $enseignant->grade }}
+        </h6>
+        <span class="badge {{ $stats['depasse_seuil'] ? 'badge-orange' : 'badge-green' }}">
+            {{ $stats['depasse_seuil'] ? 'Seuil dépassé' : 'Dans les limites' }}
+        </span>
+    </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <small style="color:var(--text-secondary);">
+                {{ $stats['heures_totales'] }}h utilisées sur {{ $stats['seuil'] }}h normales
+            </small>
+            <small style="font-weight:700; color:var(---blue);">
+                {{ $stats['pourcentage_charge'] }}%
+            </small>
+        </div>
+        <!-- Barre de progression -->
+        <div style="background:var(--border-color); border-radius:20px; height:12px; overflow:hidden;">
+            <!-- Heures normales -->
+            <div style="
+                width: {{ min($stats['pourcentage_charge'], 100) }}%;
+                height: 100%;
+                background: {{ $stats['depasse_seuil']
+                    ? 'linear-gradient(90deg, var(---green), var(--orange))'
+                    : 'linear-gradient(90deg, var(---blue), var(---green))' }};
+                border-radius: 20px;
+                transition: width 0.8s ease;
+            "></div>
+        </div>
+
+        @if($stats['depasse_seuil'])
+        <div class="alert alert-warning mt-3 mb-0">
+            <i class="bi bi-lightning-fill me-2"></i>
+            Vous avez dépassé votre seuil de <strong>{{ $stats['seuil'] }}h</strong>.
+            <strong>{{ $stats['heures_complementaires'] }}h complémentaires</strong>
+            seront rémunérées à un taux différent.
+        </div>
+        @else
+        <div class="alert alert-info mt-3 mb-0">
+            <i class="bi bi-info-circle me-2"></i>
+            Il vous reste
+            <strong>{{ $stats['seuil'] - $stats['heures_totales'] }}h</strong>
+            avant d'atteindre votre seuil de {{ $stats['seuil'] }}h.
+        </div>
+        @endif
+    </div>
+</div>
 
         <div class="row g-4">
 
@@ -181,19 +239,11 @@
             @if (!$repartitionTypes->isEmpty())
                 const labelsTypes = @json(
                     $repartitionTypes->map(function ($r) {
-                        switch ($r->type) {
-                            case 'contenu_textuel':
-                                return 'Contenu textuel';
-                            case 'video':
-                                return 'Vidéo';
-                            case 'document':
-                                return 'Document';
-                            case 'quiz':
-                                return 'Quiz';
-                            case 'activite_interactive':
-                                return 'Activité interactive';
-                            case 'evaluation':
-                                return 'Évaluation';
+                        switch ($r->type_action) {
+                            case 'creation':
+                                return 'Creation';
+                            case 'mise_a_jour':
+                                return 'Mise à jour';
                             default:
                                 return $r->type;
                         }
