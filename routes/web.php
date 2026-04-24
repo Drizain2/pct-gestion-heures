@@ -40,5 +40,8 @@ Route::middleware(['auth'])->group(function () {
             // routes partagées
         });
 });
+Route::get('/heures', function () {
+    return view('index');
+})->name('heures.index');
 
 require __DIR__ . '/auth.php';
