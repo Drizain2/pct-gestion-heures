@@ -1,42 +1,55 @@
 <x-app-layout>
-    <div class="container py-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="h3">Liste des enseignants</h1>
-            <a href="{{ route('enseignants.create') }}" class="btn btn-primary">
-                <i class="bi bi-plus-circle me-1"></i> Ajouter un enseignant
-            </a>
-        </div>
+    <div class="page-wrapper">
 
-        <!-- Barre de recherche -->
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <form action="{{ route('enseignants.index') }}" method="GET" class="row g-3">
-                    <div class="col-md-4">
-                        <input type="text" name="search" class="form-control"
-                            placeholder="Rechercher par nom, prénom, email..." value="{{ request('search') }}">
-                    </div>
-                    <div class="col-md-2">
-                    <select name="grade" class="form-select">
-                        <option value="">Tous les grades</option>
-                        <option value="Assistant" {{ request('grade') == 'Assistant' ? 'selected' : '' }}>Assistant</option>
-                        <option value="Maitre-Assistant" {{ request('grade') == 'Maitre-Assistant' ? 'selected' : '' }}>Maître-Assistant</option>
-                        <option value="Professeur" {{ request('grade') == 'Professeur' ? 'selected' : '' }}>Professeur</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <select name="statut" class="form-select">
-                        <option value="">Tous les statuts</option>
-                        <option value="Permanent" {{ request('statut') == 'Permanent' ? 'selected' : '' }}>Permanent</option>
-                        <option value="Vacataire" {{ request('statut') == 'Vacataire' ? 'selected' : '' }}>Vacataire</option>
-                    </select>
-                </div>
-                    <div class="col-md-2 gap-2 d-flex ">
-                        <button type="submit" class="btn btn-outline-primary w-100">
-                            <i class="bi bi-search me-1"></i> Rechercher
-                        </button>
-                        <a href="{{ route('enseignants.index') }}" class="btn btn-outline-secondary w-100">
-                            <i class="bi bi-arrow-clockwise me-1"></i> Réinitialiser
-                        </a>
+        <div class="container py-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3">Liste des enseignants</h1>
+                <a href="{{ route('enseignants.create') }}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-1"></i> Ajouter un enseignant
+                </a>
+            </div>
+
+            <!-- Barre de recherche -->
+            <div class="filter-card">
+                <form action="{{ route('enseignants.index') }}" method="GET">
+                    <div class="filter-grid">
+                        <div class="filter-field">
+                            <input type="text" name="search" class="form-control"
+                                placeholder="Rechercher par nom, prénom, email..." value="{{ request('search') }}">
+                        </div>
+                        <div class="filter-field">
+                            <select name="grade" class="form-select">
+                                <option value="">Tous les grades</option>
+                                <option value="Assistant" {{ request('grade') == 'Assistant' ? 'selected' : '' }}>
+                                    Assistant
+                                </option>
+                                <option value="Maitre-Assistant"
+                                    {{ request('grade') == 'Maitre-Assistant' ? 'selected' : '' }}>
+                                    Maître-Assistant</option>
+                                <option value="Professeur" {{ request('grade') == 'Professeur' ? 'selected' : '' }}>
+                                    Professeur
+                                </option>
+                            </select>
+                        </div>
+                        <div class="filter-field">
+                            <select name="statut" class="form-select">
+                                <option value="">Tous les statuts</option>
+                                <option value="Permanent" {{ request('statut') == 'Permanent' ? 'selected' : '' }}>
+                                    Permanent
+                                </option>
+                                <option value="Vacataire" {{ request('statut') == 'Vacataire' ? 'selected' : '' }}>
+                                    Vacataire
+                                </option>
+                            </select>
+                        </div>
+                        <div class="filter-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-search"></i> Rechercher
+                            </button>
+                            <a href="{{ route('enseignants.index') }}" class="btn btn-ghost" title="Réinitialiser">
+                                <i class="bi bi-arrow-clockwise"></i> Réinitialiser
+                            </a>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -123,4 +136,5 @@
             {{ $enseignants->links('pagination::bootstrap-5') }}
         </div>
     </div>
+
 </x-app-layout>

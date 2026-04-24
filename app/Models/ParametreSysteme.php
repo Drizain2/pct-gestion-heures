@@ -18,6 +18,7 @@ class ParametreSysteme extends Model
     public static function get(string $cle,mixed $default =null){
         return Cache::remember("param_{$cle}",3600, function() use($cle,$default){
             $parametre = self::where('cle',$cle)->first();
+            // dd("parametre", $parametre->valeur);
             return $parametre ? $parametre->valeur : $default;
         });
     }

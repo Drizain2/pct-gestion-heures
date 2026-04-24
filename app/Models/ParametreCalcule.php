@@ -28,4 +28,17 @@ class ParametreCalcule extends Model
 
         return $typeAction == 'creation' ? $param->coefficient_creation : $param->coefficient_mise_a_jour;
     }
+
+    // Recuperer tous les coefficients
+    public static function getAllCoefficients()
+    {
+        $coefficients = [];
+        foreach (self::all() as $coefficient) {
+            $coefficients[$coefficient->niveau_complexite] = [
+                'creation' => $coefficient->coefficient_creation,
+                'mise_a_jour' => $coefficient->coefficient_mise_a_jour,
+            ];
+        }
+        return $coefficients;
+    }
 }
