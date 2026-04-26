@@ -1,96 +1,91 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Heures</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-<body class="p-4">
-    <div class="container">
-        <h2 class="mb-3">Gestion des heures</h2>
-        
-        
-        <button class="btn btn-primary mb-3" data-bs-toggle="modal"
-         data-bs-target="#addModal">+ Ajouter</button>
-         <table class="table table-bordered mt-3">
-            <thead class="table-dark">
-                <tr>
-                    <th>Date</th>
-                    <th>Heure début</th>
-                    <th>Heure fin</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="tbodyHeures">
-                <tr>
-                    <td>17/04/2026</td>
-                    <td>08:00</td>
-                    <td>12:00</td>
-                    <td>
-                        <button class="btn btn-sm btn-warning">Modifier</button>
-                        <button class="btn btn-sm btn-danger">Supprimer</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        </table>
+<x-app-layout>
+    <div class="page-wrapper p-4">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3">Liste des enseignants</h1>
+                <a href="#" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-1"></i> Ajouter un enseignant
+                </a>
+            </div>
 
-<div class="modal fade" id="addModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Ajouter une heure</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <input type="date" class="form-control mb-2">
-        <input type="time" class="form-control mb-2">
-        <input type="time" class="form-control">
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-        <button class="btn btn-primary" id="btnSaveHeure">Enregistrer</button>
-      </div>
+            <!-- Tableau des enseignants -->
+            <div class="card shadow-sm mt-4">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover mb-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Email</th>
+                                    <th>Grade</th>
+                                    <th>Statut</th>
+                                    <th>Département</th>
+                                    <th>Taux horaire</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyEnseignants">
+                                @php
+                                    $enseignantsFake = [
+                                        (object)['id'=>1, 'nom'=>'Koffi', 'prenom'=>'Jean', 'email'=>'koffi@test.com', 'grade'=>'Professeur', 'statut'=>'permanent', 'departement'=>'Informatique', 'taux_horaire'=>5000],
+                                        (object)['id'=>2, 'nom'=>'Koné', 'prenom'=>'Fatou', 'email'=>'kone@test.com', 'grade'=>'Assistant', 'statut'=>'vacataire', 'departement'=>'Maths', 'taux_horaire'=>3500]
+                                    ];
+                                    $liste = (isset($enseignants) && count($enseignants) > 0) ? $enseignants : $enseignantsFake;
+                                @endphp
+
+                                @foreach($liste as $enseignant)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $enseignant->nom }}</td>
+                                        <td>{{ $enseignant->prenom }}</td>
+                                        <td>{{ $enseignant->email }}</td>
+                                        <td>{{ $enseignant->grade }}</td>
+                                        <td>
+                                            <span class="badge {{ strtolower($enseignant->statut) == 'permanent' ? 'bg-success' : 'bg-info' }}"> {{ ucfirst($enseignant->statut) }}
+                                               
+                                            </span>
+                                        </td>
+                                        <td>{{ $enseignant->departement }}</td>
+                                        <td>{{ number_format($enseignant->taux_horaire, 0, ',', ' ') }} FCFA</td>
+                                        <td class="text-center">
+                                            <div class="d-flex gap-2 justify-content-center">
+                                    <a href="#" class="btn btn-sm btn-outline-primary" title="Voir">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-sm btn-outline-warning" title="Modifier">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-outline-danger" title="Supprimer">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-</div>
-    </div>
-    
-
-<script>
-
-    document.getElementById('btnSaveHeure').onclick = function() {
-        alert('le bouton marche');
-       let inputs = document.querySelectorAll('#addModal .modal-body input');
-        let date = inputs[0].value;
-        let debut = inputs[1].value;
-        let fin = inputs[2].value;
-
-        if(!date ||!debut ||!fin) {
-            alert('Remplis Date, Heure début et Heure fin');
-            return;
-        }
-
-        document.getElementById('tbodyHeures').insertAdjacentHTML('beforeend', `
-            <tr>
-                <td>${date}</td>
-                <td>${debut}</td>
-                <td>${fin}</td>
-                <td>
-                    <button class="btn btn-sm btn-warning">Modifier</button>
-                    <button class="btn btn-sm btn-danger">Supprimer</button>
-                </td>
-            </tr>
-        `);
-
-        bootstrap.Modal.getInstance(document.getElementById('addModal')).hide();
-        inputs.forEach(i => i.value = '');
-    };
-
-</script>
-
-</body>
-</html>
+    <!-- Script pour activer les boutons de test -->
+    <script>
+        document.getElementById('tbodyEnseignants').addEventListener('click', function(e) {
+            if(e.target.closest('.btn-delete')) {
+                if(confirm('Supprimer cet enseignant ?')) {
+                    e.target.closest('tr').remove();
+                }
+            }
+            if(e.target.closest('.btn-edit')) {
+                alert('Mode modification activé pour le front');
+            }
+            if(e.target.closest('.btn-view')) {
+                alert('Affichage des détails simulé');
+            }
+        });
+    </script> 
+</x-app-layout>
