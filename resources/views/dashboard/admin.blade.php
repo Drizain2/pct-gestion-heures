@@ -2,6 +2,25 @@
 <x-app-layout>
     <x-slot name="title">Tableau de bord — Administrateur</x-slot>
 
+
+<!-- bannière hero -->
+    <div class="mb-4">
+        <div class="container">
+            <div class="d-flex justify-content-center align-items-center text-center">
+                <div class="col-lg-8">
+
+                    <h2 class="mb-3">Bienvenue, Administrateur 👋</h2>
+
+                    <p class="lead">
+                        Gérez et supervisez les heures d'enseignement de l'ensemble du corps professoral de l'UVCI
+                        pour l'année universitaire 2025–2026.
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Stat Cards -->
     <div class="row g-3 mb-4">
         <div class="col-md-3">
@@ -274,13 +293,8 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
             // Données pour le graphique des mois
-            
-            const labelsMois = JSON.parse('{!! $statsParMois->map(function ($s) {
-                    return date('M Y', mktime(0, 0, 0, $s->mois, 1, $s->annee));
-                })->toJson() !!}');
+            const labelsMois = JSON.parse('{!! $statsParMois->map(function ($s) { return date('M Y', mktime(0, 0, 0, $s->mois, 1, $s->annee)); })->toJson() !!}');  
             const dataMois = JSON.parse('{!! $statsParMois->pluck('total')->toJson() !!}');
-
-
             // Graphique barres — heures par mois
             new Chart(document.getElementById('chartMois'), {
                 type: 'bar',
