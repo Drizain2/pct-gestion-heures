@@ -317,11 +317,10 @@
             const labelsDept = @json($heuresParDepartement->pluck('departement'));
             const dataDept = @json($heuresParDepartement->pluck('total'));
 
-            const couleurs = [
-                '#2E7D32', '#E65100', '#FFC107', '#1565C0',
-                '#6A1B9A', '#00838F', '#AD1457', '#FF6F00'
-            ];
-
+           const couleurs = [
+    '#6f42c1', '#7e57c2', '#9575cd', '#b39ddb', '#d1c4e9',
+    '#9c27b0', '#ba68c8', '#ce93d8'
+];
             // Graphique donut — par département
             new Chart(document.getElementById('chartDept'), {
                 type: 'doughnut',

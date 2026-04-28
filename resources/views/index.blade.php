@@ -43,24 +43,27 @@
                                         <td>{{ $enseignant->email }}</td>
                                         <td>{{ $enseignant->grade }}</td>
                                         <td>
-                                            <span class="badge {{ strtolower($enseignant->statut) == 'permanent' ? 'bg-success' : 'bg-info' }}"> {{ ucfirst($enseignant->statut) }}
-                                               
-                                            </span>
+                                           @php
+    $badgeClass = strtolower(trim($enseignant->statut)) == 'permanent' ? 'badge-green' : 'badge-orange';
+@endphp
+<span class="badge {{ $badgeClass }}">
+    {{ ucfirst($enseignant->statut) }}
+</span>
                                         </td>
                                         <td>{{ $enseignant->departement }}</td>
                                         <td>{{ number_format($enseignant->taux_horaire, 0, ',', ' ') }} FCFA</td>
                                         <td class="text-center">
                                             <div class="d-flex gap-2 justify-content-center">
-                                    <a href="#" class="btn btn-sm btn-outline-primary" title="Voir">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-sm btn-outline-warning" title="Modifier">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <button class="btn btn-sm btn-outline-danger" title="Supprimer">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </div>
+                                                <button class="btn btn-sm btn-outline-primary btn-view" title="Voir">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-warning btn-edit" title="Modifier">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger btn-delete" title="Supprimer">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -74,18 +77,20 @@
 
     <!-- Script pour activer les boutons de test -->
     <script>
-        document.getElementById('tbodyEnseignants').addEventListener('click', function(e) {
-            if(e.target.closest('.btn-delete')) {
-                if(confirm('Supprimer cet enseignant ?')) {
-                    e.target.closest('tr').remove();
+        document.getElementById('tbodyEnseignants').addEventListener('click', function (e) {
+            const btnView = e.target.closest('.btn-view');
+            const btnEdit = e.target.closest('.btn-edit');
+            const btnDelete = e.target.closest('.btn-delete');
+
+            if (btnDelete) {
+                if (confirm('Supprimer cet enseignant ?')) {
+                    btnDelete.closest('tr').remove();
                 }
-            }
-            if(e.target.closest('.btn-edit')) {
-                alert('Mode modification activé pour le front');
-            }
-            if(e.target.closest('.btn-view')) {
-                alert('Affichage des détails simulé');
+            } else if (btnEdit) {
+                alert('Mode modification activé (simulation)');
+            } else if (btnView) {
+                alert('Affichage des détails (simulation)');
             }
         });
-    </script> 
+    </script>
 </x-app-layout>
