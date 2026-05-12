@@ -67,6 +67,8 @@ Route::middleware(['auth'])->group(function () {
         ->group(function () {
             // routes partagées
             Route::resource('enseignants', EnseignantController::class);
+            Route::get('enseignants/{enseignant}/cours', [CoursController::class, 'getCoursByEnseignant'])
+                ->name('enseignants.cours');
             Route::resource('cours', CoursController::class);
             // Sequence imbriquées dans cours
             // Route::resource('cours.sequences', SequenceController::class)->except(['show']);

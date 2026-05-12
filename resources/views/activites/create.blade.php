@@ -396,7 +396,8 @@
     coursSelect.addEventListener('change', function () {
         const opt = this.options[this.selectedIndex];
         const max = opt.dataset.maxSeq;
-        if (max && parseInt(max) > 0) {
+        console.log("max",opt.dataset)
+        if (max && parseInt(max) >= 0) {
             seqHint.textContent = `Ce cours comporte ${max} séquence(s) au total`;
             btnMax.dataset.max  = max;
         } else {
@@ -432,7 +433,12 @@
         }
 
         const maxSeq = btnMax.dataset.max ? parseInt(btnMax.dataset.max) : null;
-        if (maxSeq !== null && nb > maxSeq) {
+        if(maxSeq == 0 || maxSeq == null){
+            nbSeqInput.classList.add('is-invalid');
+            setPending(`Ce cours est composé de 0 séquence(s)`);
+            return;
+        }
+        if (nb > maxSeq) {
             nbSeqInput.classList.add('is-invalid');
             setPending(`Le nombre de séquences ne peut pas dépasser ${maxSeq}`);
             return;
@@ -481,13 +487,14 @@
     coursSelect.innerHTML = '<option value="">Chargement...</option>';
     
     if(enseignantId) {
-        fetch('/api/enseignants/' + enseignantId + '/cours')
+        fetch('/enseignants/' + enseignantId + '/cours')
             .then(response => response.json())
             .then(data => {
                 coursSelect.innerHTML = '<option value="">— Sélectionner —</option>';
                 if(data.length > 0) {
                     data.forEach(cours => {
-                        coursSelect.innerHTML += <option value="${cours.id}">${cours.libelle}</option>;
+                        coursSelect.innerHTML += `<option value="${cours.id}" data-max-seq="${cours.sequences.length}">${cours.intitule}</option>`;
+
                     });
                 } else {
                     coursSelect.innerHTML = '<option value="">Aucun cours pour cet enseignant</option>';
@@ -506,13 +513,14 @@
 document.getElementById('date_activite').addEventListener('change', recalculate);
 nbSeqInput.addEventListener('input', recalculate);
 document.querySelectorAll('input[name="type_action"]').forEach(r => r.addEventListener('change', recalculate));
-document.querySelectorAll('input[name="complexite"]').forEach(r => r.addEventListener('change', recalculate));        .forEach(r => r.addEventListener('change', recalculate));
+document.querySelectorAll('input[name="complexite"]').forEach(r => r.addEventListener('change', recalculate));        
+// .forEach(r => r.addEventListener('change', recalculate));
 
     /* Validation submit */
     document.getElementById('activiteForm').addEventListener('submit', function (e) {
         let valid = true;
 
-        ['enseignant_id', 'cours_id', 'date_activite'].forEach(id => {
+        ['enseignant_id', 'cours_id', 'date_activite','nb_sequences'].forEach(id => {
             const el = document.getElementById(id);
             el.classList.toggle('is-invalid', !el.value);
             el.classList.toggle('is-valid',   !!el.value);

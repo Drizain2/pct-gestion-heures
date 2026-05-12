@@ -120,4 +120,29 @@ class CoursController extends Controller
             ->route("cours.index")
             ->with("success", "Cours supprimé avec succès");
     }
+
+    /**
+     * Recuperer les cours d'un enseignant
+     */
+    public function getCoursByEnseignant(Enseignant $enseignant)
+    {
+        $cours = Cours::with(['enseignants','sequences'])->whereHas('enseignants', function ($query) use ($enseignant) {
+            $query->where('enseignant_id', $enseignant->id);
+        })->get();
+        // dd($cours->toArray());
+        return response()->json($cours);
+    }
+
+    /**
+     * Recuperer les cours d'un enseignant par annee academique
+     */
+    public function getCoursByEnseignantAndAnneeAcademique(Enseignant $enseignant, $anneeAcademique)
+    {
+        $cours = Cours::whereHas('enseignants', function ($query) use ($enseignant, $anneeAcademique) {
+            $query->where('enseignant_id', $enseignant->id)
+                ->where('annee_academique', $anneeAcademique);
+        })->get();
+        dd($cours);
+        return response()->json($cours);
+    }
 }
