@@ -1,0 +1,102 @@
+@startuml diagrame des class
+skinparam classAttributeIconSize 0
+skinparam NoteBackgroundColor #E1F5FE
+skinparam NoteBackgroundColor #29B6F6
+
+package "Utilisateurs"{
+    class Utilisateur {
+        -id:Long
+        -nom:String
+        -prenom:String
+        -email:String
+        -telephone:String
+        -motDePasse:String
+        -role:Enum
+        +authentifier():boolean
+    }
+
+    class Enseignant {
+        -grade:Enum {ASSISTANT,MAITRE_ASSISTANT,PROFESSEUR}
+        -statut:Enum {PERMANENT,VACATAIRE}
+        -departement:String
+        -tauxHoraire:double
+        -volumeHoraireTotal:double
+        +calculerChargeGlobal():double
+    }
+
+    Utilisateur <|-- Enseignant
+}
+class AnneeAcademique {
+    -id:Long
+    -annee:String
+    -dateDebut:Date
+    -dateFin:Date
+    -estActive:boolean
+}
+
+class Cours{
+    -id:Long
+    -intitle:String
+    -filiere:String
+    -niveau:Enum {L1,L2,L3,M1,M2}
+    -semestre:String
+    -nbHeures:int
+    -nbCredits:int
+}
+class RessourcePedagogique{
+    -id:Long
+    -titre:String
+    -type:String
+    -niveauComplexite:Enum {NIVEAU_1,NIVEAU_2,NIVEAU_3}
+    -nombreSequences:int
+    -dateCreation:Date
+    -dateMiseAJour:Date
+}
+class ActivitePedagogique{
+    -id:Long
+    -typeActivite:Enum {CREATION,MISE_A_JOUR}
+    -dateRealisation:Date
+    -statut:String
+    -volumeHoraireCalcule:double
+    -statut:Enum {EN_ATTENTE,VALIDE,REJETE}
+    +calculerVolumeHoraire():double
+}
+class BaremeHoraire{
+    -id:Long
+    -typeActivite:Enum
+    -niveauComplexite:Enum
+    -volumeParSequence:double
+    +getVolume(nombreSequences:int):double
+}
+class SequencePedagogique{
+    -id:Long
+    -ordre:int
+    -titre:String
+}
+
+'Relations avec cardinalités précises
+Enseignant "1" ||-- "0..*" ActivitePedagogique:realise
+ActivitePedagogique "1"||-- "1" RessourcePedagogique : concerne
+RessourcePedagogique "1" ||-- "1" Cours:appartientA
+Cours "1" ||-- "0..*" SequencePedagogique:contient
+AnneeAcademique "1"||-- "0..*" ActivitePedagogique:concerne
+ActivitePedagogique "0..*"||-- "1" BaremeHoraire:utilise
+
+'Notes explicative
+note right of ActivitePedagogique
+    Cours du système.
+    Contient le calcul automatique
+    des volumes horaires selon les bareèmes
+end note
+
+note right of BaremeHoraire
+    Contient les règles de calcul
+    issues des tableaux du cahier
+    des charges
+end note
+
+note right of RessourcePedagogique
+    niveauComplexite impacte directement
+    le volume horaire calculé
+end note
+@enduml
