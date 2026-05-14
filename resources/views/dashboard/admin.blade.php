@@ -5,7 +5,7 @@
     <!-- Stat Cards -->
     <div class="row g-3 mb-4">
         <div class="col-md-3">
-            <div class="stat-card green">
+            <div class="stat-card " style="background: #0d6efd">
                 <i class="bi bi-people-fill stat-icon"></i>
                 <div>
                     <div class="stat-number">{{ $stats['enseignants'] }}</div>
@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="stat-card orange">
+            <div class="stat-card " style="background: #0d5ed7">
                 <i class="bi bi-book-fill stat-icon"></i>
                 <div>
                     <div class="stat-number">{{ $stats['cours'] }}</div>
@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="stat-card gold">
+            <div class="stat-card" style="background: #084298;">
                 <i class="bi bi-clock-fill stat-icon"></i>
                 <div>
                     <div class="stat-number">{{ $heuresMois }}h</div>
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="stat-card dark">
+            <div class="stat-card teal">
                 <i class="bi bi-collection-fill stat-icon"></i>
                 <div>
                     <div class="stat-number">{{ $stats['ressources'] }}</div>
@@ -318,8 +318,8 @@
             const dataDept = @json($heuresParDepartement->pluck('total'));
 
            const couleurs = [
-    '#6f42c1', '#7e57c2', '#9575cd', '#b39ddb', '#d1c4e9',
-    '#9c27b0', '#ba68c8', '#ce93d8'
+    #6015e0', '#6015e0', '#6015e0', '#6015e0', '#6015e0',
+    '#6015e0', '#6015e0', '#6015e0'
 ];
             // Graphique donut — par département
             new Chart(document.getElementById('chartDept'), {

@@ -14,6 +14,106 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     @stack('styles')
+
+    {{-- THEME BLEU CIEL UVCI --}}
+    <style>
+        /* FOND PAGE */
+        body {
+            background-color: #f0f9ff !important;
+        }
+        
+        /* SIDEBAR BLEU CIEL */
+        .sidebar, aside#sidebar {
+            background: linear-gradient(180deg, #0d6efd; 0%, #0d6efd;e 100%) !important;
+        }
+        
+       /* ITEM ACTIF "ENSEIGNANTS" - BLEU CLAIR AU LIEU DU VERT */
+    .sidebar .active, .nav-link.active, a.active {
+        background-color: #2a2a2e !important;
+        color: white !important;
+        border-radius: 8px !important;
+    }
+
+    /* HOVER SIDEBAR */
+    .sidebar a:hover, .nav-link:hover {
+        background-color: rgba(56, 191, 248, .5) !important;
+        border-radius: 8px !important;
+    }
+
+    /* CARDS DASHBOARD BLEU CIEL */
+    .card.bg-primary, .small-box, .info-box {
+        background: linear-gradient(135deg, #2a2a2e 0%, #2a2a2e 100%) !important;
+        color: white !important;
+        border: none !important;
+    }
+
+    /* HEADER TABLEAU + BOUTONS */
+    thead, .card-header, .modal-header {
+        background-color: #0d6efd !important;
+        color: white !important;
+    }
+
+    .btn-primary {
+        background-color: #0d6efd; !important;
+        border-color: #808080 !important;
+    }
+    .btn-primary:hover {
+        background-color: #808080 !important;
+    }
+
+    /* HOVER LIGNES TABLEAU */
+    tbody tr:hover {
+        background-color: #e0f2fe !important;
+    
+
+
+            background-color: #2a2a2e !important;
+            color: white !important;
+            border-radius: 8px !important;
+        }
+        
+        /* HOVER SUR LES LIENS SIDEBAR */
+        .sidebar a:hover, .nav-link:hover {
+            background-color: rgba(56, 189, 248, 0.3) !important;
+            border-radius: 8px !important;
+            transition: all 0.2s;
+        }
+        
+        /* BOUTONS PRINCIPAUX BLEU CIEL */
+        .btn-primary {
+            background-color: #2a2a2e#121213 !important;
+            border-color: #2a2a2e !important;
+        }
+        .btn-primary:hover {
+            background-color: #2a2a2e !important;
+            border-color: #2a2a2e !important;
+        }
+        
+        
+        .card {
+            box-shadow: 0 4px 12px rgba(213, 220, 223, 0.94) !important;
+            border: none !important;
+        }
+    
+    /*LES 4 CARDS DASHBOARD */
+    .card.bg-primary, .bg-primary, .small-box, .info-box {
+        background: #2a2a2e !important;
+        background-color: #2a2a2e !important;
+        color: white !important;
+        border: none !important;
+    }
+
+    /*  */
+    .card-stats, .card.bg-primary {
+        background: linear-gradient(135deg, #2563eb 0%, #2563eb 100%) !important;
+    }
+
+    /* TEXTE BLANC DANS LES CARDS */
+    .card.bg-primary h3, .card.bg-primary p, .card.bg-primary i {
+        color: white !important;
+    }
+</style>
+</head>
 </head>
 <body>
 
@@ -180,30 +280,33 @@
 
         </nav>
 
-        {{-- ── PROFIL + DÉCONNEXION ───────────────────────── --}}
-        <div class="sidebar-footer">
-            <div class="sidebar-user">
-                <div class="sidebar-avatar">
-                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                </div>
-                <div class="sidebar-user-info">
-                    <div class="sidebar-user-name">
-                        {{ Str::limit(auth()->user()->name, 20) }}
-                    </div>
-                    <div class="sidebar-user-role">
-                        {{ ucfirst(auth()->user()->getRoleNames()->first()) }}
-                    </div>
-                </div>
-            </div>
-
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="btn-logout">
-                    <i class="bi bi-box-arrow-left"></i>
-                    Déconnexion
-                </button>
-            </form>
+        {{-- PROFIL + DÉCONNEXION --}}
+@auth
+<div class="sidebar-footer">
+    <div class="sidebar-user">
+        <div class="sidebar-avatar">
+            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
         </div>
+        <div class="sidebar-user-info">
+            <div class="sidebar-user-name">
+                {{ Str::limit(auth()->user()->name, 20) }}
+            </div>
+            <div class="sidebar-user-role">
+                {{ ucfirst(auth()->user()->getRoleNames()->first() ?? 'User') }}
+            </div>
+        </div>
+    </div>
+</div>
+@endauth
+
+@guest
+<div class="sidebar-footer">
+    <a href="{{ route('login') }}" class="nav-item">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>Se connecter</span>
+    </a>
+</div>
+@endguest
 
     </aside>
 
@@ -244,18 +347,29 @@
                 @endrole
 
                 {{-- Profil utilisateur --}}
-                <div class="topbar-user">
-                    <div class="topbar-avatar">
-                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                    </div>
-                    <div class="d-none d-md-block">
-                        <div class="topbar-user-name">
-                            {{ Str::limit(auth()->user()->name, 18) }}
-                        </div>
-                        <div class="topbar-user-role">
-                            {{ ucfirst(auth()->user()->getRoleNames()->first()) }}
-                        </div>
-                    </div>
+@auth
+<div class="topbar-user">
+    <div class="topbar-avatar">
+        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+    </div>
+    <div class="d-none d-md-block">
+        <div class="topbar-user-name">
+            {{ Str::limit(auth()->user()->name, 10) }}
+        </div>
+        <div class="topbar-user-role">
+            {{ ucfirst(auth()->user()->getRoleNames()->first() ?? 'User') }}
+        </div>
+    </div>
+</div>
+@endauth
+
+@guest
+<div class="topbar-user">
+    <a href="{{ route('login') }}" class="btn btn-sm btn-outline-primary">
+        Connexion
+    </a>
+</div>
+@endguest
                 </div>
 
             </div>
