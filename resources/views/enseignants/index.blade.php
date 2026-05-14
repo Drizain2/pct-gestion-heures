@@ -67,7 +67,7 @@
                                 <th scope="col">Prénom</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Grade</th>
-                                <th scope="col">Statut</th>
+                                <th scope="col" class="text-center">Statut</th>
                                 <th scope="col">Département</th>
                                 <th scope="col">Taux horaire</th>
                                 <th scope="col" class="text-center">Actions</th>
@@ -81,15 +81,11 @@
                                     <td>{{ $enseignant->prenom }}</td>
                                     <td>{{ $enseignant->email }}</td>
                                     <td>{{ $enseignant->grade }}</td>
-                                    <td>
-                                        <span
-                                            class="badge
-                                        @if ($enseignant->statut == 'permanent') bg-success
-                                        @elseif($enseignant->statut == 'contractuel') bg-warning
-                                        @else bg-info @endif">
-                                            {{ ucfirst($enseignant->statut) }}
-                                        </span>
-                                    </td>
+                                  <td class="text-center">
+                                     <span class="badge {{ strtolower(trim($enseignant->statut)) == 'permanent' ? 'badge-green' : 'badge-blue' }}">
+                                    {{ ucfirst(strtolower($enseignant->statut)) }}
+                                    </span>
+                                 </td>
                                     <td>{{ $enseignant->departement }}</td>
                                     <td>{{ number_format($enseignant->taux_horaire, 0, ',', ' ') }} FCFA</td>
                                     <td class="text-center">
@@ -123,6 +119,61 @@
                                     <td colspan="9" class="text-center text-muted py-4">
                                         Aucun enseignant trouvé.
                                     </td>
+                                    <tr>
+    <td>{{ $loop->iteration }}</td>
+    <td>{{ $enseignant->nom }}</td>
+    <td>{{ $enseignant->prenoms }}</td>
+    <td>{{ $enseignant->email }}</td>
+    <td>{{ $enseignant->statut }}</td>
+    <td>{{ $enseignant->departement }}</td>
+    <td>{{ $enseignant->taux_horaire }}</td>
+    
+    <!-- Colle ici à la place de ton ancien <td> Actions -->
+    <td>
+        <div class="d-none d-md-inline-flex">
+            <a href="{{ route('enseignants.show', $enseignant->id) }}" class="btn btn-info btn-sm mr-1" title="Voir">
+                <i class="fas fa-eye"></i>
+            </a>
+            <a href="{{ route('enseignants.edit', $enseignant->id) }}" class="btn btn-warning btn-sm mr-1" title="Modifier">
+                <i class="fas fa-edit"></i>
+            </a>
+            <form action="{{ route('enseignants.destroy', $enseignant->id) }}" method="POST" class="d-inline">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger btn-sm" title="Supprimer" onclick="return confirm('Supprimer ?')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </form>
+       <div class="dropdown d-inline-block d-md-none">
+    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+        <i class="fas fa-ellipsis-v"></i>
+    </button>
+    <div class="dropdown-menu dropdown-menu-right">
+        <a class="dropdown-item" href="{{ route('enseignants.show', $enseignant->id) }}">
+            <i class="fas fa-eye text-info mr-2"></i> Voir
+        </a>
+        <a class="dropdown-item btn-edit" href="#"
+           data-id="{{ $enseignant->id }}"
+           data-nom="{{ $enseignant->nom }}"
+           data-prenoms="{{ $enseignant->prenoms }}"
+           data-email="{{ $enseignant->email }}"
+           data-departement="{{ $enseignant->departement }}"
+           data-taux="{{ $enseignant->taux_horaire }}">
+            <i class="fas fa-edit text-warning mr-2"></i> Modifier
+        </a>
+        <div class="dropdown-divider"></div>
+        <form action="{{ route('enseignants.destroy', $enseignant->id) }}" method="POST" class="form-delete">
+            @csrf
+            @method('DELETE')
+            <button type="button" class="dropdown-item text-danger btn-delete">
+                <i class="fas fa-trash mr-2"></i> Supprimer
+            </button>
+        </form>
+    </div>
+</div>
+    </td>
+</tr>
+
                                 </tr>
                             @endforelse
                         </tbody>
@@ -136,5 +187,63 @@
             {{ $enseignants->links('pagination::bootstrap-5') }}
         </div>
     </div>
-
+<!-- Modal Ajouter/Modifier Enseignant -->
+<div class="modal fade" id="enseignantModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary text-white">
+                <h5 class="modal-title" id="modalTitle">Ajouter un enseignant</h5>
+                <button type="button" class="close text-white" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <form id="enseignantForm" method="POST">
+                @csrf
+                <div id="methodField"></div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Nom</label>
+                                <input type="text" name="nom" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Prénoms</label>
+                                <input type="text" name="prenoms" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Département</label>
+                                <select name="departement" class="form-control" required>
+                                    <option value="">Choisir...</option>
+                                    <option value="Informatique">Informatique</option>
+                                    <option value="Mathématiques">Mathématiques</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Taux horaire</label>
+                                <input type="number" name="taux_horaire" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </x-app-layout>
+

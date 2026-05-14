@@ -74,7 +74,7 @@ body {
 .sidebar {
   width: var(--sidebar-width);
   min-height: 100vh;
-  background: var(--sidebar-bg);
+  background: #6f42c1;
   position: fixed;
   top: 0;
   left: 0;
@@ -475,6 +475,7 @@ body {
 
 /* ── STAT CARDS ───────────────────────────────────────────── */
 .stat-card {
+  background:  linear-gradient(135deg, #6f42c1 0%, #5a32a3 100% )!important;
   border-radius: var(--radius-lg);
   padding: 20px;
   display: flex;
@@ -482,8 +483,8 @@ body {
   gap: 16px;
   position: relative;
   overflow: hidden;
-  border: none;
-  box-shadow: var(--shadow-md);
+  border: none !important;
+  box-shadow: 0 4px 6px rgba(111, 66, 193, 0.2) !important;
 }
 
 .stat-card::after {
@@ -502,7 +503,7 @@ body {
 .stat-card.orange { background: linear-gradient(135deg, var(---orange-dark), var(---orange)); }
 .stat-card.navy   { background: linear-gradient(135deg, #002659, var(---blue)); }
 
-.stat-icon {
+.stat-card .stat-icon {
   width: 52px;
   height: 52px;
   background: rgba(255,255,255,0.18);
@@ -554,12 +555,12 @@ body {
 .btn:focus-visible { outline: 3px solid var(---blue); outline-offset: 2px; }
 
 .btn-primary {
-  background: var(---blue);
+  background: #6f42c1;
   color: var(--white);
   border-color: var(---blue);
 }
 .btn-primary:hover {
-  background: var(---blue-dark);
+  background: #6f42c1;
   border-color: var(---blue-dark);
   color: var(--white);
   box-shadow: 0 4px 12px rgba(0,59,122,0.30);
@@ -730,6 +731,44 @@ body {
   accent-color: var(---blue);
   cursor: pointer;
 }
+/* === FIX INPUTS LOGIN === */
+.form-control {
+    border: 2px solid #94a3b8 !important; /* Bordure grise foncée */
+    background-color: #fff !important;
+    height: 48px;
+    border-radius: 8px !important;
+}
+
+.form-control:focus {
+    border-color: #3b82f6 !important; /* Bleu UVCI au focus */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+.form-control::placeholder {
+    color: #94a3b8 !important; /* Placeholder plus visible */
+}
+
+/* Checkbox plus visible */
+.form-check-input {
+    border: 2px solid #64748b !important; /* Au lieu de 1.5px var(--border-color) */
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.form-check-input:checked {
+    background-color: #3b82f6 !important;
+    border-color: #3b82f6 !important;
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Icônes dans les inputs */
+.bi-envelope, .bi-lock {
+    color: #475569 !important;
+    z-index: 3;
+}
 
 /* ── TABLEAUX ─────────────────────────────────────────────── */
 .table-wrapper {
@@ -745,10 +784,10 @@ body {
 }
 
 .table thead th {
-  background: var(---blue);
+  background: #6f42c1;
   color: var(--white);
   padding: 11px 16px;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.80rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -782,16 +821,20 @@ body {
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 3px 9px;
-  border-radius: 20px;
-  font-size: 0.72rem;
-  font-weight: 700;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
   letter-spacing: 0.3px;
+ 
+  min-width: 95px;
+  line-height: 1;
 }
 
-.badge-blue    { background: rgba(0,59,122,0.12); color: var(---blue); }
-.badge-green   { background: var(---green-light); color: var(---green-dark); }
-.badge-orange  { background: var(---orange-light); color: var(---orange-dark); }
+.badge-blue    { background: #5bc0de; color: #ffffff; }
+.badge-green  { background: #198754; color: #ffffff; }
+.badge-orange { background: #fd7e14; color: #ffffff; }
 .badge-red     { background: #FEE2E2; color: #991B1B; }
 .badge-gray    { background: #F1F5F9; color: #475569; }
 .badge-navy    { background: var(---blue); color: var(--white); }
@@ -1136,26 +1179,44 @@ body {
 
 /* ── COMPOSANT MODAL ──────────────────────────────────────── */
 .modal-content {
-  border: none;
+  background-color: #fff !important;
+  border: 2px solid #6f42c1 !important;
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 5px 15px rgba(111, 66, 193, 0.3) !important;
 }
 
 .modal-header {
-  border-bottom: 1px solid var(--border-color);
+  background-color: #6f42c1 !important;
+  border-bottom: 1px solid #5a32a3;
   padding: 16px 20px;
+  color: #fff !important;
 }
 
 .modal-title {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  color: var(---blue);
+  color: #fff !important;
   font-size: 1rem;
+}
+.modal-body{
+  background-color: #fff !important;
+  color: #333 !important;
+}
+.modal-body label{
+  color: #333 !important;
+  font-weight: 600;
 }
 
 .modal-footer {
   border-top: 1px solid var(--border-color);
   padding: 12px 20px;
+}
+.modal-backdrop.show {
+  opacity: 0.5 !important;
+}
+.close {
+  color: #fff !important;
+  opacity: 1 !important;
 }
 
 /* ── LOADER ───────────────────────────────────────────────── */
@@ -1186,3 +1247,118 @@ body {
 }
 
 .empty-state p { font-size: 0.90rem; margin: 0; }
+/* Tableau compact + hover */
+.table td, .table th {
+    padding: 8px 10px;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(54, 185, 204, 0.08);
+    cursor: pointer;
+}
+
+.table thead th {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+/* Actions sur une ligne */
+.table .btn-sm {
+    padding: 4px 6px;
+    margin: 0 1px;
+    font-size: 12px;
+}
+
+.table td:last-child {
+    white-space: nowrap;
+}
+
+/* Pagination style SB Admin 2 */
+.pagination {
+    margin: 0;
+}
+
+.page-item.active .page-link {
+    background-color: #4e73df;
+    border-color: #4e73df;
+}
+
+.page-link {
+    color: #4e73df;
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+.page-link:hover {
+    color: #2e59d9;
+    background-color: #eaecf4;
+    border-color: #dddfeb;
+}
+
+.dataTables_info {
+    font-size: 13px;
+    color: #858796;
+    padding-top: 8px;
+}
+
+/* Responsive mobile */
+@media (max-width: 768px) {
+    .table td, .table th {
+        font-size: 12px;
+        padding: 6px 4px;
+    }
+    
+    .badge {
+        min-width: 75px;
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+    
+    .btn-sm {
+        padding: 3px 5px;
+        font-size: 11px;
+    }
+    
+    /* Cache Email et Taux horaire sur mobile */
+    .table th:nth-child(4), 
+    .table td:nth-child(4) { 
+        display: none;
+    }
+    
+    .table th:nth-child(8), 
+    .table td:nth-child(8) { 
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .table th {
+        white-space: nowrap;
+    }
+}
+.dropdown-toggle::after { display: none; }
+.btn-secondary {
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+}
+.btn-secondary:hover {
+    background-color: #5a32a3;
+    border-color: #5a32a3;
+}
+/* Effet hover sur "Mot de passe oublié ?" */
+a[href*="password.request"] {
+    transition: color 0.2s ease;
+}
+
+a[href*="password.request"]:hover {
+    color: #2563eb !important; /* Bleu plus foncé au survol */
+}
+/*Effet hover sur "Mot de passe oublié?" */
+.forgot-link{
+  transition: color 0.2s ease;
+}
+.forgot-link:hover {
+  color: #2563eb !important; /*Bleu plus foncé au surle */
+}

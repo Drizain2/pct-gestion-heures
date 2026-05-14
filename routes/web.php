@@ -106,5 +106,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('activites', ActiviteController::class)->except(['edit', 'update']);
 
 });
+Route::get('/heures', function () {
+    return view('index');
+})->name('heures.index');
 
 require __DIR__.'/auth.php';
