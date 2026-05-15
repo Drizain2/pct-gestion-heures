@@ -37,7 +37,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+            background: linear-gradient(180deg, #000080 0%, #000080 100%);
             z-index: 1050;
             transition: all 0.3s ease;
         }
