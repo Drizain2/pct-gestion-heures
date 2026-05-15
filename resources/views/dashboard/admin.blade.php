@@ -3,63 +3,10 @@
     <x-slot name="title">Tableau de bord — Administrateur</x-slot>
 
 
-<!-- bannière hero -->
-    <div class="mb-4">
-        <div class="container">
-            <div class="d-flex justify-content-center align-items-center text-center">
-                <div class="col-lg-8">
 
-                    <h2 class="mb-3">Bienvenue, Administrateur 👋</h2>
-
-                    <p class="lead">
-                        Gérez et supervisez les heures d'enseignement de l'ensemble du corps professoral de l'UVCI
-                        pour l'année universitaire 2025–2026.
-                    </p>
-
-                </div>
-            </div>
-        </div>
-    </div>
     
-    <!-- Stat Cards -->
-    <div class="row g-3 mb-4">
-        <div class="col-md-3">
-            <div class="stat-card green">
-                <i class="bi bi-people-fill stat-icon"></i>
-                <div>
-                    <div class="stat-number">{{ $stats['enseignants'] }}</div>
-                    <div class="stat-label">Enseignants</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="stat-card orange">
-                <i class="bi bi-book-fill stat-icon"></i>
-                <div>
-                    <div class="stat-number">{{ $stats['cours'] }}</div>
-                    <div class="stat-label">Cours actifs</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="stat-card gold">
-                <i class="bi bi-clock-fill stat-icon"></i>
-                <div>
-                    <div class="stat-number">{{ $heuresMois }}h</div>
-                    <div class="stat-label">Heures ce mois</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="stat-card dark">
-                <i class="bi bi-collection-fill stat-icon"></i>
-                <div>
-                    <div class="stat-number">{{ $stats['ressources'] }}</div>
-                    <div class="stat-label">Ressources</div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- Les cartes statistiques sont maintenant gérées dans le layout app.blade.php pour une meilleure organisation --}}
+
 
     <div class="row g-4">
 
@@ -332,8 +279,8 @@
             const dataDept = @json($heuresParDepartement->pluck('total'));
 
            const couleurs = [
-    '#6f42c1', '#7e57c2', '#9575cd', '#b39ddb', '#d1c4e9',
-    '#9c27b0', '#ba68c8', '#ce93d8'
+    #6015e0', '#6015e0', '#6015e0', '#6015e0', '#6015e0',
+    '#6015e0', '#6015e0', '#6015e0'
 ];
             // Graphique donut — par département
             new Chart(document.getElementById('chartDept'), {
