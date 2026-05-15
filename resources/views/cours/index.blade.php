@@ -3,8 +3,8 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="fw-bold mb-0" style="color:#2E7D32;">
-                <i class="bi bi-book-fill me-2"></i>Cours
+            <h4 class="fw-bold mb-0">
+                <i class="bi bi-book-fill me-2" style="color: #2563EB;"></i><span style="color: #000;">Cours</span>
             </h4>
             <small class="text-muted">{{ $cours->total() }} cours enregistré(s)</small>
         </div>
@@ -57,9 +57,8 @@
     <!-- Tableau -->
     <div class="card">
         <div class="card-body p-0">
-            <div cla="table-responsive">
+            <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
-                </div>
                 <thead>
                     <tr>
                         <th>#</th>
@@ -95,73 +94,52 @@
                                 {{ $enseignant->nom_complet }}
                             </span>
                             @empty
-                           <td colspan="9" class="text-center py-5">
-    <div class="py-4">
-        <i class="bi bi-book" style="font-size: 3.5rem; color: #cbd5e1;"></i>
-        <h5 class="mt-3 fw-semibold">Aucun cours enregistré</h5>
-        <p class="text-muted mb-3">
-            Commence par ajouter ton premier cours pour l’année académique en cours.
-        </p>
-        <a href="{{ route('cours.create') }}" class="btn btn-primary">
-            <i class="bi bi-plus-lg me-1"></i> Nouveau cours
-        </a>
-    </div>
-</td>
+                            <span class="text-muted small">Aucun enseignant</span>
                             @endforelse
                         </td>
                         <td>
-                            <td>
-  <div class="d-flex gap-1 flex-wrap">
-  <a href="{{ route('cours.show', $c) }}" 
-     class="btn btn-sm btn-outline-success" 
-     data-bs-toggle="tooltip" title="Voir">
-    <i class="bi bi-eye"></i>
-  </a>
+                            <div class="d-flex gap-1 flex-wrap">
+                                <a href="{{ route('cours.show', $c) }}" 
+                                   class="btn btn-sm btn-outline-success" 
+                                   data-bs-toggle="tooltip" title="Voir">
+                                    <i class="bi bi-eye"></i>
+                                </a>
 
-  <a href="{{ route('cours.edit', $c) }}" 
-     class="btn btn-sm btn-outline-warning" 
-     data-bs-toggle="tooltip" title="Modifier">
-    <i class="bi bi-pencil"></i>
-  </a>
+                                <a href="{{ route('cours.edit', $c) }}" 
+                                   class="btn btn-sm btn-outline-warning" 
+                                   data-bs-toggle="tooltip" title="Modifier">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
 
-  <form method="POST" action="{{ route('cours.destroy', $c) }}" 
-        onsubmit="return confirm('Supprimer ce cours ?')">
-    @csrf @method('DELETE')
-    
-    </button>
-  </form>
-</div>
-
-    
-
-    <form method="POST" 
-          action="{{ route('cours.destroy', $c) }}" 
-          onsubmit="return confirm('Supprimer ce cours ?')">
-      @csrf 
-      @method('DELETE')
-      <button type="submit" 
-              class="btn btn-sm btn-outline-danger" 
-              title="Supprimer">
-        <i class="bi bi-trash"></i>
-      </button>
-    </form>
-  </div>
-</td>
+                                <form method="POST" 
+                                      action="{{ route('cours.destroy', $c) }}" 
+                                      onsubmit="return confirm('Supprimer ce cours ?')">
+                                    @csrf 
+                                    @method('DELETE')
+                                    <button type="submit" 
+                                            class="btn btn-sm btn-outline-danger" 
+                                            title="Supprimer">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     @empty
-                    <td colspan="9" class="text-center py-5">
-    <div class="py-4">
-        <i class="bi bi-book" style="font-size: 3.5rem; color: #cbd5e1;"></i>
-        <h5 class="mt-3 fw-semibold">Aucun cours enregistré</h5>
-        <p class="text-muted mb-3">
-            Commence par ajouter ton premier cours pour l’année académique en cours.
-        </p>
-        <a href="{{ route('cours.create') }}" class="btn btn-primary">
-            <i class="bi bi-plus-lg me-1"></i> Nouveau cours
-        </a>
-    </div>
-</td>
+                    <tr>
+                        <td colspan="9" class="text-center py-5">
+                            <div class="py-4">
+                                <i class="bi bi-book" style="font-size: 3.5rem; color: #cbd5e1;"></i>
+                                <h5 class="mt-3 fw-semibold">Aucun cours enregistré</h5>
+                                <p class="text-muted mb-3">
+                                    Commence par ajouter ton premier cours pour l’année académique en cours.
+                                </p>
+                                <a href="{{ route('cours.create') }}" class="btn btn-primary">
+                                    <i class="bi bi-plus-lg me-1"></i> Nouveau cours
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>

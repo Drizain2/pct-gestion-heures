@@ -1,6 +1,13 @@
 <!-- resources/views/dashboard/secretaire.blade.php -->
 <x-app-layout>
     <x-slot name="title">Tableau de bord — Secrétaire</x-slot>
+<div class="dashboard-header mb-5">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div>
+                        <h2 class="fw-bold text-dark mb-1">Bienvenue, Administrateur 👋</h2>
+                        <p class="text-muted mb-0">Gérez et supervisez les heures d'enseignement de l'ensemble du corps professoral de l'UVCI pour l'année universitaire 2025–2026.</p>
+                    </div>
+                </div>
 
     <!-- Stats -->
     <div class="row g-3 mb-4">
