@@ -66,7 +66,7 @@
             @endif
         </div>
 
-        <button type="submit" class="btn-auth" style="background: #6f42c1 !important; border-color: #6f42c1 !important; color: white; width: 100%;">
+        <button type="submit" class="btn-auth" style="background: #2563eb !important; border-color: #2563eb !important; color: white; width: 100%;">
     <i class="bi bi-box-arrow-in-right"></i>
     Se connecter
         </button>

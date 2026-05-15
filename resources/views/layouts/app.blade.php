@@ -202,34 +202,34 @@
             <div class="text-white-50 small text-uppercase fw-bold mb-2 ps-3" style="font-size: 0.7rem; letter-spacing: 1px;">Menu Principal</div>
             
             @role('admin')
-            <a href="{{ route('admin.dashboard') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white-50 text-decoration-none {{ request()->routeIs('admin.dashboard') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
+            <a href="{{ route('admin.dashboard') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white text-decoration-none {{ request()->routeIs('admin.dashboard') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
                 <i class="bi bi-speedometer2"></i>
                 <span>Tableau de bord</span>
             </a>
             @endrole
 
-            <a href="{{ route('enseignants.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white-50 text-decoration-none {{ request()->routeIs('enseignants.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
+            <a href="{{ route('enseignants.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white text-decoration-none {{ request()->routeIs('enseignants.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
                 <i class="bi bi-people-fill"></i>
                 <span>Enseignants</span>
             </a>
 
-            <a href="{{ route('cours.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white-50 text-decoration-none {{ request()->routeIs('cours.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
+            <a href="{{ route('cours.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white text-decoration-none {{ request()->routeIs('cours.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
                 <i class="bi bi-book-fill"></i>
                 <span>Cours</span>
             </a>
             
-            <a href="{{ route('activites.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white-50 text-decoration-none {{ request()->routeIs('activites.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
+            <a href="{{ route('activites.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white text-decoration-none {{ request()->routeIs('activites.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
                 <i class="bi bi-clock-history"></i>
                 <span>Activités</span>
             </a>
 
             @role('admin')
             <div class="text-white-50 small text-uppercase fw-bold mt-4 mb-2 ps-3" style="font-size: 0.7rem; letter-spacing: 1px;">Administration</div>
-            <a href="{{ route('admin.users.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white-50 text-decoration-none {{ request()->routeIs('admin.users.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
+            <a href="{{ route('admin.users.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white text-decoration-none {{ request()->routeIs('admin.users.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
                 <i class="bi bi-shield-lock-fill"></i>
                 <span>Utilisateurs</span>
             </a>
-            <a href="{{ route('admin.parametres.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white-50 text-decoration-none {{ request()->routeIs('admin.parametres.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
+            <a href="{{ route('admin.parametres.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white text-decoration-none {{ request()->routeIs('admin.parametres.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
                 <i class="bi bi-gear-fill"></i>
                 <span>Paramètres</span>
             </a>
