@@ -3,8 +3,8 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="fw-bold mb-0" style="color:#2E7D32;">
-                <i class="bi bi-person-lines-fill me-2"></i>
+            <h4 class="fw-bold mb-0" style="color: black;">
+                <i class="bi bi-person-lines-fill me-2" style="color: #3b82f6;"></i>
                 {{ $enseignant->nom_complet }}
             </h4>
             <small class="text-muted">{{ $enseignant->grade }} — {{ $enseignant->departement }}</small>

@@ -81,11 +81,10 @@
                                     <tr>
                                         <td>{{ $activite->enseignant->nom_complet }}</td>
                                         <td>
-                                            {{ Str::limit($activite->ressource->titre, 30) }}
+                                            {{ Str::limit($activite->cours->intitule, 30) }}
                                             <br>
                                             <small class="text-muted">
-                                                {{ $activite->ressource->type_label }}
-                                                — {{ $activite->ressource->complexite }}
+                                                {{ $activite->complexite }}
                                             </small>
                                         </td>
                                         <td>

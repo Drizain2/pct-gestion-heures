@@ -1,10 +1,10 @@
 <!-- resources/views/exports/index.blade.php -->
 <x-app-layout>
-    <x-slot name="title">Exports & Rapports</x-slot>
+    <x-slot name="title">Récapitulatifs & Rapports</x-slot>
 
     <div class="mb-4">
-        <h4 class="fw-bold mb-0" style="color:#2E7D32;">
-            <i class="bi bi-download me-2"></i>Exports & Rapports
+        <h4 class="fw-bold mb-0" style="color: black;">
+            <i class="bi bi-download me-2" style="color: #3b82f6;"></i>Récapitulatifs & Rapports
         </h4>
         <small class="text-muted">Générez vos documents PDF et Excel</small>
     </div>

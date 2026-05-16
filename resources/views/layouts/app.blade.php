@@ -223,6 +223,13 @@
                 <span>Activités</span>
             </a>
 
+            @role('admin|secretaire')
+            <a href="{{ route('exports.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white text-decoration-none {{ request()->routeIs('exports.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
+                <i class="bi bi-file-earmark-bar-graph-fill"></i>
+                <span>Récapitulatifs</span>
+            </a>
+            @endrole
+
             @role('admin')
             <div class="text-white-50 small text-uppercase fw-bold mt-4 mb-2 ps-3" style="font-size: 0.7rem; letter-spacing: 1px;">Administration</div>
             <a href="{{ route('admin.users.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white text-decoration-none {{ request()->routeIs('admin.users.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
