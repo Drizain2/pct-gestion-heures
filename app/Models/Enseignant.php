@@ -42,13 +42,13 @@ class Enseignant extends Model
     }
 
     // Accesseur : heures complementaire
-    public function getHeuresComplementairesAttribute()
-    {
-        $service = app(CalculHoraireService::class);
-        $volume = $service->volumeHoraireEnseignant($this->id);
+    // public function getHeuresComplementairesAttribute()
+    // {
+    //     $service = app(CalculHoraireService::class);
+    //     $volume = $service->volumeHoraireEnseignant($this->id);
 
-        return $volume['heures_complementaires'];
-    }
+    //     return $volume['heures_complementaires'];
+    // }
 
     // Seuil selon le grade
     public function getSeuilHeuresAttribute()
@@ -57,16 +57,16 @@ class Enseignant extends Model
     }
 
     // POurcentage de charge utilisé
-    public function getPourcentageChargeAttribute()
-    {
-        $seuil = $this->seuil_heures;
-        if ($seuil == 0) {
-            return 0;
-        }
-        $total = Activite::where('enseignant_id', $this->id)
-            ->where('statut', 'validee')
-            ->sum('heures_calculees');
+    // public function getPourcentageChargeAttribute()
+    // {
+    //     $seuil = $this->seuil_heures;
+    //     if ($seuil == 0) {
+    //         return 0;
+    //     }
+    //     $total = Activite::where('enseignant_id', $this->id)
+    //         ->where('statut', 'validee')
+    //         ->sum('heures_calculees');
 
-        return min(100, round(($total / $seuil) * 100, 1));
-    }
+    //     return min(100, round(($total / $seuil) * 100, 1));
+    // }
 }

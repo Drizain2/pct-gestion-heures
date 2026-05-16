@@ -62,14 +62,14 @@ class UserController extends Controller
         return back()->with("success", "Rôle mis à jour avec succès");
     }
 
-    public function resetPassword(Request $request,User $user){
-        $request->validate([
-            "password"=>"required|min:8|confirmed",
-        ]);
-        $user->update(["password"=>$request->input("password")]);
+    public function resetPassword(Request $request, User $user)
+{
+    $request->validate(['password' => 'required|min:8|confirmed']);
 
-        return back()->with("success", "Mot de passe réinitialisé avec succès");
-    }
+    $user->update(['password' => Hash::make($request->input('password'))]);
+
+    return back()->with('success', 'Mot de passe réinitialisé avec succès');
+}
 
     /**
      * Remove the specified resource from storage.

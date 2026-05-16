@@ -16,17 +16,18 @@ class ParametreController extends Controller
         $parametresCalcul = ParametreCalcule::orderBy("niveau_complexite")->get();
         $annees = AnneeAcademique::orderByDesc("date_debut")->get();
 
-        return view("admin.parametres.index",compact("parametres","parametresCalcul","annees"));
+        return view("admin.parametres.index", compact("parametres", "parametresCalcul", "annees"));
     }
 
     // Metre a jour le systeme
-    public function updateSysteme(Request $request){
+    public function updateSysteme(Request $request)
+    {
         $request->validate([
-            'parametres'=> 'required|array',
-            'parametres.*'=> 'nullable|string',
+            'parametres' => 'required|array',
+            'parametres.*' => 'nullable|string',
         ]);
 
-        foreach($request->parametres as $cle => $valeur){
+        foreach ($request->parametres as $cle => $valeur) {
             ParametreSysteme::set($cle, $valeur);
         }
 
@@ -34,15 +35,14 @@ class ParametreController extends Controller
     }
 
     // Mettre a jour les parametres de calcul
-    public function updateCalcul(Request $request){
-        $request->validate([
-            "heures"=> "required|array",
-        ]);
+    public function updateCalcul(Request $request)
+    {
+        $request->validate(['heures' => 'required|array']);
 
-        foreach($request->heures as $id => $data){
+        foreach ($request->heures as $id => $data) {
             ParametreCalcule::where('id', $id)->update([
-                'heures_creation' => $data['creation'],
-                'heures_mise_a_jour' => $data['maj'],
+                'coefficient_creation' => $data['creation'],
+                'coefficient_mise_a_jour' => $data['maj'],
             ]);
         }
 
