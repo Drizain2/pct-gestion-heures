@@ -73,7 +73,7 @@ body {
 /* ── SIDEBAR ──────────────────────────────────────────────── */
 .sidebar {
   width: var(--sidebar-width);
-  min-height: 100vh;
+  height: 100vh;
   background: var(--sidebar-bg);
   position: fixed;
   top: 0;
@@ -82,7 +82,7 @@ body {
   display: flex;
   flex-direction: column;
   transition: var(--transition);
-  overflow: hidden;
+  overflow: auto;
   box-shadow: 4px 0 20px rgba(0,0,0,0.15);
 }
 
@@ -140,6 +140,7 @@ body {
   flex: 1;
   padding: 8px 10px;
   overflow-y: auto;
+  height: 0;
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,0.1) transparent;
 }

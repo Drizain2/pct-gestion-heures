@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Enseignant;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -38,10 +39,23 @@ class RoleSeeder extends Seeder
         ])->assignRole($secretaire);
 
         //Enseignant
-        User::create([
+       $enseignantTest= User::create([
             "name"=>"Enseignant Test",
             "email"=>"enseignant@uvci.edu.ci",
             "password"=>"password"
         ])->assignRole($enseignant);
+
+        // creer le compte enseignant pour les enseignants
+        Enseignant::create([
+            "user_id"=>$enseignantTest->id,
+            "nom"=>$enseignantTest->name,
+            "prenom"=>$enseignantTest->name,
+            "grade"=>"Professeur",
+            "statut"=>"Permanent",
+            "departement"=>"Informatique",
+            "email"=>$enseignantTest->email,
+            "telephone"=>"0000000000",
+            "taux_horaire"=>5000
+        ]);
     }
 }
