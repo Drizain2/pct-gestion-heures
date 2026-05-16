@@ -1,6 +1,7 @@
 {{-- resources/views/layouts/app.blade.php --}}
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -181,228 +182,385 @@
         }
     </style>
 </head>
+
 <body>
 
-{{-- Overlay sidebar mobile --}}
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
+    {{-- Overlay sidebar mobile --}}
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-<div class="app-wrapper">
+    <div class="app-wrapper">    <div class="main-wrapper">
 
-    {{-- SIDEBAR --}}
-    <aside class="sidebar" id="sidebar">
-        <a href="{{ route('admin.dashboard') }}" class="sidebar-brand text-decoration-none p-4 d-flex align-items-center gap-2">
-            <i class="bi bi-mortarboard-fill text-white fs-3"></i>
-            <div class="text-white">
-                <h4 class="mb-0 fw-bold">UVCI</h4>
-                <small class="text-white-50">Gestion des Heures</small>
-            </div>
-        </a>
+        {{-- ══════════════════════════════════════════════════════
+        SIDEBAR
+        ══════════════════════════════════════════════════════ --}}
+        <aside class="sidebar" id="sidebar">
 
-        <nav class="sidebar-nav px-3 mt-3">
-            <div class="text-white-50 small text-uppercase fw-bold mb-2 ps-3" style="font-size: 0.7rem; letter-spacing: 1px;">Menu Principal</div>
-            
-            @role('admin')
-            <a href="{{ route('admin.dashboard') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white text-decoration-none {{ request()->routeIs('admin.dashboard') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
-                <i class="bi bi-speedometer2"></i>
-                <span>Tableau de bord</span>
-            </a>
-            @endrole
-
-            <a href="{{ route('enseignants.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white text-decoration-none {{ request()->routeIs('enseignants.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
-                <i class="bi bi-people-fill"></i>
-                <span>Enseignants</span>
-            </a>
-
-            <a href="{{ route('cours.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white text-decoration-none {{ request()->routeIs('cours.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
-                <i class="bi bi-book-fill"></i>
-                <span>Cours</span>
-            </a>
-            
-            <a href="{{ route('activites.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white text-decoration-none {{ request()->routeIs('activites.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
-                <i class="bi bi-clock-history"></i>
-                <span>Activités</span>
-            </a>
-
-            @role('admin|secretaire')
-            <a href="{{ route('exports.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white text-decoration-none {{ request()->routeIs('exports.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
-                <i class="bi bi-file-earmark-bar-graph-fill"></i>
-                <span>Récapitulatifs</span>
-            </a>
-            @endrole
-
-            @role('admin')
-            <div class="text-white-50 small text-uppercase fw-bold mt-4 mb-2 ps-3" style="font-size: 0.7rem; letter-spacing: 1px;">Administration</div>
-            <a href="{{ route('admin.users.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white text-decoration-none {{ request()->routeIs('admin.users.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
-                <i class="bi bi-shield-lock-fill"></i>
-                <span>Utilisateurs</span>
-            </a>
-            <a href="{{ route('admin.parametres.index') }}" class="nav-link p-3 d-flex align-items-center gap-3 text-white text-decoration-none {{ request()->routeIs('admin.parametres.*') ? 'active bg-primary text-white rounded-3 shadow-sm' : '' }}">
-                <i class="bi bi-gear-fill"></i>
-                <span>Paramètres</span>
-            </a>
-            @endrole
-        </nav>
-
-        <div class="sidebar-footer mt-auto p-3 border-top border-secondary">
-            @auth
-            <div class="d-flex align-items-center gap-3 p-2 mb-2">
-                <div class="topbar-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
-                <div class="overflow-hidden">
-                    <div class="text-white fw-bold text-truncate small">{{ auth()->user()->name }}</div>
-                    <div class="text-white-50" style="font-size: 0.7rem;">{{ ucfirst(auth()->user()->getRoleNames()->first() ?? 'User') }}</div>
+            {{-- Logo --}}
+            <a href="
+                @role('admin'){{ route('admin.dashboard') }}
+                @elserole('secretaire'){{ route('secretaire.dashboard') }}
+                @elserole('enseignant'){{ route('enseignant.dashboard') }}
+                @endrole
+            " class="sidebar-brand text-decoration-none">
+                <div class="sidebar-brand-icon">
+                    <i class="bi bi-mortarboard-fill text-white fs-3"></i>
                 </div>
+                <div class="sidebar-brand-text">
+                    <h4 class="text-white mb-0 fw-bold">UVCI</h4>
+                    <span class="text-white-50 small">Gestion des Heures</span>
+                </div>
+            </a>
+
+            {{-- Navigation --}}
+            <nav class="sidebar-nav">
+
+                {{-- ── SECTION PRINCIPALE ────────────────────── --}}
+                <div class="sidebar-section-label">Principal</div>
+
+                @role('admin')
+                <a href="{{ route('admin.dashboard') }}"
+                    class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Tableau de bord</span>
+                </a>
+                @endrole
+
+                @role('secretaire')
+                <a href="{{ route('secretaire.dashboard') }}"
+                    class="nav-item {{ request()->routeIs('secretaire.dashboard') ? 'active' : '' }}">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Tableau de bord</span>
+                </a>
+                @endrole
+
+                @role('enseignant')
+                <a href="{{ route('enseignant.dashboard') }}"
+                    class="nav-item {{ request()->routeIs('enseignant.dashboard') ? 'active' : '' }}">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Mon espace</span>
+                </a>
+                @endrole
+
+                {{-- ── SECTION GESTION (Admin + Secrétaire) ──── --}}
+                @role('admin|secretaire')
+                <div class="sidebar-section-label">Gestion</div>
+
+                <a href="{{ route('enseignants.index') }}"
+                    class="nav-item {{ request()->routeIs('enseignants.*') ? 'active' : '' }}">
+                    <i class="bi bi-people-fill"></i>
+                    <span>Enseignants</span>
+                </a>
+
+                <a href="{{ route('cours.index') }}"
+                    class="nav-item {{ request()->routeIs('cours.*') ? 'active' : '' }}">
+                    <i class="bi bi-book-fill"></i>
+                    <span>Cours</span>
+                </a>
+                @endrole
+
+                {{-- ── ACTIVITÉS (Tous les rôles) ────────────── --}}
+                @role('admin|secretaire|enseignant')
+                @php
+                    $nbEnAttente = \App\Models\Activite::where('statut', 'en_attente')
+                        ->when(
+                            auth()->user()->hasRole('enseignant'),
+                            fn($q) => $q->where('enseignant_id', auth()->user()->enseignant?->id)
+                        )
+                        ->count();
+                @endphp
+
+                <a href="{{ route('activites.index') }}"
+                    class="nav-item {{ request()->routeIs('activites.*') ? 'active' : '' }}">
+                    <i class="bi bi-clock-history"></i>
+                    <span>Activités</span>
+                    @if($nbEnAttente > 0)
+                        <span class="nav-badge">{{ $nbEnAttente }}</span>
+                    @endif
+                </a>
+                @endrole
+
+                {{-- ── RÉCAPITULATIFS (Enseignant) ───────────── --}}
+                @role('enseignant')
+                @if(auth()->user()->enseignant)
+                    <a href="{{ route('activites.recapitulatif', auth()->user()->enseignant) }}"
+                        class="nav-item {{ request()->routeIs('activites.recapitulatif') ? 'active' : '' }}">
+                        <i class="bi bi-person-lines-fill"></i>
+                        <span>Mon récapitulatif</span>
+                    </a>
+                @endif
+                @endrole
+
+                {{-- ── RÉCAPITULATIFS (Admin + Secrétaire) ───── --}}
+                @role('admin|secretaire')
+                <a href="{{ route('exports.index') }}"
+                    class="nav-item {{ request()->routeIs('exports.index') && !request()->has('view') ? 'active' : '' }}">
+                    <i class="bi bi-file-earmark-bar-graph-fill"></i>
+                    <span>Récapitulatifs</span>
+                </a>
+                @endrole
+
+                {{-- ── EXPORTS (Admin + Secrétaire) ─────────── --}}
+                @role('admin|secretaire')
+                <div class="sidebar-section-label">Exports</div>
+
+                <a href="{{ route('exports.index') }}"
+                    class="nav-item {{ request()->routeIs('exports.*') ? 'active' : '' }}">
+                    <i class="bi bi-download"></i>
+                    <span>Exports & Rapports</span>
+                </a>
+                @endrole
+
+                {{-- ── ADMINISTRATION (Admin uniquement) ─────── --}}
+                @role('admin')
+                <div class="sidebar-section-label">Administration</div>
+
+                <a href="{{ route('admin.users.index') }}"
+                    class="nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                    <i class="bi bi-shield-lock-fill"></i>
+                    <span>Utilisateurs</span>
+                </a>
+
+                <a href="{{ route('admin.parametres.index') }}"
+                    class="nav-item {{ request()->routeIs('admin.parametres.*') ? 'active' : '' }}">
+                    <i class="bi bi-gear-fill"></i>
+                    <span>Paramètres</span>
+                </a>
+
+                <a href="{{ route('admin.annees.index') }}"
+                    class="nav-item {{ request()->routeIs('admin.annees.*') ? 'active' : '' }}">
+                    <i class="bi bi-calendar-fill"></i>
+                    <span>Années académiques</span>
+                </a>
+                @endrole
+
+            </nav>
+
+            {{-- ── PROFIL + DÉCONNEXION ───────────────────────── --}}
+            <div class="sidebar-footer">
+                @auth
+                <div class="sidebar-user">
+                    <div class="sidebar-avatar">
+                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                    </div>
+                    <div class="sidebar-user-info">
+                        <div class="sidebar-user-name">
+                            {{ Str::limit(auth()->user()->name, 20) }}
+                        </div>
+                        <div class="sidebar-user-role">
+                            {{ ucfirst(auth()->user()->getRoleNames()->first() ?? 'Utilisateur') }}
+                        </div>
+                    </div>
+                </div>
+
+                <form method="POST" action="{{ route('logout') }}" class="px-3 pb-3">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-danger btn-sm w-100 py-2 d-flex align-items-center justify-content-center gap-2">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Déconnexion</span>
+                    </button>
+                </form>
+                @endauth
             </div>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="btn btn-outline-danger btn-sm w-100 py-2">
-                    <i class="bi bi-box-arrow-right"></i> Déconnexion
-                </button>
-            </form>
-            @endauth
-        </div>
-    </aside>
+        </aside>
 
-    {{-- MAIN --}}
-    <div class="main-wrapper">
-        
-        {{-- TOPBAR --}}
-        <header class="topbar">
-            <div class="d-flex align-items-center w-100">
-                <button class="btn btn-light d-lg-none me-3" id="sidebarToggle">
-                    <i class="bi bi-list"></i>
-                </button>
-                
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item small text-muted">UVCI</li>
-                        <li class="breadcrumb-item active fw-bold text-dark small">{{ $title ?? 'Tableau de bord' }}</li>
-                    </ol>
-                </nav>
+        {{-- ══════════════════════════════════════════════════════
+        MAIN WRAPPER
+        ══════════════════════════════════════════════════════ --}}
+        <div class="main-content-wrapper">
 
-                <div class="topbar-right ms-auto">
-                    {{-- Notifications --}}
+            {{-- ── TOPBAR ─────────────────────────────────────── --}}
+            <header class="topbar">
+                <div class="topbar-left">
+                    {{-- Toggle mobile --}}
+                    <button class="btn btn-light d-lg-none me-3" id="sidebarToggle">
+                        <i class="bi bi-list fs-5"></i>
+                    </button>
+
+                    {{-- Fil d'ariane / Titre --}}
+                    <div>
+                        <h5 class="topbar-title mb-0 fw-bold">{{ $title ?? 'Tableau de bord' }}</h5>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    {{-- Notification activités en attente --}}
                     @role('admin|secretaire')
-                    @php $notifCount = \App\Models\Activite::where('statut','en_attente')->count(); @endphp
-                    <a href="{{ route('activites.index', ['statut' => 'en_attente']) }}" class="btn btn-light position-relative p-0 d-flex align-items-center justify-content-center rounded-circle" style="width: 40px; height: 40px;" title="Activités en attente">
+                    @php
+                        $notifCount = \App\Models\Activite::where('statut', 'en_attente')->count();
+                    @endphp
+                    <a href="{{ route('activites.index', ['statut' => 'en_attente']) }}" class="topbar-notif text-decoration-none"
+                        title="{{ $notifCount }} activité(s) en attente">
                         <i class="bi bi-bell"></i>
                         @if($notifCount > 0)
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-white" style="font-size: 0.6rem;">
-                                {{ $notifCount }}
-                            </span>
+                            <span class="topbar-notif-dot"></span>
                         @endif
                     </a>
                     @endrole
 
-                    {{-- Profil --}}
+                    {{-- Profil utilisateur --}}
                     @auth
-                    <div class="topbar-user">
-                        <div class="topbar-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
+                    <div class="topbar-user ms-3">
+                        <div class="topbar-avatar">
+                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                        </div>
                         <div class="d-none d-md-block">
-                            <div class="topbar-user-name fw-bold" style="font-size: 0.85rem;">{{ Str::limit(auth()->user()->name, 12) }}</div>
-                            <div class="topbar-user-role small text-muted" style="font-size: 0.7rem;">{{ ucfirst(auth()->user()->getRoleNames()->first() ?? 'User') }}</div>
+                            <div class="topbar-user-name fw-bold small">
+                                {{ Str::limit(auth()->user()->name, 18) }}
+                            </div>
+                            <div class="topbar-user-role text-muted" style="font-size: 0.7rem;">
+                                {{ ucfirst(auth()->user()->getRoleNames()->first() ?? 'Utilisateur') }}
+                            </div>
                         </div>
                     </div>
                     @endauth
                 </div>
-            </div>
-        </header>
+            </header>
 
-        {{-- CONTENU --}}
-        <main class="page-content">
-            
-            {{-- HEADER DASHBOARD (Uniquement sur l'index admin) --}}
-            @if(request()->routeIs('admin.dashboard'))
-            <div class="dashboard-header mb-5">
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <div>
-                        <h2 class="fw-bold text-dark mb-1">Bienvenue, Administrateur 👋</h2>
-                        <p class="text-muted mb-0">Gérez et supervisez les heures d'enseignement de l'ensemble du corps professoral de l'UVCI pour l'année universitaire 2025–2026.</p>
+            {{-- ── CONTENU PRINCIPAL ──────────────────────────── --}}
+            <main class="page-content">
+
+                {{-- HEADER DASHBOARD (Uniquement sur l'index admin) --}}
+                @if(request()->routeIs('admin.dashboard'))
+                <div class="dashboard-header mb-5">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <div>
+                            <h2 class="fw-bold text-dark mb-1">Bienvenue, Administrateur 👋</h2>
+                            <p class="text-muted mb-0">Gérez et supervisez les heures d'enseignement de l'ensemble du corps professoral de l'UVCI pour l'année universitaire 2025–2026.</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row g-4">
-                    <div class="col-12 col-sm-6 col-xl-3">
-                        <div class="stat-card-modern">
-                            <div class="stat-icon blue"><i class="bi bi-people-fill"></i></div>
-                            <div>
-                                <div class="stat-value">{{ $stats['enseignants'] ?? 0 }}</div>
-                                <div class="stat-label">Enseignants</div>
+                    <div class="row g-4">
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="stat-card-modern">
+                                <div class="stat-icon blue"><i class="bi bi-people-fill"></i></div>
+                                <div>
+                                    <div class="stat-value">{{ $stats['enseignants'] ?? 0 }}</div>
+                                    <div class="stat-label">Enseignants</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="stat-card-modern">
+                                <div class="stat-icon green"><i class="bi bi-book-fill"></i></div>
+                                <div>
+                                    <div class="stat-value">{{ $stats['cours'] ?? 0 }}</div>
+                                    <div class="stat-label">Cours actifs</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="stat-card-modern">
+                                <div class="stat-icon orange"><i class="bi bi-clock-fill"></i></div>
+                                <div>
+                                    <div class="stat-value">{{ $heuresMois ?? 0 }}h</div>
+                                    <div class="stat-label">Heures ce mois</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="stat-card-modern">
+                                <div class="stat-icon purple"><i class="bi bi-collection-fill"></i></div>
+                                <div>
+                                    <div class="stat-value">{{ $stats['ressources'] ?? 0 }}</div>
+                                    <div class="stat-label">Ressources</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-xl-3">
-                        <div class="stat-card-modern">
-                            <div class="stat-icon green"><i class="bi bi-book-fill"></i></div>
-                            <div>
-                                <div class="stat-value">{{ $stats['cours'] ?? 0 }}</div>
-                                <div class="stat-label">Cours actifs</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-xl-3">
-                        <div class="stat-card-modern">
-                            <div class="stat-icon orange"><i class="bi bi-clock-fill"></i></div>
-                            <div>
-                                <div class="stat-value">{{ $heuresMois ?? 0 }}h</div>
-                                <div class="stat-label">Heures ce mois</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-xl-3">
-                        <div class="stat-card-modern">
-                            <div class="stat-icon purple"><i class="bi bi-collection-fill"></i></div>
-                            <div>
-                                <div class="stat-value">{{ $stats['ressources'] ?? 0 }}</div>
-                                <div class="stat-label">Ressources</div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-            </div>
-            @endif
+                @endif
 
-            {{-- Flash Messages --}}
-            @if(session('success'))
-                <div class="alert alert-success d-flex align-items-center gap-2 mb-4 border-0 shadow-sm" role="alert">
-                    <i class="bi bi-check-circle-fill"></i>
-                    <div>{{ session('success') }}</div>
-                </div>
-            @endif
+                {{-- Flash Messages --}}
+                @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2 mb-4 border-0 shadow-sm" role="alert">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <div>{{ session('success') }}</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
 
-            @if(session('error'))
-                <div class="alert alert-danger d-flex align-items-center gap-2 mb-4 border-0 shadow-sm" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill"></i>
-                    <div>{{ session('error') }}</div>
-                </div>
-            @endif
+                @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center gap-2 mb-4 border-0 shadow-sm" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <div>{{ session('error') }}</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
 
-            {{-- Contenu Variable --}}
-            {{ $slot }}
+                {{-- Contenu Variable --}}
+                {{ $slot }}
 
-        </main>
+            </main>
+
+        </div>
     </div>
-</div>
 
-{{-- Scripts --}}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Sidebar Toggle
-    const toggleBtn = document.getElementById('sidebarToggle');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebarOverlay');
+    {{-- Bootstrap JS --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    toggleBtn?.addEventListener('click', () => {
-        sidebar.classList.toggle('is-open');
-        overlay.classList.toggle('is-open');
-    });
+    <script>
+        // Toggle Sidebar Mobile
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        if (sidebarToggle && sidebar) {
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+            });
+        }
 
-    overlay?.addEventListener('click', () => {
-        sidebar.classList.remove('is-open');
-        overlay.classList.remove('is-open');
-    });
-</script>
+        // Auto-close alerts
+        setTimeout(function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
+    </script>
 
-@stack('scripts')
+    @stack('scripts')
 
 </body>
+
+</html>
+etElementById('sidebarToggle');
+
+        function openSidebar() {
+            sidebar?.classList.add('is-open');
+            overlay?.classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebar() {
+            sidebar?.classList.remove('is-open');
+            overlay?.classList.remove('is-open');
+            document.body.style.overflow = '';
+        }
+
+        toggleBtn?.addEventListener('click', () => {
+            sidebar?.classList.contains('is-open') ? closeSidebar() : openSidebar();
+        });
+
+        overlay?.addEventListener('click', closeSidebar);
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeSidebar();
+        });
+
+        // ── Auto-fermeture des alertes après 5s ───────────────────
+        document.querySelectorAll('.alert').forEach(alert => {
+            setTimeout(() => {
+                alert.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                alert.style.opacity = '0';
+                alert.style.transform = 'translateY(-8px)';
+                setTimeout(() => alert.remove(), 600);
+            }, 5000);
+        });
+    </script>
+
+    @stack('scripts')
+
+</body>
+
 </html>
