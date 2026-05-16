@@ -13,8 +13,8 @@
         <div class="row g-3 mb-4">
             <div class="col-md-3">
                 <div class="stat-card green">
-                    <i class="bi bi-people-fill stat-icon"></i>
-                    <div>
+                    <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
+                    <div class="stat-info">
                         <div class="stat-number">{{ $stats['enseignants'] }}</div>
                         <div class="stat-label">Enseignants</div>
                     </div>
@@ -22,31 +22,32 @@
             </div>
             <div class="col-md-3">
                 <div class="stat-card orange">
-                    <i class="bi bi-book-fill stat-icon"></i>
-                    <div>
+                    <div class="stat-icon"><i class="bi bi-book-fill"></i></div>
+                    <div class="stat-info">
                         <div class="stat-number">{{ $stats['cours'] }}</div>
                         <div class="stat-label">Cours</div>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stat-card gold">
-                    <i class="bi bi-hourglass-split stat-icon"></i>
-                    <div>
+                <div class="stat-card orange">
+                    <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
+                    <div class="stat-info">
                         <div class="stat-number">{{ $stats['activites_attente'] }}</div>
                         <div class="stat-label">En attente</div>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stat-card dark">
-                    <i class="bi bi-check-circle-fill stat-icon"></i>
-                    <div>
+                <div class="stat-card navy">
+                    <div class="stat-icon"><i class="bi bi-check-circle-fill"></i></div>
+                    <div class="stat-info">
                         <div class="stat-number">{{ $stats['activites_validees'] }}</div>
                         <div class="stat-label">Validées ce mois</div>
                     </div>
                 </div>
             </div>
+
         </div>
 
         <div class="row g-4">
@@ -69,7 +70,8 @@
                             <thead>
                                 <tr>
                                     <th>Enseignant</th>
-                                    <th>Ressource</th>
+                                    <th>Cours</th>
+
                                     <th>Type action</th>
                                     <th>Heures</th>
                                     <th>Date</th>

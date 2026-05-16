@@ -476,7 +476,8 @@ body {
 
 /* ── STAT CARDS ───────────────────────────────────────────── */
 .stat-card {
-  background:  linear-gradient(135deg, #0d6efd 0%, #0d6efd 100% )!important;
+  background: var(--bg-card);
+
   border-radius: var(--radius-lg);
   padding: 20px;
   display: flex;
@@ -1127,13 +1128,9 @@ body {
 
   .page-header { flex-direction: column; align-items: flex-start; }
 
-  /* Grille responsive */
-  .row { display: flex; flex-wrap: wrap; margin: -8px; }
-  .col-md-3, .col-md-4, .col-md-6, .col-md-8 { padding: 8px; }
-  .col-md-3, .col-md-4 { width: 50%; }
-  .col-md-6, .col-md-8, .col-md-12 { width: 100%; }
-
+  /* Grille responsive - Suppression des surcharges manuelles pour laisser Bootstrap gérer */
   .stat-card { padding: 16px; }
+
   .stat-number { font-size: 1.4rem; }
 
   /* Tableau horizontal sur mobile */
@@ -1364,3 +1361,37 @@ a[href*="password.request"]:hover {
   color: #2563eb !important; /*Bleu plus foncé au surle */
 }
 
+
+/* ── FILTERS & SEARCH ──────────────────────────────────────── */
+.filter-card {
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+.filter-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.filter-field {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .filter-field { min-width: 100%; }
+  .filter-actions { width: 100%; justify-content: stretch; }
+  .filter-actions .btn { flex: 1; }
+}

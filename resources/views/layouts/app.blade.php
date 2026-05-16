@@ -188,7 +188,8 @@
     {{-- Overlay sidebar mobile --}}
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <div class="app-wrapper">    <div class="main-wrapper">
+    <div class="app-wrapper">
+
 
         {{-- ══════════════════════════════════════════════════════
         SIDEBAR
@@ -304,9 +305,10 @@
                 <div class="sidebar-section-label">Exports</div>
 
                 <a href="{{ route('exports.index') }}"
-                    class="nav-item {{ request()->routeIs('exports.*') ? 'active' : '' }}">
-                    <i class="bi bi-download"></i>
-                    <span>Exports & Rapports</span>
+                    class="nav-item {{ request()->routeIs('exports.*') ? 'active' : '' }}"
+                    style="color: #000 !important;">
+                    <i class="bi bi-download" style="color: #2563EB;"></i>
+                    <span>Récapitulatifs & Rapports</span>
                 </a>
                 @endrole
 
@@ -366,7 +368,7 @@
         {{-- ══════════════════════════════════════════════════════
         MAIN WRAPPER
         ══════════════════════════════════════════════════════ --}}
-        <div class="main-content-wrapper">
+        <div class="main-wrapper">
 
             {{-- ── TOPBAR ─────────────────────────────────────── --}}
             <header class="topbar">
@@ -499,32 +501,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Toggle Sidebar Mobile
-        const sidebarToggle = document.getElementById('sidebarToggle');
+        // --- LOGIQUE DE LA SIDEBAR ---
         const sidebar = document.getElementById('sidebar');
-        
-        if (sidebarToggle && sidebar) {
-            sidebarToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('active');
-            });
-        }
-
-        // Auto-close alerts
-        setTimeout(function() {
-            const alerts = document.querySelectorAll('.alert');
-            alerts.forEach(function(alert) {
-                const bsAlert = new bootstrap.Alert(alert);
-                bsAlert.close();
-            });
-        }, 5000);
-    </script>
-
-    @stack('scripts')
-
-</body>
-
-</html>
-etElementById('sidebarToggle');
+        const overlay = document.getElementById('sidebarOverlay');
+        const sidebarToggle = document.getElementById('sidebarToggle');
 
         function openSidebar() {
             sidebar?.classList.add('is-open');
@@ -538,7 +518,8 @@ etElementById('sidebarToggle');
             document.body.style.overflow = '';
         }
 
-        toggleBtn?.addEventListener('click', () => {
+        sidebarToggle?.addEventListener('click', (e) => {
+            e.stopPropagation();
             sidebar?.classList.contains('is-open') ? closeSidebar() : openSidebar();
         });
 
@@ -564,3 +545,4 @@ etElementById('sidebarToggle');
 </body>
 
 </html>
+

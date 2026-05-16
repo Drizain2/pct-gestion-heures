@@ -32,9 +32,7 @@
             </div>
         </div>
 
-        <!-- Mes stats -->
-        <!-- resources/views/dashboard/enseignant.blade.php -->
-        <!-- Remplacer les stat cards par ceci -->
+        <!-- Mes statistiques -->
 
         <!-- Stat cards -->
         <div class="row g-3 mb-4">
