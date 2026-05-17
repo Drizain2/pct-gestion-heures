@@ -337,12 +337,6 @@
                     <i class="bi bi-gear-fill"></i>
                     <span>Paramètres</span>
                 </a>
-
-                <a href="{{ route('admin.annees.index') }}"
-                    class="nav-item {{ request()->routeIs('admin.annees.*') ? 'active' : '' }}">
-                    <i class="bi bi-calendar-fill"></i>
-                    <span>Années académiques</span>
-                </a>
                 @endrole
 
             </nav>
