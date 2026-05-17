@@ -487,7 +487,7 @@
                 coursSelect.innerHTML = '<option value="">— Sélectionner —</option>';
                 if(data.length > 0) {
                     data.forEach(cours => {
-                        coursSelect.innerHTML += <option value="${cours.id}">${cours.libelle}</option>;
+                        coursSelect.innerHTML += `<option value="${cours.id}">${cours.libelle}</option>`;
                     });
                 } else {
                     coursSelect.innerHTML = '<option value="">Aucun cours pour cet enseignant</option>';
@@ -506,7 +506,7 @@
 document.getElementById('date_activite').addEventListener('change', recalculate);
 nbSeqInput.addEventListener('input', recalculate);
 document.querySelectorAll('input[name="type_action"]').forEach(r => r.addEventListener('change', recalculate));
-document.querySelectorAll('input[name="complexite"]').forEach(r => r.addEventListener('change', recalculate));        .forEach(r => r.addEventListener('change', recalculate));
+document.querySelectorAll('input[name="complexite"]').forEach(r => r.addEventListener('change', recalculate));
 
     /* Validation submit */
     document.getElementById('activiteForm').addEventListener('submit', function (e) {
