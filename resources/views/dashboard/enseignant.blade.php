@@ -13,9 +13,9 @@
         <div class="card mb-4" style="background:linear-gradient(135deg,#1B5E20,#2E7D32); color:#fff;">
             <div class="card-body p-4 d-flex align-items-center gap-3">
                 <div style="width:60px; height:60px; border-radius:50%;
-                                    background:rgba(255,255,255,0.2);
-                                    display:flex; align-items:center; justify-content:center;
-                                    font-size:1.5rem; font-weight:700;">
+                                        background:rgba(255,255,255,0.2);
+                                        display:flex; align-items:center; justify-content:center;
+                                        font-size:1.5rem; font-weight:700;">
                     {{ strtoupper(substr($enseignant->prenom, 0, 1)) }}
                 </div>
                 <div>
@@ -100,14 +100,14 @@
                 <div style="background:var(--border-color); border-radius:20px; height:12px; overflow:hidden;">
                     <!-- Heures normales -->
                     <div style="
-                            width: {{ min($stats['pourcentage_charge'], 100) }}%;
-                            height: 100%;
-                            background: {{ $stats['depasse_seuil']
+                                width: {{ min($stats['pourcentage_charge'], 100) }}%;
+                                height: 100%;
+                                background: {{ $stats['depasse_seuil']
             ? 'linear-gradient(90deg, var(---green), var(--orange))'
             : 'linear-gradient(90deg, var(---blue), var(---green))' }};
-                            border-radius: 20px;
-                            transition: width 0.8s ease;
-                        "></div>
+                                border-radius: 20px;
+                                transition: width 0.8s ease;
+                            "></div>
                 </div>
 
                 @if($stats['depasse_seuil'])
