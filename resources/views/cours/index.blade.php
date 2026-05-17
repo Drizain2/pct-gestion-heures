@@ -1,28 +1,31 @@
 <x-app-layout>
     <x-slot name="title">Gestion des Cours</x-slot>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h4 class="fw-bold mb-0">
-                <i class="bi bi-book-fill me-2" style="color: #2563EB;"></i><span style="color: #000;">Cours</span>
+    <div class="page-header">
+        <div class="page-header-left">
+            <h4>
+                <i class="bi bi-book-fill me-2"></i>
+                Gestion des Cours
             </h4>
-            <small class="text-muted">{{ $cours->total() }} cours enregistré(s)</small>
+            <p>{{ $cours->total() }} cours enregistré(s)</p>
         </div>
         <a href="{{ route('cours.create') }}" class="btn btn-primary">
-            <i class="bi bi-plus-lg me-1"></i>Nouveau cours
+            <i class="bi bi-plus-circle me-1"></i> Nouveau cours
         </a>
     </div>
 
     <!-- Filtres -->
-    <div class="card mb-4">
-        <div class="card-body py-3">
-            <form method="GET" action="{{ route('cours.index') }}" class="row g-2 align-items-end">
-                <div class="col-md-5">
+    <div class="filter-card">
+        <form method="GET" action="{{ route('cours.index') }}">
+            <div class="filter-grid">
+                <div class="filter-field">
+                    <label class="form-label">Recherche</label>
                     <input type="text" name="search" class="form-control"
-                        placeholder="Rechercher par intitulé, filière..."
+                        placeholder="Intitulé, filière..."
                         value="{{ request('search') }}">
                 </div>
-                <div class="col-md-2">
+                <div class="filter-field">
+                    <label class="form-label">Niveau</label>
                     <select name="niveau" class="form-select">
                         <option value="">Tous les niveaux</option>
                         @foreach(['L1','L2','L3','M1','M2'] as $n)
@@ -32,7 +35,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="filter-field">
+                    <label class="form-label">Semestre</label>
                     <select name="semestre" class="form-select">
                         <option value="">Tous les semestres</option>
                         @foreach(['S1','S2','S3','S4','S5','S6','S7','S8','S9','S10'] as $s)
@@ -42,16 +46,16 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3 d-flex gap-2">
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="bi bi-search me-1"></i>Filtrer
+                <div class="filter-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search me-1"></i> Filtrer
                     </button>
-                    <a href="{{ route('cours.index') }}" class="btn btn-outline-secondary">
-                        <i class="bi bi-x-lg"></i>
+                    <a href="{{ route('cours.index') }}" class="btn btn-outline-secondary" title="Réinitialiser">
+                        <i class="bi bi-arrow-clockwise"></i>
                     </a>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 
     <!-- Tableau -->

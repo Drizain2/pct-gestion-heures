@@ -1,38 +1,38 @@
 <x-app-layout>
     <x-slot name="title">Récapitulatif — {{ $enseignant->nom_complet }}</x-slot>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h4 class="fw-bold mb-0" style="color:#2E7D32;">
+    <div class="page-header">
+        <div class="page-header-left">
+            <h4>
                 <i class="bi bi-person-lines-fill me-2"></i>
-                {{ $enseignant->nom_complet }}
+                Récapitulatif : {{ $enseignant->nom_complet }}
             </h4>
-            <small class="text-muted">{{ $enseignant->grade }} — {{ $enseignant->departement }}</small>
+            <p>{{ $enseignant->grade }} — {{ $enseignant->departement }}</p>
         </div>
-        <a href="{{ url()->previous() }}" class="btn btn-outline-secondary btn-sm">
-            <i class="bi bi-arrow-left me-1"></i>Retour
+        <a href="{{ url()->previous() }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i> Retour
         </a>
     </div>
 
     <!-- Filtre période -->
-    <div class="card mb-4">
-        <div class="card-body py-3">
-            <form method="GET" class="row g-2 align-items-end">
-                <div class="col-md-3">
-                    <label class="form-label mb-1 small">Date début</label>
+    <div class="filter-card">
+        <form method="GET">
+            <div class="filter-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) auto;">
+                <div class="filter-field">
+                    <label class="form-label">Date début</label>
                     <input type="date" name="debut" class="form-control" value="{{ $debut }}">
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label mb-1 small">Date fin</label>
+                <div class="filter-field">
+                    <label class="form-label">Date fin</label>
                     <input type="date" name="fin" class="form-control" value="{{ $fin }}">
                 </div>
-                <div class="col-md-3">
+                <div class="filter-actions">
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-search me-1"></i>Filtrer
+                        <i class="bi bi-search me-1"></i> Filtrer
                     </button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 
     <!-- Stats heures -->

@@ -86,7 +86,7 @@ class ActiviteController extends Controller
 
     public function show(Activite $activite)
     {
-        $activite->load(['enseignant', 'ressource.sequence.cours', 'validateurUser']);
+        $activite->load(['enseignant', 'cours', 'validateurUser']);
 
         return view('activites.show', compact('activite'));
     }
@@ -135,7 +135,7 @@ class ActiviteController extends Controller
 
         $activites = Activite::where('enseignant_id', $enseignant->id)
             ->where('statut', 'validee')
-            ->with('ressource.sequence.cours')
+            ->with('cours')
             // ->whereBetween("date_activite", [$debut, $fin])
             ->when($debut && $fin, function ($query) use ($debut, $fin) {
                 $query->whereBetween('date_activite', [$debut, $fin]);
