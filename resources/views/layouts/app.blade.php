@@ -8,7 +8,8 @@
     <title>UVCI — {{ $title ?? 'Gestion des Heures' }}</title>
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Bootstrap 5 -->
@@ -96,10 +97,25 @@
             flex-shrink: 0;
         }
 
-        .stat-icon.blue { background: #eff6ff; color: #2563eb; }
-        .stat-icon.green { background: #f0fdf4; color: #16a34a; }
-        .stat-icon.orange { background: #fff7ed; color: #ea580c; }
-        .stat-icon.purple { background: #faf5ff; color: #9333ea; }
+        .stat-icon.blue {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .stat-icon.green {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+
+        .stat-icon.orange {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+        .stat-icon.purple {
+            background: #faf5ff;
+            color: #9333ea;
+        }
 
         .stat-value {
             font-size: 1.5rem;
@@ -132,19 +148,22 @@
             .sidebar {
                 left: calc(-1 * var(--sidebar-width));
             }
+
             .sidebar.is-open {
                 left: 0;
             }
+
             .main-wrapper {
                 margin-left: 0;
             }
+
             .sidebar-overlay.is-open {
                 position: fixed;
                 top: 0;
                 left: 0;
                 width: 100vw;
                 height: 100vh;
-                background: rgba(0,0,0,0.5);
+                background: rgba(0, 0, 0, 0.5);
                 z-index: 1040;
             }
         }
@@ -176,9 +195,10 @@
         .nav-link {
             transition: all 0.2s;
         }
+
         .nav-link:hover {
             color: white !important;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
@@ -301,16 +321,6 @@
                 @endrole
 
                 {{-- ── EXPORTS (Admin + Secrétaire) ─────────── --}}
-                @role('admin|secretaire')
-                <div class="sidebar-section-label">Exports</div>
-
-                <a href="{{ route('exports.index') }}"
-                    class="nav-item {{ request()->routeIs('exports.*') ? 'active' : '' }}"
-                    style="color: #000 !important;">
-                    <i class="bi bi-download" style="color: #2563EB;"></i>
-                    <span>Récapitulatifs & Rapports</span>
-                </a>
-                @endrole
 
                 {{-- ── ADMINISTRATION (Admin uniquement) ─────── --}}
                 @role('admin')
@@ -327,12 +337,6 @@
                     <i class="bi bi-gear-fill"></i>
                     <span>Paramètres</span>
                 </a>
-
-                <a href="{{ route('admin.annees.index') }}"
-                    class="nav-item {{ request()->routeIs('admin.annees.*') ? 'active' : '' }}">
-                    <i class="bi bi-calendar-fill"></i>
-                    <span>Années académiques</span>
-                </a>
                 @endrole
 
             </nav>
@@ -340,27 +344,28 @@
             {{-- ── PROFIL + DÉCONNEXION ───────────────────────── --}}
             <div class="sidebar-footer">
                 @auth
-                <div class="sidebar-user">
-                    <div class="sidebar-avatar">
-                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                    </div>
-                    <div class="sidebar-user-info">
-                        <div class="sidebar-user-name">
-                            {{ Str::limit(auth()->user()->name, 20) }}
+                    <div class="sidebar-user">
+                        <div class="sidebar-avatar">
+                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                         </div>
-                        <div class="sidebar-user-role">
-                            {{ ucfirst(auth()->user()->getRoleNames()->first() ?? 'Utilisateur') }}
+                        <div class="sidebar-user-info">
+                            <div class="sidebar-user-name">
+                                {{ Str::limit(auth()->user()->name, 20) }}
+                            </div>
+                            <div class="sidebar-user-role">
+                                {{ ucfirst(auth()->user()->getRoleNames()->first() ?? 'Utilisateur') }}
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <form method="POST" action="{{ route('logout') }}" class="px-3 pb-3">
-                    @csrf
-                    <button type="submit" class="btn btn-outline-danger btn-sm w-100 py-2 d-flex align-items-center justify-content-center gap-2">
-                        <i class="bi bi-box-arrow-right"></i>
-                        <span>Déconnexion</span>
-                    </button>
-                </form>
+                    <form method="POST" action="{{ route('logout') }}" class="px-3 pb-3">
+                        @csrf
+                        <button type="submit"
+                            class="btn btn-outline-danger btn-sm w-100 py-2 d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Déconnexion</span>
+                        </button>
+                    </form>
                 @endauth
             </div>
         </aside>
@@ -390,8 +395,8 @@
                     @php
                         $notifCount = \App\Models\Activite::where('statut', 'en_attente')->count();
                     @endphp
-                    <a href="{{ route('activites.index', ['statut' => 'en_attente']) }}" class="topbar-notif text-decoration-none"
-                        title="{{ $notifCount }} activité(s) en attente">
+                    <a href="{{ route('activites.index', ['statut' => 'en_attente']) }}"
+                        class="topbar-notif text-decoration-none" title="{{ $notifCount }} activité(s) en attente">
                         <i class="bi bi-bell"></i>
                         @if($notifCount > 0)
                             <span class="topbar-notif-dot"></span>
@@ -401,19 +406,19 @@
 
                     {{-- Profil utilisateur --}}
                     @auth
-                    <div class="topbar-user ms-3">
-                        <div class="topbar-avatar">
-                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                        </div>
-                        <div class="d-none d-md-block">
-                            <div class="topbar-user-name fw-bold small">
-                                {{ Str::limit(auth()->user()->name, 18) }}
+                        <div class="topbar-user ms-3">
+                            <div class="topbar-avatar">
+                                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                             </div>
-                            <div class="topbar-user-role text-muted" style="font-size: 0.7rem;">
-                                {{ ucfirst(auth()->user()->getRoleNames()->first() ?? 'Utilisateur') }}
+                            <div class="d-none d-md-block">
+                                <div class="topbar-user-name fw-bold small">
+                                    {{ Str::limit(auth()->user()->name, 18) }}
+                                </div>
+                                <div class="topbar-user-role text-muted" style="font-size: 0.7rem;">
+                                    {{ ucfirst(auth()->user()->getRoleNames()->first() ?? 'Utilisateur') }}
+                                </div>
                             </div>
                         </div>
-                    </div>
                     @endauth
                 </div>
             </header>
@@ -423,58 +428,60 @@
 
                 {{-- HEADER DASHBOARD (Uniquement sur l'index admin) --}}
                 @if(request()->routeIs('admin.dashboard'))
-                <div class="dashboard-header mb-5">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <div>
-                            <h2 class="fw-bold text-dark mb-1">Bienvenue, Administrateur 👋</h2>
-                            <p class="text-muted mb-0">Gérez et supervisez les heures d'enseignement de l'ensemble du corps professoral de l'UVCI pour l'année universitaire 2025–2026.</p>
+                    <div class="dashboard-header mb-5">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <div>
+                                <h2 class="fw-bold text-dark mb-1">Bienvenue, Administrateur 👋</h2>
+                                <p class="text-muted mb-0">Gérez et supervisez les heures d'enseignement de l'ensemble du
+                                    corps professoral de l'UVCI pour l'année universitaire 2025–2026.</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row g-4">
-                        <div class="col-12 col-sm-6 col-xl-3">
-                            <div class="stat-card-modern">
-                                <div class="stat-icon blue"><i class="bi bi-people-fill"></i></div>
-                                <div>
-                                    <div class="stat-value">{{ $stats['enseignants'] ?? 0 }}</div>
-                                    <div class="stat-label">Enseignants</div>
+                        <div class="row g-4">
+                            <div class="col-12 col-sm-6 col-xl-3">
+                                <div class="stat-card-modern">
+                                    <div class="stat-icon blue"><i class="bi bi-people-fill"></i></div>
+                                    <div>
+                                        <div class="stat-value">{{ $stats['enseignants'] ?? 0 }}</div>
+                                        <div class="stat-label">Enseignants</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-xl-3">
-                            <div class="stat-card-modern">
-                                <div class="stat-icon green"><i class="bi bi-book-fill"></i></div>
-                                <div>
-                                    <div class="stat-value">{{ $stats['cours'] ?? 0 }}</div>
-                                    <div class="stat-label">Cours actifs</div>
+                            <div class="col-12 col-sm-6 col-xl-3">
+                                <div class="stat-card-modern">
+                                    <div class="stat-icon green"><i class="bi bi-book-fill"></i></div>
+                                    <div>
+                                        <div class="stat-value">{{ $stats['cours'] ?? 0 }}</div>
+                                        <div class="stat-label">Cours actifs</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-xl-3">
-                            <div class="stat-card-modern">
-                                <div class="stat-icon orange"><i class="bi bi-clock-fill"></i></div>
-                                <div>
-                                    <div class="stat-value">{{ $heuresMois ?? 0 }}h</div>
-                                    <div class="stat-label">Heures ce mois</div>
+                            <div class="col-12 col-sm-6 col-xl-3">
+                                <div class="stat-card-modern">
+                                    <div class="stat-icon orange"><i class="bi bi-clock-fill"></i></div>
+                                    <div>
+                                        <div class="stat-value">{{ $heuresMois ?? 0 }}h</div>
+                                        <div class="stat-label">Heures ce mois</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-xl-3">
-                            <div class="stat-card-modern">
-                                <div class="stat-icon purple"><i class="bi bi-collection-fill"></i></div>
-                                <div>
-                                    <div class="stat-value">{{ $stats['ressources'] ?? 0 }}</div>
-                                    <div class="stat-label">Ressources</div>
+                            <div class="col-12 col-sm-6 col-xl-3">
+                                <div class="stat-card-modern">
+                                    <div class="stat-icon purple"><i class="bi bi-collection-fill"></i></div>
+                                    <div>
+                                        <div class="stat-value">{{ $stats['ressources'] ?? 0 }}</div>
+                                        <div class="stat-label">Ressources</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 @endif
 
                 {{-- Flash Messages --}}
                 @if(session('success'))
-                    <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2 mb-4 border-0 shadow-sm" role="alert">
+                    <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2 mb-4 border-0 shadow-sm"
+                        role="alert">
                         <i class="bi bi-check-circle-fill"></i>
                         <div>{{ session('success') }}</div>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -482,7 +489,8 @@
                 @endif
 
                 @if(session('error'))
-                    <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center gap-2 mb-4 border-0 shadow-sm" role="alert">
+                    <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center gap-2 mb-4 border-0 shadow-sm"
+                        role="alert">
                         <i class="bi bi-exclamation-triangle-fill"></i>
                         <div>{{ session('error') }}</div>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -545,4 +553,3 @@
 </body>
 
 </html>
-

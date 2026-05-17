@@ -1395,3 +1395,306 @@ a[href*="password.request"]:hover {
   .filter-actions { width: 100%; justify-content: stretch; }
   .filter-actions .btn { flex: 1; }
 }
+
+/* ── TABLEAU DES ACTIVITÉS ────────────────────────────────── */
+
+/* Carte contenant le tableau */
+.table-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+/* Table principale */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.data-table thead tr {
+  background: var(---blue);
+}
+
+.data-table thead th {
+  padding: 12px 16px;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  border: none;
+  text-align: left;
+}
+
+.data-table tbody tr {
+  border-bottom: 1px solid var(--border-color);
+  transition: background 0.15s;
+}
+
+.data-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+  background: rgba(0, 59, 122, 0.03);
+}
+
+.data-table tbody td {
+  padding: 13px 16px;
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+/* Cellules spécifiques */
+.cell-date {
+  font-weight: 600;
+  color: var(---blue);
+  white-space: nowrap;
+  font-size: 0.85rem;
+}
+
+.cell-enseignant {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.cell-cours-main {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  line-height: 1.3;
+}
+
+.cell-cours-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.cell-heures {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #E65100;
+  white-space: nowrap;
+}
+
+/* Boutons d'actions dans le tableau */
+.cell-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* Bouton icône carré */
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+/* Bouton fantôme (annuler / réinitialiser) */
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: var(--radius-md);
+  font-size: 0.855rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.btn-ghost:hover {
+  background: var(--bg-page);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.btn-ghost svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* ── BADGES STATUTS ACTIVITÉ ──────────────────────────────── */
+.badge-creation {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.badge-maj {
+  background: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.badge-validee {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.badge-rejetee {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.badge-attente {
+  background: #fff7ed;
+  color: #9a3412;
+  border: 1px solid #fed7aa;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* ── ÉTAT VIDE ────────────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-muted);
+}
+
+.empty-state svg {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  display: block;
+  opacity: 0.4;
+}
+
+.empty-state p {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* ── PIED DE TABLEAU (pagination) ─────────────────────────── */
+.table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-page);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pagination-info {
+  font-size: 0.80rem;
+  color: var(--text-muted);
+}
+
+.pagination-wrapper {
+  display: flex;
+  gap: 4px;
+}
+
+/* ── FILTRE DES ACTIVITÉS ─────────────────────────────────── */
+.filter-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.filter-field {
+  flex: 1;
+  min-width: 160px;
+}
+
+.filter-field select,
+.filter-field input[type="date"] {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  background: var(--bg-input);
+  appearance: none;
+  transition: var(--transition);
+}
+
+.filter-field select:focus,
+.filter-field input[type="date"]:focus {
+  outline: none;
+  border-color: var(---blue);
+  box-shadow: 0 0 0 3px rgba(0,59,122,0.10);
+}
+
+.filter-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.filter-actions .btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+@media (max-width: 768px) {
+  .filter-field  { min-width: 100%; }
+  .filter-actions { width: 100%; }
+  .filter-actions .btn { flex: 1; justify-content: center; }
+  .data-table { font-size: 0.8rem; }
+  .data-table thead th,
+  .data-table tbody td { padding: 10px 10px; }
+  .cell-actions { gap: 4px; }
+}
