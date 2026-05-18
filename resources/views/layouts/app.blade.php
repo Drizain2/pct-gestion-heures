@@ -275,7 +275,7 @@
                 <a href="{{ route('cours.index') }}"
                     class="nav-item {{ request()->routeIs('cours.*') ? 'active' : '' }}">
                     <i class="bi bi-book-fill"></i>
-                    <span>Cours</span>
+                    <span>Cours&Ressources</span>
                 </a>
                 @endrole
 

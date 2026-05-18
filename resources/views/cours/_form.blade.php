@@ -89,3 +89,63 @@
         </small>
     </div>
 </div>
+<!-- ressources-->
+<!-- Tableau des ressources pédagogiques -->
+<!-- Ressources pédagogiques -->
+<div class="col-12 mt-4">
+    <div class="card shadow-sm">
+        
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">
+                <i class="bi bi-journal-bookmark me-2"></i>
+                Ressources pédagogiques
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Type</th>
+                            <th>Titre</th>
+                            <th>Auteur</th>
+                            <th>Année</th>
+                            <th>Référence</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Livre</td>
+                            <td>Algorithmique avancée</td>
+                            <td>Jean Dupont</td>
+                            <td>2024</td>
+                            <td>
+                                <a href="#">Voir</a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>PDF</td>
+                            <td>Structures de données</td>
+                            <td>Marie Koffi</td>
+                            <td>2025</td>
+                            <td>
+                                <a href="#">Télécharger</a>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
