@@ -12,38 +12,42 @@
         <!-- Stats -->
         <div class="row g-3 mb-4">
             <div class="col-md-3">
-                <div class="stat-card green">
-                    <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
+                <div class="stat-card" style="background-color: white;">
+                    <div class="stat-icon" style="color: #2563EB; background: rgba(37, 99, 235, 0.1);"><i
+                            class="bi bi-people-fill"></i></div>
                     <div class="stat-info">
-                        <div class="stat-number">{{ $stats['enseignants'] }}</div>
-                        <div class="stat-label">Enseignants</div>
+                        <div class="stat-number" style="color: black;">{{ $stats['enseignants'] }}</div>
+                        <div class="stat-label" style="color: black;">Enseignants</div>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stat-card orange">
-                    <div class="stat-icon"><i class="bi bi-book-fill"></i></div>
+                <div class="stat-card" style="background-color: white;">
+                    <div class="stat-icon" style="color: #8B5CF6; background: rgba(139, 92, 246, 0.1);"><i
+                            class="bi bi-book-fill"></i></div>
                     <div class="stat-info">
-                        <div class="stat-number">{{ $stats['cours'] }}</div>
-                        <div class="stat-label">Cours</div>
+                        <div class="stat-number" style="color: black;">{{ $stats['cours'] }}</div>
+                        <div class="stat-label" style="color: black;">Cours</div>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stat-card orange">
-                    <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
+                <div class="stat-card" style="background-color: white;">
+                    <div class="stat-icon" style="color: #F5A623; background: rgba(245, 166, 35, 0.1);"><i
+                            class="bi bi-hourglass-split"></i></div>
                     <div class="stat-info">
-                        <div class="stat-number">{{ $stats['activites_attente'] }}</div>
-                        <div class="stat-label">En attente</div>
+                        <div class="stat-number" style="color: black;">{{ $stats['activites_attente'] }}</div>
+                        <div class="stat-label" style="color: black;">En attente</div>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stat-card navy">
-                    <div class="stat-icon"><i class="bi bi-check-circle-fill"></i></div>
+                <div class="stat-card" style="background-color: white;">
+                    <div class="stat-icon" style="color: #00A86B; background: rgba(0, 168, 107, 0.1);"><i
+                            class="bi bi-check-circle-fill"></i></div>
                     <div class="stat-info">
-                        <div class="stat-number">{{ $stats['activites_validees'] }}</div>
-                        <div class="stat-label">Validées ce mois</div>
+                        <div class="stat-number" style="color: black;">{{ $stats['activites_validees'] }}</div>
+                        <div class="stat-label" style="color: black;">Validées ce mois</div>
                     </div>
                 </div>
             </div>
