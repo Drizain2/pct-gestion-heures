@@ -2,75 +2,156 @@
 <x-app-layout>
     <x-slot name="title">Tableau de bord — Administrateur</x-slot>
 
-    <!-- Stat Cards -->
-    <div class="row g-3 mb-4">
-        <div class="col-md-3">
-            <div class="stat-card green">
-                <i class="bi bi-people-fill stat-icon"></i>
-                <div>
-                    <div class="stat-number">{{ $stats['enseignants'] }}</div>
-                    <div class="stat-label">Enseignants</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="stat-card orange">
-                <i class="bi bi-book-fill stat-icon"></i>
-                <div>
-                    <div class="stat-number">{{ $stats['cours'] }}</div>
-                    <div class="stat-label">Cours actifs</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="stat-card gold">
-                <i class="bi bi-clock-fill stat-icon"></i>
-                <div>
-                    <div class="stat-number">{{ $heuresMois }}h</div>
-                    <div class="stat-label">Heures ce mois</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="stat-card dark">
-                <i class="bi bi-collection-fill stat-icon"></i>
-                <div>
-                    <div class="stat-number">{{ $stats['ressources'] }}</div>
-                    <div class="stat-label">Ressources</div>
+
+
+    
+    {{-- Les cartes statistiques sont maintenant gérées dans le layout app.blade.php pour une meilleure organisation --}}
+
+
+    <div class="row g-4">
+    <!-- Carte Graphique -->
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <h6 class="fw-semibold mb-4">Heures validées - 6 derniers mois</h6>
+                
+                @php
+                    $data = [
+                        ['mois' => 'Jan', 'heures' => 0],
+                        ['mois' => 'Fév', 'heures' => 0],
+                        ['mois' => 'Mars', 'heures' => 0],
+                        ['mois' => 'Avr', 'heures' => 0],
+                        ['mois' => 'Mai', 'heures' => 0],
+                        ['mois' => 'Juin', 'heures' => 0],
+                    ];
+                    $max = max(array_column($data, 'heures'));
+                    $max = $max > 0 ? $max: 1;
+                @endphp
+
+                <div class="d-flex align-items-end justify-content-around" style="height: 240px;">
+                    @foreach($data as $item)
+                        @php $heightPercent = ($item['heures'] / $max) * 100; @endphp
+                        <div class="text-center d-flex flex-column justify-content-end" style="width: 12%;">
+                            <div class="mb-2 fw-semibold text-primary small">{{ $item['heures'] }}h</div>
+                            <div class="bg-primary rounded-top w-100" 
+                                 style="height: {{ $heightPercent }}%; min-height: 8px; animation: growUp 0.8s ease-out forwards;">
+                            </div>
+                            <div class="mt-2 text-muted small fw-medium">{{ $item['mois'] }}</div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row g-4">
+    <div class="col-md-6">
+    <div class="card shadow-sm border-0 h-100">
+        <div class="card-body p-4">
+            <h5 class="fw-semibold mb-4">
+                <i class="bi bi-pie-chart-fill text-primary me-2"></i>
+                Heures par département
+            </h5>
 
-        <!-- Graphique heures par mois -->
-        <div class="col-md-8">
-            <div class="card h-100">
-                <div class="card-header">
-                    <i class="bi bi-bar-chart-fill me-2"></i>
-                    Heures validées — 6 derniers mois
+            <!-- Diagramme circulaire -->
+            <div class="row align-items-center g-4">
+                <div class="col-12 col-md-6 d-flex justify-content-center">
+                    <div class="pie-chart"></div>
                 </div>
-                <div class="card-body">
-                    <canvas id="chartMois" height="120"></canvas>
+                <div class="col-12 col-md-6">
+                    <ul class="list-unstyled mb-0">
+                        <li class="d-flex align-items-center mb-3 legend-item">
+                            <span class="legend-color" style="background:#0d6efd;"></span>
+                            <span class="fw-medium">Informatique</span>
+                            <span class="ms-auto text-muted">35%</span>
+                        </li>
+                        <li class="d-flex align-items-center mb-3 legend-item">
+                            <span class="legend-color" style="background:#6610f2;"></span>
+                            <span class="fw-medium">Mathématiques</span>
+                            <span class="ms-auto text-muted">25%</span>
+                        </li>
+                        <li class="d-flex align-items-center mb-3 legend-item">
+                            <span class="legend-color" style="background:#20c997;"></span>
+                            <span class="fw-medium">Réseaux</span>
+                            <span class="ms-auto text-muted">20%</span>
+                        </li>
+                        <li class="d-flex align-items-center mb-3 legend-item">
+                            <span class="legend-color" style="background:#fd7e14;"></span>
+                            <span class="fw-medium">Gestion</span>
+                            <span class="ms-auto text-muted">15%</span>
+                        </li>
+                        <li class="d-flex align-items-center legend-item">
+                            <span class="legend-color" style="background:#dc3545;"></span>
+                            <span class="fw-medium">Communication</span>
+                            <span class="ms-auto text-muted">5%</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <!-- Heures par département -->
-        <div class="col-md-4">
-            <div class="card h-100">
-                <div class="card-header">
-                    <i class="bi bi-pie-chart-fill me-2"></i>
-                    Heures par département
-                </div>
-                <div class="card-body">
-                    <canvas id="chartDept" height="200"></canvas>
-                </div>
-            </div>
-        </div>
+<style>
+.pie-chart {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: conic-gradient(
+        #0d6efd 0% 35%,
+        #6610f2 35% 60%,
+        #20c997 60% 80%,
+        #fd7e14 80% 95%,
+        #dc3545 95% 100%
+    );
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+.pie-chart:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+.pie-chart::before {
+    content: "";
+    display: block;
+    width: 60%;
+    height: 60%;
+    background: #fff;
+    border-radius: 50%;
+    margin: 20% auto;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);
+}
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-right: 12px;
+}
+.legend-item {
+    transition: transform 0.2s ease;
+}
+.legend-item:hover {
+    transform: translateX(4px);
+}
+@media (max-width: 767px) {
+    .pie-chart {
+        width: 180px;
+        height: 180px;
+    }
+}
+</style>
+</div>
 
-        <!-- Activités en attente -->
+<style>
+@keyframes growUp {
+    from { transform: scaleY(0); opacity: 0; }
+    to { transform: scaleY(1); opacity: 1; }
+}
+</style>
+
+
+    <div class ="row">
+    <!-- Activités en attente -->
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -192,6 +273,9 @@
                 </div>
             </div>
         </div>
+    </div>
+        
+
 
 <!--  enseignants ayant dépassés leur seuil-->
 
@@ -274,13 +358,8 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
             // Données pour le graphique des mois
-            
-            const labelsMois = JSON.parse('{!! $statsParMois->map(function ($s) {
-                    return date('M Y', mktime(0, 0, 0, $s->mois, 1, $s->annee));
-                })->toJson() !!}');
+            const labelsMois = JSON.parse('{!! $statsParMois->map(function ($s) { return date('M Y', mktime(0, 0, 0, $s->mois, 1, $s->annee)); })->toJson() !!}');  
             const dataMois = JSON.parse('{!! $statsParMois->pluck('total')->toJson() !!}');
-
-
             // Graphique barres — heures par mois
             new Chart(document.getElementById('chartMois'), {
                 type: 'bar',
@@ -317,10 +396,11 @@
             const labelsDept = @json($heuresParDepartement->pluck('departement'));
             const dataDept = @json($heuresParDepartement->pluck('total'));
 
-           const couleurs = [
-    '#6f42c1', '#7e57c2', '#9575cd', '#b39ddb', '#d1c4e9',
-    '#9c27b0', '#ba68c8', '#ce93d8'
-];
+            const couleurs = [
+                '#6015e0', '#6015e0', '#6015e0', '#6015e0', '#6015e0',
+                '#6015e0', '#6015e0', '#6015e0'
+            ];
+
             // Graphique donut — par département
             new Chart(document.getElementById('chartDept'), {
                 type: 'doughnut',

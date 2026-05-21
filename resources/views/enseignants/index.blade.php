@@ -1,66 +1,71 @@
 <x-app-layout>
-    <div class="page-wrapper">
-
-        <div class="container py-4">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="h3">Liste des enseignants</h1>
-                <a href="{{ route('enseignants.create') }}" class="btn btn-primary">
-                    <i class="bi bi-plus-circle me-1"></i> Ajouter un enseignant
-                </a>
-            </div>
-
-            <!-- Barre de recherche -->
-            <div class="filter-card">
-                <form action="{{ route('enseignants.index') }}" method="GET">
-                    <div class="filter-grid">
-                        <div class="filter-field">
-                            <input type="text" name="search" class="form-control"
-                                placeholder="Rechercher par nom, prénom, email..." value="{{ request('search') }}">
-                        </div>
-                        <div class="filter-field">
-                            <select name="grade" class="form-select">
-                                <option value="">Tous les grades</option>
-                                <option value="Assistant" {{ request('grade') == 'Assistant' ? 'selected' : '' }}>
-                                    Assistant
-                                </option>
-                                <option value="Maitre-Assistant"
-                                    {{ request('grade') == 'Maitre-Assistant' ? 'selected' : '' }}>
-                                    Maître-Assistant</option>
-                                <option value="Professeur" {{ request('grade') == 'Professeur' ? 'selected' : '' }}>
-                                    Professeur
-                                </option>
-                            </select>
-                        </div>
-                        <div class="filter-field">
-                            <select name="statut" class="form-select">
-                                <option value="">Tous les statuts</option>
-                                <option value="Permanent" {{ request('statut') == 'Permanent' ? 'selected' : '' }}>
-                                    Permanent
-                                </option>
-                                <option value="Vacataire" {{ request('statut') == 'Vacataire' ? 'selected' : '' }}>
-                                    Vacataire
-                                </option>
-                            </select>
-                        </div>
-                        <div class="filter-actions">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-search"></i> Rechercher
-                            </button>
-                            <a href="{{ route('enseignants.index') }}" class="btn btn-ghost" title="Réinitialiser">
-                                <i class="bi bi-arrow-clockwise"></i> Réinitialiser
-                            </a>
-                        </div>
-                    </div>
-                </form>
-            </div>
+    <div class="page-header">
+        <div class="page-header-left">
+            <h4>
+                <i class="bi bi-people-fill me-2"></i>
+                Liste des enseignants
+            </h4>
+            <p>Gestion des profils et statuts</p>
         </div>
+        <a href="{{ route('enseignants.create') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-1"></i> Ajouter un enseignant
+        </a>
+    </div>
+
+    <!-- Barre de recherche -->
+    <div class="filter-card">
+        <form action="{{ route('enseignants.index') }}" method="GET">
+            <div class="filter-grid">
+                <div class="filter-field">
+                    <label class="form-label">Recherche</label>
+                    <input type="text" name="search" class="form-control"
+                        placeholder="Nom, prénom, email..." value="{{ request('search') }}">
+                </div>
+                <div class="filter-field">
+                    <label class="form-label">Grade</label>
+                    <select name="grade" class="form-select">
+                        <option value="">Tous les grades</option>
+                        <option value="Assistant" {{ request('grade') == 'Assistant' ? 'selected' : '' }}>
+                            Assistant
+                        </option>
+                        <option value="Maitre-Assistant"
+                            {{ request('grade') == 'Maitre-Assistant' ? 'selected' : '' }}>
+                            Maître-Assistant</option>
+                        <option value="Professeur" {{ request('grade') == 'Professeur' ? 'selected' : '' }}>
+                            Professeur
+                        </option>
+                    </select>
+                </div>
+                <div class="filter-field">
+                    <label class="form-label">Statut</label>
+                    <select name="statut" class="form-select">
+                        <option value="">Tous les statuts</option>
+                        <option value="Permanent" {{ request('statut') == 'Permanent' ? 'selected' : '' }}>
+                            Permanent
+                        </option>
+                        <option value="Vacataire" {{ request('statut') == 'Vacataire' ? 'selected' : '' }}>
+                            Vacataire
+                        </option>
+                    </select>
+                </div>
+                <div class="filter-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search me-1"></i> Filtrer
+                    </button>
+                    <a href="{{ route('enseignants.index') }}" class="btn btn-outline-secondary" title="Réinitialiser">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
 
         <!-- Tableau des enseignants -->
         <div class="card shadow-sm">
             <div class="card-body p-0">
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover mb-0">
-                        <thead class="bg-light">
+                    <table class="table table-hover mb-0">
+                        <thead style="background-color: #0ea5e9 ; color: white;">
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nom</th>
@@ -120,28 +125,73 @@
                                         Aucun enseignant trouvé.
                                     </td>
                                     <tr>
+    @forelse($enseignants as $enseignant)
+<tr>
     <td>{{ $loop->iteration }}</td>
-    <td>{{ $enseignant->nom }}</td>
-    <td>{{ $enseignant->prenoms }}</td>
-    <td>{{ $enseignant->email }}</td>
-    <td>{{ $enseignant->statut }}</td>
-    <td>{{ $enseignant->departement }}</td>
-    <td>{{ $enseignant->taux_horaire }}</td>
-    
-    <!-- Colle ici à la place de ton ancien <td> Actions -->
     <td>
-        <div class="d-none d-md-inline-flex">
-            <a href="{{ route('enseignants.show', $enseignant->id) }}" class="btn btn-info btn-sm mr-1" title="Voir">
+        <div class="d-flex align-items-center">
+            <div class="avatar-sm bg-primary text-white rounded-circle me-2 d-flex align-items-center justify-content-center">
+                {{ strtoupper(substr($enseignant->prenom, 0, 1) . substr($enseignant->nom, 0, 1)) }}
+            </div>
+            <strong>{{ $enseignant->nom }}</strong>
+        </div>
+    </td>
+    <td>{{ $enseignant->prenom }}</td>
+    <td>{{ $enseignant->email }}</td>
+    <td>{{ $enseignant->grade }}</td>
+    <td>
+        @if($enseignant->statut == 'Permanent')
+            <span class="badge bg-success">Permanent</span>
+        @elseif($enseignant->statut == 'Vacataire')
+            <span class="badge bg-warning text-dark">Vacataire</span>
+        @else
+            <span class="badge bg-secondary">{{ $enseignant->statut }}</span>
+        @endif
+    </td>
+    <td>{{ $enseignant->departement }}</td>
+    <td class="fw-bold">{{ number_format($enseignant->taux_horaire, 0, ',', ' ') }} FCFA</td>
+    <td>
+        <div class="btn-group">
+            <a href="{{ route('enseignants.show', $enseignant->id) }}" class="btn btn-sm btn-info" title="Voir">
                 <i class="fas fa-eye"></i>
             </a>
-            <a href="{{ route('enseignants.edit', $enseignant->id) }}" class="btn btn-warning btn-sm mr-1" title="Modifier">
+            <a href="{{ route('enseignants.edit', $enseignant->id) }}" class="btn btn-sm btn-primary" title="Modifier">
                 <i class="fas fa-edit"></i>
             </a>
-            <form action="{{ route('enseignants.destroy', $enseignant->id) }}" method="POST" class="d-inline">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger btn-sm" title="Supprimer" onclick="return confirm('Supprimer ?')">
-                    <i class="fas fa-trash"></i>
+            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $enseignant->id }}" title="Supprimer">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+
+        {{-- Modal Confirmation Suppression --}}
+        <div class="modal fade" id="deleteModal{{ $enseignant->id }}" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirmer la suppression</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        Tu es sûr de vouloir supprimer <strong>{{ $enseignant->prenom }} {{ $enseignant->nom }}</strong> ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <form action="{{ route('enseignants.destroy', $enseignant->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Oui, supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </td>
+</tr>
+@empty
+<tr>
+    <td colspan="9" class="text-center py-4">Aucun enseignant trouvé</td>
+</tr>
+@endforelse
                 </button>
             </form>
        <div class="dropdown d-inline-block d-md-none">
@@ -175,7 +225,22 @@
 </tr>
 
                                 </tr>
-                            @endforelse
+                           @endforelse
+        </tbody>
+        
+        @if($enseignants->count() > 0)
+        <tfoot style="border-top: 2px solid #0ea5e9;">
+            <tr class="table-secondary fw-bold">
+                <td colspan="7" style="text-align:right;">TOTAL TAUX HORAIRE :</td>
+                <td style="text-align:right; font-family:monospace;">
+                    {{ number_format($enseignants->sum('taux_horaire'), 0, ',', ' ') }} FCFA
+                </td>
+                <td></td>
+            </tr>
+        </tfoot>
+        @endif
+    </table>
+                            
                         </tbody>
                     </table>
                 </div>
@@ -223,7 +288,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Département</label>
-                                <select name="departement" class="form-control" required>
+                                <select name="departement" class="form-control select2" required>
                                     <option value="">Choisir...</option>
                                     <option value="Informatique">Informatique</option>
                                     <option value="Mathématiques">Mathématiques</option>
@@ -232,9 +297,17 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Taux horaire</label>
-                                <input type="number" name="taux_horaire" class="form-control" required>
+                                <label>Taux horaire <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                <input type="number" name="taux_horaire" class="form-control"
+                                 min="1000" max="50000" step="500" 
+                                 placeholder="Ex: 9000" required>
+                                 
+                                <span class="input-group-text">FCFA / heure</span>
                             </div>
+                            <small class="form-text text-muted"> Entre 1 000 et 50 000 FCFA
+                            </div>
+                            <div class="form-text">Minimum 1000 FCFA, par pas de 500</div>
                         </div>
                     </div>
                 <div class="modal-footer">

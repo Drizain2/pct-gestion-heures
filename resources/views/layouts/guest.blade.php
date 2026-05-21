@@ -17,7 +17,7 @@
     <div class="auth-wrapper">
         <div class="auth-card">
             <div class="auth-logo">
-                <div class="auth-logo-icon" style="background: #6f42c1; color: white;">
+                <div class="auth-logo-icon" style="background: #0d6efd; color: white;">
                     <i class="bi bi-mortarboard-fill"></i>
                 </div>
                 <h3>UVCI</h3>

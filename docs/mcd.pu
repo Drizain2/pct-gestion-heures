@@ -1,0 +1,105 @@
+@startuml modeleConceptueldeDonnee
+skinparam monochrome true
+skinparam Shadowing false
+skinparam EntityFontSize 14
+
+entity "Utilisateur" as User {
+    * id [PK]
+    --
+    nom
+    prenom
+    email
+    telephone
+    mot_de_passe
+    role
+}
+
+entity "Enseignant" as Teacher {
+* id [PK]
+* user_id [FK]
+--
+grade
+statut
+departement
+taux_horaire
+volume_horaire_total
+}
+
+entity "AnneeAcademique" as AcademicYear {
+    * id [PK]
+    --
+    libelle
+    date_debut
+    date_fin
+    active
+}
+
+entity "Cours" as Course {
+    * id [PK]
+    --
+    intitule
+    filiere
+    niveau
+    semestre
+    nombre_heures
+    nombre_credits
+}
+
+entity "RessourcePedagogique" as Resource {
+    * id [PK]
+    --
+    titre
+    type_ressource
+    niveau_complexite
+    nombre_sequences
+    date_creation
+    date_mise_a_jour
+}
+
+entity "ActivitePedagogique" as Activity {
+    * id [PK]
+    --
+    type_activite
+    date_realisation
+    statut
+    heures_calculees
+    commentaire
+}
+
+entity "ParametreCalcule" as HourlyRate {
+    * id [PK]
+    --
+    type_activite
+    niveau_complexite
+    coefficient_creation
+    coefficient_mise_a_jour
+}
+
+entity "SequencePedagogique" as Sequence {
+    * id [PK]
+    --
+    cours_id [FK]
+    ordre
+    titre
+    description
+}
+
+'Relations avec cardinalités Merise
+User ||--|| Teacher : "est un"
+Teacher ||--o{ Activity : "réalise"
+Activity ||--|| Resource : "concerne"
+Resource ||--|| Course : "appartient à"
+Course ||--o{ Sequence : "contient"
+AcademicYear ||--o{ Activity : "concerne"
+Activity }o--|| HourlyRate : "utilise"
+
+note right of User
+    - Un utilisateur peut être un enseignant ou un administrateur.
+    - Un enseignant peut réaliser plusieurs activités pédagogiques.
+    - Une activité pédagogique concerne une ressource pédagogique.
+    - Une ressource pédagogique appartient à un cours.
+    - Un cours peut contenir plusieurs séquences pédagogiques.
+    - Une activité pédagogique est associée à une année académique.
+    - Une activité pédagogique utilise un barème horaire pour le calcul du volume horaire.
+end note
+@enduml

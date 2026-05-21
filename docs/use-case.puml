@@ -1,0 +1,41 @@
+@startuml usecase
+left to right direction
+
+actor "Administrateur" as Admin
+actor "Sécretaire General" as Secretaire
+actor "Enseignant" as Enseignant
+
+rectangle  "Gestion des Heures Enseignants UVCI" {
+    usecase "Gérer les comptes utilisateurs" as UC1
+    usecase "Paramétrer année académique" as UC2
+    usecase "Gérer les taux horaires" as UC3
+
+    usecase "Gérer les enseignants" as UC4
+    usecase "Gérer les cours" as UC5
+    usecase "Gérer les ressources pédagogiques" as UC6
+    usecase "Enregistrer une activité pédagogique" as UC7
+    usecase "Valider une activité" as UC8
+    usecase "Calculer volume horaire" as UC9
+    usecase "Gérer états et rapports" as UC10
+    usecase "Consulter mes activités" as UC11
+}
+
+Admin --> UC1
+Admin --> UC2
+Admin --> UC3
+Admin --> UC4
+Admin --> UC10
+
+Secretaire -->UC4
+Secretaire -->UC5
+Secretaire -->UC6
+Secretaire -->UC7
+Secretaire -->UC8
+Secretaire -->UC10
+
+Enseignant--> UC7
+Enseignant--> UC11
+
+UC7 ..> UC9: <<include>>
+UC8 ..> UC9: <<include>>
+@enduml

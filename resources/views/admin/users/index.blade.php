@@ -2,6 +2,16 @@
 <x-app-layout>
     <x-slot name="title">Gestion des utilisateurs</x-slot>
 
+    <div class="page-header">
+        <div class="page-header-left">
+            <h4>
+                <i class="bi bi-people-fill me-2"></i>
+                Gestion des utilisateurs
+            </h4>
+            <p>Créez et gérez les comptes et les accès au système</p>
+        </div>
+    </div>
+
     <div class="row g-4">
 
         <!-- Formulaire ajout utilisateur -->
