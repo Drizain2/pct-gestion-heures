@@ -15,31 +15,11 @@
             <div class="card-body">
                 <h6 class="fw-semibold mb-4">Heures validées - 6 derniers mois</h6>
                 
-                @php
-                    $data = [
-                        ['mois' => 'Jan', 'heures' => 0],
-                        ['mois' => 'Fév', 'heures' => 0],
-                        ['mois' => 'Mars', 'heures' => 0],
-                        ['mois' => 'Avr', 'heures' => 0],
-                        ['mois' => 'Mai', 'heures' => 0],
-                        ['mois' => 'Juin', 'heures' => 0],
-                    ];
-                    $max = max(array_column($data, 'heures'));
-                    $max = $max > 0 ? $max: 1;
-                @endphp
-
-                <div class="d-flex align-items-end justify-content-around" style="height: 240px;">
-                    @foreach($data as $item)
-                        @php $heightPercent = ($item['heures'] / $max) * 100; @endphp
-                        <div class="text-center d-flex flex-column justify-content-end" style="width: 12%;">
-                            <div class="mb-2 fw-semibold text-primary small">{{ $item['heures'] }}h</div>
-                            <div class="bg-primary rounded-top w-100" 
-                                 style="height: {{ $heightPercent }}%; min-height: 8px; animation: growUp 0.8s ease-out forwards;">
-                            </div>
-                            <div class="mt-2 text-muted small fw-medium">{{ $item['mois'] }}</div>
-                        </div>
-                    @endforeach
+                <div class="card-body">
+                    <canvas id="chartMois" height="120"></canvas>
                 </div>
+
+               
             </div>
         </div>
     </div>
@@ -53,40 +33,9 @@
             </h5>
 
             <!-- Diagramme circulaire -->
-            <div class="row align-items-center g-4">
-                <div class="col-12 col-md-6 d-flex justify-content-center">
-                    <div class="pie-chart"></div>
+            <div class="card-body">
+                    <canvas id="chartDept" height="200"></canvas>
                 </div>
-                <div class="col-12 col-md-6">
-                    <ul class="list-unstyled mb-0">
-                        <li class="d-flex align-items-center mb-3 legend-item">
-                            <span class="legend-color" style="background:#0d6efd;"></span>
-                            <span class="fw-medium">Informatique</span>
-                            <span class="ms-auto text-muted">35%</span>
-                        </li>
-                        <li class="d-flex align-items-center mb-3 legend-item">
-                            <span class="legend-color" style="background:#6610f2;"></span>
-                            <span class="fw-medium">Mathématiques</span>
-                            <span class="ms-auto text-muted">25%</span>
-                        </li>
-                        <li class="d-flex align-items-center mb-3 legend-item">
-                            <span class="legend-color" style="background:#20c997;"></span>
-                            <span class="fw-medium">Réseaux</span>
-                            <span class="ms-auto text-muted">20%</span>
-                        </li>
-                        <li class="d-flex align-items-center mb-3 legend-item">
-                            <span class="legend-color" style="background:#fd7e14;"></span>
-                            <span class="fw-medium">Gestion</span>
-                            <span class="ms-auto text-muted">15%</span>
-                        </li>
-                        <li class="d-flex align-items-center legend-item">
-                            <span class="legend-color" style="background:#dc3545;"></span>
-                            <span class="fw-medium">Communication</span>
-                            <span class="ms-auto text-muted">5%</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
         </div>
     </div>
 </div>
