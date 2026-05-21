@@ -60,14 +60,14 @@
                 </div>
                 @if(Route::has('password.request'))
                     <a href="{{ route('password.request') }}" class="small text-decoration-none  forgot-link"
-                        style="font-size:0.82rem; color:var(--uvci-blue);">
+                        style="font-size:0.82rem; color:var(---blue);">
                         Mot de passe oublié ?
                     </a>
                 @endif
             </div>
 
             <button type="submit" class="btn-auth"
-                style="background: #2563eb !important; border-color: #2563eb !important; color: white; width: 100%;">
+                style="background: var(---blue) !important; border-color: var(---blue-dark) !important; color: white; width: 100%;">
                 <i class="bi bi-box-arrow-in-right"></i>
                 Se connecter
             </button>

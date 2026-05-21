@@ -7,7 +7,7 @@
             <a href="{{ route('cours.index') }}" class="btn btn-outline-secondary btn-sm mb-2">
                 <i class="bi bi-arrow-left me-1"></i>Retour aux cours
             </a>
-            <h4 class="fw-bold mb-0" style="color:#2E7D32;">
+            <h4 class="fw-bold mb-0" style="color:var(---blue);">
                 <i class="bi bi-collection-fill me-2"></i>{{ $cour->intitule }}
             </h4>
             <small class="text-muted">
@@ -25,7 +25,7 @@
         <div class="card-header d-flex justify-content-between align-items-center"
              style="background:linear-gradient(135deg,#1B5E20,#2E7D32);">
             <span>
-                <span class="badge bg-warning text-dark me-2">{{ $sequence->ordre }}</span>
+                <span class="badge badge-orange me-2">{{ $sequence->ordre }}</span>
                 {{ $sequence->titre }}
                 <small class="ms-2" style="opacity:0.8;">
                     ({{ $sequence->ressources_count }} ressource(s))
@@ -82,9 +82,9 @@
                         <td>
                             @php
                                 $couleur = match($ressource->complexite) {
-                                    'niveau_1'  => 'bg-success',
-                                    'niveau_2' => 'bg-warning text-dark',
-                                    'niveau_3'=> 'bg-danger',
+                                    'niveau_1' => 'badge-green',
+                                    'niveau_2' => 'badge-blue',
+                                    'niveau_3' => 'badge-navy',
                                 };
                             @endphp
                             <span class="badge {{ $couleur }}">

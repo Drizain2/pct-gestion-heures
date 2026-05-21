@@ -82,18 +82,18 @@
                                 <td><strong>{{ $c->intitule }}</strong></td>
                                 <td>{{ $c->filiere }}</td>
                                 <td>
-                                    <span class="badge me-1 mb-1" style="background: #2e7012;">
+                                    <span class="badge badge-blue me-1 mb-1">
                                         {{ $c->niveau }}
                                     </span>
                                 </td>
                                 <td>
-                                    <span class="badge bg-secondary">{{ $c->semestre }}</span>
+                                    <span class="badge badge-gray">{{ $c->semestre }}</span>
                                 </td>
                                 <td>{{ $c->nombre_heures }}h</td>
                                 <td>{{ $c->nombre_credits }}</td>
                                 <td>
                                     @forelse($c->enseignants as $enseignant)
-                                        <span class="badge" style="background:#E65100; font-size:0.75rem;">
+                                        <span class="badge badge-navy">
                                             {{ $enseignant->nom_complet }}
                                         </span>
                                     @empty
@@ -165,7 +165,7 @@
         <!-- Titre -->
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-body">
-                <h2 class="fw-bold mb-3 align-items-center fs-5" style="color:#003B7A;">
+                <h2 class="fw-bold mb-3 align-items-center fs-5" style="color:var(---blue);">
                     <i class="bi bi-book-fill me-2"></i>
                     Gestion des ressources pédagogiques
                 </h2>
@@ -180,11 +180,8 @@
         <!-- FORMULAIRE COMPLET -->
         <div class="card shadow-sm border-0 mb-4">
 
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">
-                    <i class="bi bi-book me-2"></i>
-                    Informations du cours & Ressources pédagogiques
-                </h5>
+            <div class="card-header">
+                <i class="bi bi-book me-2"></i>Informations du cours &amp; Ressources pédagogiques
             </div>
 
             <div class="card-body">
@@ -308,11 +305,8 @@
 
         <div class="card shadow-sm border-0">
 
-            <div class="card-header bg-success text-white">
-                <h5 class="mb-0">
-                    <i class="bi bi-table me-2"></i>
-                    Liste des ressources pédagogiques
-                </h5>
+            <div class="card-header">
+                <i class="bi bi-table me-2"></i>Liste des ressources pédagogiques
             </div>
 
             <div class="card-body">
@@ -338,7 +332,7 @@
                             <tr>
                                 <td>1</td>
                                 <td>
-                                    <span class="badge bg-danger">
+                                    <span class="badge badge-red">
                                         Vidéo
                                     </span>
                                 </td>
@@ -364,7 +358,7 @@
                             <tr>
                                 <td>2</td>
                                 <td>
-                                    <span class="badge bg-secondary">
+                                    <span class="badge badge-gray">
                                         PDF
                                     </span>
                                 </td>

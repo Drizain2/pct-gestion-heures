@@ -44,14 +44,14 @@
                 <div class="card-header">
                     <i class="bi bi-globe me-2"></i>Exports globaux
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
                     <div class="d-grid gap-3">
 
                         <div class="d-flex align-items-center justify-content-between
-                                    p-3 rounded" style="background:#f0fdf4;">
+                                    p-3 rounded" style="background:var(---green-light);">
                             <div>
                                 <i class="bi bi-file-earmark-pdf"
-                                   style="color:#E65100; font-size:1.4rem;"></i>
+                                   style="color:var(---orange); font-size:1.4rem;"></i>
                                 <span class="ms-2 fw-500">État des paiements</span>
                                 <small class="text-muted d-block ms-4">
                                     Tous les enseignants avec montants
@@ -64,10 +64,10 @@
                         </div>
 
                         <div class="d-flex align-items-center justify-content-between
-                                    p-3 rounded" style="background:#f0fdf4;">
+                                    p-3 rounded" style="background:var(---green-light);">
                             <div>
                                 <i class="bi bi-file-earmark-excel"
-                                   style="color:#2E7D32; font-size:1.4rem;"></i>
+                                   style="color:var(---green); font-size:1.4rem;"></i>
                                 <span class="ms-2 fw-500">État global des heures</span>
                                 <small class="text-muted d-block ms-4">
                                     Toutes les activités validées
@@ -80,10 +80,10 @@
                         </div>
 
                         <div class="d-flex align-items-center justify-content-between
-                                    p-3 rounded" style="background:#f0fdf4;">
+                                    p-3 rounded" style="background:var(---green-light);">
                             <div>
                                 <i class="bi bi-file-earmark-excel"
-                                   style="color:#2E7D32; font-size:1.4rem;"></i>
+                                   style="color:var(---green); font-size:1.4rem;"></i>
                                 <span class="ms-2 fw-500">Paiements Excel</span>
                                 <small class="text-muted d-block ms-4">
                                     Tableau des montants à payer
@@ -104,10 +104,9 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <i class="bi bi-person-lines-fill me-2"></i>
-                    Fiche individuelle enseignant
+                    <i class="bi bi-person-lines-fill me-2"></i>Fiche individuelle enseignant
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
                     <div class="mb-3">
                         <label class="form-label">Sélectionner un enseignant</label>
                         <select id="enseignant_select" class="form-select">

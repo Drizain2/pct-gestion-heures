@@ -28,11 +28,11 @@
                         </div>
                         <div class="col-md-4">
                             <small class="text-muted d-block">Niveau</small>
-                            <span class="badge" style="background:#2E7D32;">{{ $cour->niveau }}</span>
+                            <span class="badge badge-blue">{{ $cour->niveau }}</span>
                         </div>
                         <div class="col-md-4">
                             <small class="text-muted d-block">Semestre</small>
-                            <span class="badge bg-secondary">{{ $cour->semestre }}</span>
+                            <span class="badge badge-gray">{{ $cour->semestre }}</span>
                         </div>
                         <div class="col-md-4">
                             <small class="text-muted d-block">Nombre d'heures</small>
@@ -66,12 +66,12 @@
                             <tr>
                                 <td>{{ $enseignant->nom_complet }}</td>
                                 <td>
-                                    <span class="badge" style="background:#E65100;">
+                                    <span class="badge badge-navy">
                                         {{ $enseignant->grade }}
                                     </span>
                                 </td>
                                 <td>
-                                    <span class="badge {{ $enseignant->statut === 'Permanent' ? 'bg-success' : 'bg-warning text-dark' }}">
+                                    <span class="badge {{ $enseignant->statut === 'Permanent' ? 'badge-green' : 'badge-orange' }}">
                                         {{ $enseignant->statut }}
                                     </span>
                                 </td>

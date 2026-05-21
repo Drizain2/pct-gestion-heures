@@ -95,14 +95,11 @@
 <div class="col-12 mt-4">
     <div class="card shadow-sm">
         
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">
-                <i class="bi bi-journal-bookmark me-2"></i>
-                Ressources pédagogiques
-            </h5>
+        <div class="card-header">
+            <i class="bi bi-journal-bookmark me-2"></i>Ressources pédagogiques
         </div>
 
-        <div class="card-body">
+        <div class="card-body p-0">
 
             <div class="table-responsive">
                 <table class="table table-bordered table-hover align-middle">

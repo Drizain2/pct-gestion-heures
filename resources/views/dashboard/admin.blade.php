@@ -109,7 +109,7 @@
                         Activités en attente
                     </span>
                     @if ($activitesEnAttente->count() > 0)
-                        <span class="badge bg-warning text-dark">
+                        <span class="badge badge-orange">
                             {{ $activitesEnAttente->count() }}
                         </span>
                     @endif
@@ -134,7 +134,7 @@
                                         <small>{{ Str::limit($activite->cours->intitule, 25) }}</small>
                                     </td>
                                     <td>
-                                        <strong style="color:#E65100;">
+                                        <strong style="color:var(---orange);">
                                             {{ $activite->heures_calculees }}h
                                         </strong>
                                     </td>
@@ -205,7 +205,7 @@
                                         <small>{{ $item->enseignant->departement }}</small>
                                     </td>
                                     <td>
-                                        <strong style="color:#2E7D32;">
+                                        <strong style="color:var(---green);">
                                             {{ $item->total_heures }}h
                                         </strong>
                                     </td>
@@ -270,7 +270,7 @@
                             </td>
                             <td>{{ $enseignant->volume['seuil'] }}h</td>
                             <td>
-                                <strong class="text-uvci-blue">
+                                <strong style="color:var(---blue)">
                                     {{ $enseignant->volume['total'] }}h
                                 </strong>
                             </td>

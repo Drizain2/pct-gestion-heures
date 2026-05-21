@@ -15,7 +15,7 @@
                         @csrf
                         @foreach ($parametres as $groupe => $items)
                             <h6 class="text-uppercase fw-bold mb-3 mt-3"
-                                style="color:#2E7D32; font-size:0.8rem; letter-spacing:1px;">
+                                style="color:var(---blue); font-size:0.8rem; letter-spacing:1px;">
                                 {{ $groupe }}
                             </h6>
                             @foreach ($items as $param)
@@ -62,9 +62,9 @@
                                                                     </td>
                                                                     <td>
                                                                         <span class="badge {{ match ($param->niveau_complexite) {
-                                        'niveau_1' => 'bg-success',
-                                        'niveau_2' => 'bg-warning text-dark',
-                                        'niveau_3' => 'bg-danger',
+                                        'niveau_1' => 'badge-green',
+                                        'niveau_2' => 'badge-blue',
+                                        'niveau_3' => 'badge-navy',
                                     } }}">{{ $param->niveau_complexite }}</span>
                                                                     </td>
                                                                     <td>
@@ -98,7 +98,7 @@
                 <div class="card-header">
                     <i class="bi bi-calendar-fill me-2"></i>Années académiques
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
                     <div class="row g-3">
 
                         <!-- Formulaire ajout -->
@@ -146,9 +146,9 @@
                                             <td>{{ $annee->date_fin->format('d/m/Y') }}</td>
                                             <td>
                                                 @if ($annee->active)
-                                                    <span class="badge bg-success">Active</span>
+                                                    <span class="badge badge-green">Active</span>
                                                 @else
-                                                    <span class="badge bg-secondary">Inactive</span>
+                                                    <span class="badge badge-gray">Inactive</span>
                                                 @endif
                                             </td>
                                             <td>

@@ -87,7 +87,7 @@
                                     <td>{{ $enseignant->email }}</td>
                                     <td>{{ $enseignant->grade }}</td>
                                   <td class="text-center">
-                                     <span class="badge {{ strtolower(trim($enseignant->statut)) == 'permanent' ? 'badge-green' : 'badge-blue' }}">
+                                     <span class="badge {{ strtolower(trim($enseignant->statut)) == 'permanent' ? 'badge-green' : 'badge-orange' }}">
                                     {{ ucfirst(strtolower($enseignant->statut)) }}
                                     </span>
                                  </td>
@@ -141,11 +141,11 @@
     <td>{{ $enseignant->grade }}</td>
     <td>
         @if($enseignant->statut == 'Permanent')
-            <span class="badge bg-success">Permanent</span>
+            <span class="badge badge-green">Permanent</span>
         @elseif($enseignant->statut == 'Vacataire')
-            <span class="badge bg-warning text-dark">Vacataire</span>
+            <span class="badge badge-orange">Vacataire</span>
         @else
-            <span class="badge bg-secondary">{{ $enseignant->statut }}</span>
+            <span class="badge badge-gray">{{ $enseignant->statut }}</span>
         @endif
     </td>
     <td>{{ $enseignant->departement }}</td>

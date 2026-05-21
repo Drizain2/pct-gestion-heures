@@ -119,7 +119,7 @@
                     <div
                         style="background:rgba(0,59,122,0.06);
                             border-radius:var(--radius-md); padding:16px; text-align:center;">
-                        <div style="font-size:1.8rem; font-weight:800; color:var(--uvci-blue);">
+                        <div style="font-size:1.8rem; font-weight:800; color:var(---blue);">
                             {{ $volume['total'] }}h
                         </div>
                         <div style="font-size:0.82rem; color:var(--text-secondary);">
@@ -159,7 +159,7 @@
                             <td>{{ $activite->date_activite->format('d/m/Y') }}</td>
                             <td>{{ $activite->cours->intitule }}</td>
                             <td>
-                                <span class="badge bg-primary">{{ $activite->nb_sequences }}</span>
+                                <span class="badge badge-blue">{{ $activite->nb_sequences }}</span>
                             </td>
                             {{-- <td>
                                 <span class="badge"
@@ -170,13 +170,13 @@
                             <td>{{ $activite->complexite }}</td>
                             <td>
                                 @if ($activite->type_action === 'creation')
-                                    <span class="badge bg-success">Création</span>
+                                    <span class="badge badge-green">Création</span>
                                 @else
-                                    <span class="badge" style="background:#1565C0;">MAJ</span>
+                                    <span class="badge badge-blue">MAJ</span>
                                 @endif
                             </td>
                             <td>
-                                <strong style="color:#E65100;">{{ $activite->heures_calculees }}h</strong>
+                                <strong style="color:var(---orange);">{{ $activite->heures_calculees }}h</strong>
                             </td>
                         </tr>
                     @empty
@@ -192,7 +192,7 @@
                         <tr style="background:#f5f5f5;">
                             <td colspan="5" class="text-end fw-bold">Total</td>
                             <td>
-                                <strong style="color:#E65100; font-size:1.1rem;">
+                                <strong style="color:var(---orange); font-size:1.1rem;">
                                     {{ $volume['total'] }}h
                                 </strong>
                             </td>

@@ -10,12 +10,11 @@
     @endif
 
     <div class="card shadow-sm mb-4">
-        <div class="card-header bg-primary text-white">
-            <h2 class="h5 mb-0">
-                {{ isset($enseignant) ? 'Modifier un enseignant' : 'Créer un nouvel enseignant' }}
-            </h2>
+        <div class="card-header">
+            <i class="bi bi-person-fill me-2"></i>
+            {{ isset($enseignant) ? 'Modifier un enseignant' : 'Créer un nouvel enseignant' }}
         </div>
-        <div class="card-body">
+        <div class="card-body p-4">
             <div class="row g-3">
                 <!-- Ligne 1: Nom et Prénom -->
                 <div class="col-md-6">
@@ -182,8 +181,8 @@
         </div>
         @if(!isset($enseignant))
            <div class="col-12">
-               <div class="alert py-2" style="background: #f0fdf4;border-left:4px solid #2E7D32;">
-                   <i class="bi bi-info-circle me-2" style="color: #2E7D32;"></i>
+               <div class="alert py-2" style="background:var(---green-light); border-left:4px solid var(---green);">
+                   <i class="bi bi-info-circle me-2" style="color:var(---green);"></i>
                    Un compte d'enseignant sera créer pour cet enseignant avec l'email saisie.
                    Le mot de passe par defaut sera : <strong>uvci@2026</strong>.
                </div>
