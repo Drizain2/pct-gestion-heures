@@ -7,13 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UVCI — {{ $title ?? 'Gestion des Heures' }}</title>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- CSS UVCI -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
@@ -21,15 +20,7 @@
 
     <style>
         :root {
-            --uvci-blue: #2563eb;
-            --uvci-blue-dark: #1e40af;
-            --uvci-glass: rgba(255, 255, 255, 0.9);
             --sidebar-width: 260px;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
         }
 
         /* --- SIDEBAR FIXE --- */
@@ -39,7 +30,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            background: linear-gradient(180deg, #000080 0%, #000080 100%);
+            background: linear-gradient(180deg, var(---blue-dark) 0%, var(---blue) 100%);
             z-index: 1050;
             transition: all 0.3s ease;
         }
@@ -65,70 +56,6 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-        }
-
-        /* --- CARDS STATISTIQUES --- */
-        .stat-card-modern {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .stat-card-modern:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        .stat-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        .stat-icon.blue {
-            background: #eff6ff;
-            color: #2563eb;
-        }
-
-        .stat-icon.green {
-            background: #f0fdf4;
-            color: #16a34a;
-        }
-
-        .stat-icon.orange {
-            background: #fff7ed;
-            color: #ea580c;
-        }
-
-        .stat-icon.purple {
-            background: #faf5ff;
-            color: #9333ea;
-        }
-
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1e293b;
-            line-height: 1;
-            margin-bottom: 0.25rem;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: #64748b;
-            font-weight: 500;
         }
 
         /* --- LAYOUT ADJUSTMENTS --- */
@@ -182,7 +109,7 @@
         .topbar-avatar {
             width: 32px;
             height: 32px;
-            background: var(--uvci-blue);
+            background: var(---blue);
             color: white;
             border-radius: 50%;
             display: flex;
@@ -275,7 +202,7 @@
                 <a href="{{ route('cours.index') }}"
                     class="nav-item {{ request()->routeIs('cours.*') ? 'active' : '' }}">
                     <i class="bi bi-book-fill"></i>
-                    <span>Cours&Ressources</span>
+                    <span>Cours & Ressources</span>
                 </a>
                 @endrole
 
@@ -428,54 +355,7 @@
 
                 {{-- HEADER DASHBOARD (Uniquement sur l'index admin) --}}
                 @if(request()->routeIs('admin.dashboard'))
-                    <div class="dashboard-header mb-5">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <div>
-                                <h2 class="fw-bold text-dark mb-1">Bienvenue, Administrateur 👋</h2>
-                                <p class="text-muted mb-0">Gérez et supervisez les heures d'enseignement de l'ensemble du
-                                    corps professoral de l'UVCI pour l'année universitaire 2025–2026.</p>
-                            </div>
-                        </div>
-
-                        <div class="row g-4">
-                            <div class="col-12 col-sm-6 col-xl-3">
-                                <div class="stat-card-modern">
-                                    <div class="stat-icon blue"><i class="bi bi-people-fill"></i></div>
-                                    <div>
-                                        <div class="stat-value">{{ $stats['enseignants'] ?? 0 }}</div>
-                                        <div class="stat-label">Enseignants</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-xl-3">
-                                <div class="stat-card-modern">
-                                    <div class="stat-icon green"><i class="bi bi-book-fill"></i></div>
-                                    <div>
-                                        <div class="stat-value">{{ $stats['cours'] ?? 0 }}</div>
-                                        <div class="stat-label">Cours actifs</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-xl-3">
-                                <div class="stat-card-modern">
-                                    <div class="stat-icon orange"><i class="bi bi-clock-fill"></i></div>
-                                    <div>
-                                        <div class="stat-value">{{ $heuresMois ?? 0 }}h</div>
-                                        <div class="stat-label">Heures ce mois</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-xl-3">
-                                <div class="stat-card-modern">
-                                    <div class="stat-icon purple"><i class="bi bi-collection-fill"></i></div>
-                                    <div>
-                                        <div class="stat-value">{{ $stats['ressources'] ?? 0 }}</div>
-                                        <div class="stat-label">Ressources</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 @endif
 
                 {{-- Flash Messages --}}
@@ -537,8 +417,8 @@
             if (e.key === 'Escape') closeSidebar();
         });
 
-        // ── Auto-fermeture des alertes après 5s ───────────────────
-        document.querySelectorAll('.alert').forEach(alert => {
+        // ── Auto-fermeture des alertes après 5s (sauf data-permanent) ─────
+        document.querySelectorAll('.alert:not([data-permanent])').forEach(alert => {
             setTimeout(() => {
                 alert.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
                 alert.style.opacity = '0';

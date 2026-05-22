@@ -13,7 +13,7 @@
         </div>
 
         <div class="card shadow-sm">
-            <div class="card-body">
+            <div class="card-body p-4">
                 <div class="row g-3">
                     <!-- Photo (optionnel) -->
                     <div class="col-md-4 text-center mb-4 mb-md-0">

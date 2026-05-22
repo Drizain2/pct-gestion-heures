@@ -51,33 +51,33 @@ class ParametreSystemeSeeder extends Seeder
                 'groupe' => 'taux',
             ],
             [
-                'cle'=> 'seuil_heures_assistant',
-                'valeur'=> '100',
-                'description'=>"Seuil d'heures normales pour un assistant",
-                'groupe'=>'seuils',
+                'cle' => 'seuil_heures_assistant',
+                'valeur' => '100',
+                'description' => "Seuil d'heures normales pour un assistant",
+                'groupe' => 'seuils',
             ],
             [
-                'cle'=> 'seuil_heures_maitre_assistant',
-                'valeur'=> '150',
-                'description'=>"Seuil d'heures normales pour un maitre assistant",
-                'groupe'=>'seuils',
+                'cle' => 'seuil_heures_maitre_assistant',
+                'valeur' => '150',
+                'description' => "Seuil d'heures normales pour un maitre assistant",
+                'groupe' => 'seuils',
             ],
             [
-                'cle'=> 'seuil_heures_professeur',
-                'valeur'=> '200',
-                'description'=>"Seuil d'heures normales pour un professeur",
-                'groupe'=>'seuils',
-            ]
+                'cle' => 'seuil_heures_professeur',
+                'valeur' => '200',
+                'description' => "Seuil d'heures normales pour un professeur",
+                'groupe' => 'seuils',
+            ],
         ];
         foreach ($parametres as $parametre) {
             ParametreSysteme::create($parametre);
         }
-        // Annee academique courante
-        AnneeAcademique::create([
-            'libelle' => '2025-2026',
-            'date_debut' => '2025-09-01',
-            'date_fin' => '2026-07-30',
-            'active' => true,
-        ]);
+        // // Annee academique courante
+        // AnneeAcademique::create([
+        //     'libelle' => '2025-2026',
+        //     'date_debut' => '2025-09-01',
+        //     'date_fin' => '2026-07-30',
+        //     'active' => true,
+        // ]);
     }
 }

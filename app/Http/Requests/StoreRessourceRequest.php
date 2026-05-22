@@ -23,8 +23,8 @@ class StoreRessourceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sequence_id' => 'required|exists:sequences,id',
-            'enseignant_id' => 'required|exists:enseignants,id',
+            'sequence_id' => 'nullable|exists:sequences,id',
+            'enseignant_id' => 'nullable|exists:enseignants,id',
             'titre' => 'required|string|max:200',
             'type' => 'required|in:contenu_textuel,video,document,quiz,activite_interactive,evaluation',
             'complexite' => 'required|in:niveau_1,niveau_2,niveau_3',

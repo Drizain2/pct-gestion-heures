@@ -10,7 +10,7 @@
         </div>
     @else
         <!-- Bienvenue -->
-        <div class="card mb-4" style="background:linear-gradient(135deg,#1B5E20,#2E7D32); color:#fff;">
+        <div class="card mb-4" style="background:linear-gradient(135deg,var(---blue-dark),var(---blue)); color:#fff;">
             <div class="card-body p-4 d-flex align-items-center gap-3">
                 <div style="width:60px; height:60px; border-radius:50%;
                                         background:rgba(255,255,255,0.2);
@@ -161,23 +161,23 @@
                                         <td>{{ Str::limit($activite->cours?->intitule, 30) }}</td>
                                         <td>
                                             @if ($activite->type_action === 'creation')
-                                                <span class="badge bg-success">Création</span>
+                                                <span class="badge badge-green">Création</span>
                                             @else
-                                                <span class="badge" style="background:#1565C0;">MAJ</span>
+                                                <span class="badge badge-blue">MAJ</span>
                                             @endif
                                         </td>
                                         <td>
                                             @if ($activite->complexite === 'niveau_1')
-                                                <span class="badge bg-success">Niveau 1</span>
+                                                <span class="badge badge-green">Niveau 1</span>
                                             @elseif ($activite->complexite === 'niveau_2')
-                                                <span class="badge" style="background:#1565C0;">Niveau 2</span>
+                                                <span class="badge badge-blue">Niveau 2</span>
                                             @else
-                                                <span class="badge" style="background:#1565C0;">Niveau 3</span>
+                                                <span class="badge badge-navy">Niveau 3</span>
                                             @endif
                                         </td>
                                         <td>{{ $activite->nb_sequences }}</td>
                                         <td>
-                                            <strong style="color:#E65100;">
+                                            <strong style="color:var(---orange);">
                                                 {{ $activite->heures_calculees }}h
                                             </strong>
                                         </td>

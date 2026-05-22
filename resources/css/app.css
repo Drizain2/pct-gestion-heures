@@ -1,17 +1,19 @@
+[x-cloak] { display: none !important; }
+
 /* ==========================================================================
    1. VARIABLES ET CONFIGURATION
    ========================================================================== */
 :root {
-    /* 🎓 Identité UVCI */
-    --uvci-green: #2E7D32;
-    --uvci-green-light: #4CAF50;
-    --uvci-orange: #E65100;
-    --uvci-yellow: #FFC107;
+    /* 🎓 Palette UVCI — Bleu marine */
+    --uvci-primary: #003B7A;
+    --uvci-primary-dark: #002659;
+    --uvci-accent: #00A86B;
+    --uvci-orange: #F5A623;
 
     /* UI GLOBAL */
-    --bg-page: #F8F9FA;
-    --bg-sidebar: #1B5E20;
-    --text-main: #333;
+    --bg-page: #F4F6F9;
+    --bg-sidebar: #002659;
+    --text-main: #1A2332;
     --text-muted: rgba(255, 255, 255, 0.75);
 
     /* ✨ Effets */
@@ -22,7 +24,7 @@
 
 * {
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 body {
@@ -43,7 +45,7 @@ body {
     left: 0;
     top: 0;
 
-    background: linear-gradient(180deg, var(--bg-sidebar), #145a1a);
+    background: linear-gradient(180deg, var(--bg-sidebar), var(--uvci-primary));
     color: white;
 
     z-index: 1000;
@@ -129,7 +131,7 @@ body {
 }
 
 .card-header {
-    background: var(--uvci-green);
+    background: var(--uvci-primary);
     color: white;
     padding: 15px 20px;
     font-weight: 600;
@@ -150,12 +152,12 @@ table {
 }
 
 thead {
-    background: var(--uvci-green);
+    background: var(--uvci-primary);
     color: white;
 }
 
 tbody tr:hover {
-    background: #f1f8e9;
+    background: #E6EEF8;
 }
 
 /* montant propre */
@@ -163,7 +165,7 @@ tbody tr:hover {
     font-family: 'Courier New', monospace;
     font-weight: 700;
     text-align: right;
-    color: var(--uvci-green);
+    color: var(--uvci-primary);
 }
 
 /* ==========================================================================
@@ -179,13 +181,13 @@ tbody tr:hover {
 
 /* Enseignant permanent */
 .badge-permanent {
-    background: #E8F5E9;
-    color: var(--uvci-green);
+    background: #E6F7F1;
+    color: var(--uvci-accent);
 }
 
 /* Vacataire */
 .badge-vacataire {
-    background: #FFF3E0;
+    background: #FEF3DC;
     color: var(--uvci-orange);
 }
 

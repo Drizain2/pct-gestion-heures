@@ -4,61 +4,51 @@ namespace App\Policies;
 
 use App\Models\Activite;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class ActivitePolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
     public function view(User $user, Activite $activite): bool
     {
-        return false;
+        if ($user->hasRole('admin') || $user->hasRole('secretaire')) {
+            return true;
+        }
+
+        return $user->hasRole('enseignant') && $user->enseignant?->id === $activite->enseignant_id;
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
     public function update(User $user, Activite $activite): bool
     {
         return false;
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
     public function delete(User $user, Activite $activite): bool
     {
-        return false;
+        if ($activite->statut === 'validee') {
+            return false;
+        }
+
+        if ($user->hasRole('admin') || $user->hasRole('secretaire')) {
+            return true;
+        }
+
+        return $user->hasRole('enseignant') && $user->enseignant?->id === $activite->enseignant_id;
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
     public function restore(User $user, Activite $activite): bool
     {
         return false;
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
     public function forceDelete(User $user, Activite $activite): bool
     {
         return false;

@@ -108,9 +108,9 @@
 
                     <td data-label="Type">
                         @if($activite->type_action === 'creation')
-                            <span class="badge badge-creation">Création</span>
+                            <span class="badge badge-green">Création</span>
                         @else
-                            <span class="badge badge-maj">Mise à jour</span>
+                            <span class="badge badge-blue">Mise à jour</span>
                         @endif
                     </td>
 
@@ -121,9 +121,9 @@
                     <td data-label="Statut">
                         @php
                             $statutClass = match($activite->statut) {
-                                'validee'    => 'badge-validee',
-                                'rejetee'    => 'badge-rejetee',
-                                default      => 'badge-attente',
+                                'validee'    => 'badge-green',
+                                'rejetee'    => 'badge-red',
+                                default      => 'badge-orange',
                             };
                             $statutLabel = match($activite->statut) {
                                 'validee'    => 'Validée',
@@ -219,15 +219,8 @@
 
         {{-- Pagination --}}
         @if($activites->hasPages())
-        <div class="table-footer">
-            <span class="pagination-info">
-                Affichage de {{ $activites->firstItem() }}
-                à {{ $activites->lastItem() }}
-                sur {{ $activites->total() }} résultats
-            </span>
-            <div class="pagination-wrapper">
-                {{ $activites->withQueryString()->links() }}
-            </div>
+        <div class="d-flex justify-content-center m-4">
+            {{ $activites->links('pagination::bootstrap-5') }}
         </div>
         @endif
     </div>{{-- /table-card --}}
