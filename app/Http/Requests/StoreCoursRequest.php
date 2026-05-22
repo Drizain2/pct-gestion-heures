@@ -27,11 +27,20 @@ class StoreCoursRequest extends FormRequest
             'filiere' => 'required|string|max:100',
             'niveau' => 'required|in:L1,L2,L3,M1,M2',
             'semestre' => 'required|in:S1,S2,S3,S4,S5,S6,S7,S8,S9,S10',
-            'nombre_heures' => 'required|integer',
-            'nombre_credits' => 'required|integer',
+            'nombre_heures' => 'required|integer|min:1',
+            'nombre_credits' => 'required|integer|min:1',
             'enseignants' => 'nullable|array',
             'enseignants.*' => 'exists:enseignants,id',
             'annee_academique_id' => 'required|exists:annee_academiques,id',
+            'sequences' => 'nullable|array',
+            'sequences.*.titre' => 'required|string|max:255',
+            'sequences.*.ordre' => 'nullable|integer|min:1',
+            'sequences.*.description' => 'nullable|string',
+            'sequences.*.ressources' => 'nullable|array',
+            'sequences.*.ressources.*.titre' => 'required|string|max:255',
+            'sequences.*.ressources.*.type' => 'required|in:contenu_textuel,video,document,quiz,activite_interactive,evaluation',
+            'sequences.*.ressources.*.complexite' => 'required|in:niveau_1,niveau_2,niveau_3',
+            'sequences.*.ressources.*.description' => 'nullable|string',
         ];
     }
 
@@ -49,6 +58,10 @@ class StoreCoursRequest extends FormRequest
             'enseignants.*.exists' => "L'enseignant n'existe pas",
             'annee_academique_id.required' => "L'année académique est obligatoire",
             'annee_academique_id.exists' => "L'année académique sélectionnée n'existe pas",
+            'sequences.*.titre.required' => 'Le titre de la séquence est obligatoire',
+            'sequences.*.ressources.*.titre.required' => 'Le titre de la ressource est obligatoire',
+            'sequences.*.ressources.*.type.required' => 'Le type de la ressource est obligatoire',
+            'sequences.*.ressources.*.complexite.required' => 'La complexité de la ressource est obligatoire',
         ];
     }
 }

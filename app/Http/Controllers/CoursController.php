@@ -57,7 +57,7 @@ class CoursController extends Controller
      */
     public function store(StoreCoursRequest $request)
     {
-        $cours = Cours::create($request->safe()->except(['enseignants', 'annee_academique_id']));
+        $cours = Cours::create($request->safe()->except(['enseignants', 'annee_academique_id', 'sequences']));
 
         if ($request->filled('enseignants')) {
             $sync = [];
@@ -67,7 +67,27 @@ class CoursController extends Controller
             $cours->enseignants()->sync($sync);
         }
 
-        return redirect()->route('cours.index')->with('success', 'Cours crée avec succès');
+        $enseignantId = auth()->user()->enseignant?->id;
+
+        foreach ($request->input('sequences', []) as $seqData) {
+            $sequence = $cours->sequences()->create([
+                'titre' => $seqData['titre'],
+                'ordre' => $seqData['ordre'] ?? 1,
+                'description' => $seqData['description'] ?? null,
+            ]);
+
+            foreach ($seqData['ressources'] ?? [] as $resData) {
+                $sequence->ressources()->create([
+                    'enseignant_id' => $enseignantId,
+                    'titre' => $resData['titre'],
+                    'type' => $resData['type'],
+                    'complexite' => $resData['complexite'],
+                    'description' => $resData['description'] ?? null,
+                ]);
+            }
+        }
+
+        return redirect()->route('cours.index')->with('success', 'Cours créé avec succès');
     }
 
     /**
@@ -75,9 +95,10 @@ class CoursController extends Controller
      */
     public function show(Cours $cour)
     {
-        $cour->load(['enseignants', 'sequences']);
+        $cour->load(['enseignants', 'sequences.ressources.enseignant']);
+        $annees = AnneeAcademique::pluck('libelle', 'id');
 
-        return view('cours.show', compact('cour'));
+        return view('cours.show', compact('cour', 'annees'));
     }
 
     /**
