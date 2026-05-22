@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -13,14 +14,14 @@ return new class extends Migration {
         Schema::create('parametre_calcules', function (Blueprint $table) {
             $table->id();
             $table->enum('niveau_complexite', ['niveau_1', 'niveau_2', 'niveau_3']);
-            $table->text("description")->nullable();
-            $table->decimal('coefficient_creation', 5, 4);
-            $table->decimal('coefficient_mise_a_jour', 5, 4);
+            $table->text('description')->nullable();
+            $table->decimal('coefficient_creation', 8, 4);
+            $table->decimal('coefficient_mise_a_jour', 8, 4);
 
             $table->timestamps();
 
-            // Combinaison unique 
-            $table->unique("niveau_complexite");
+            // Combinaison unique
+            $table->unique('niveau_complexite');
         });
     }
 

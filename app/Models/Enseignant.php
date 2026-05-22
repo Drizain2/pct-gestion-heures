@@ -36,6 +36,13 @@ class Enseignant extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function cours()
+    {
+        return $this->belongsToMany(Cours::class, 'cours_enseignant')
+            ->withPivot('annee_academique_id')
+            ->withTimestamps();
+    }
+
     public function activites()
     {
         return $this->hasMany(Activite::class);

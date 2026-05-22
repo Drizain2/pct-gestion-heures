@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Activite;
+use App\Models\AnneeAcademique;
 use App\Models\Cours;
 use App\Models\Enseignant;
 use App\Models\Ressource;
@@ -64,23 +65,45 @@ class DatabaseSeeder extends Seeder
         $sec2->assignRole($roleSecretaire);
         $validateurs->push($sec2);
 
-        // 4. 10 enseignants avec leurs comptes utilisateurs
+        // 4. Années académiques
+        $anneesData = [
+            ['libelle' => '2022-2023', 'date_debut' => '2022-10-01', 'date_fin' => '2023-07-31', 'active' => false],
+            ['libelle' => '2023-2024', 'date_debut' => '2023-10-01', 'date_fin' => '2024-07-31', 'active' => false],
+            ['libelle' => '2024-2025', 'date_debut' => '2024-10-01', 'date_fin' => '2025-07-31', 'active' => true],
+        ];
+        foreach ($anneesData as $data) {
+            AnneeAcademique::firstOrCreate(['libelle' => $data['libelle']], $data);
+        }
+        $annees = AnneeAcademique::whereIn('libelle', ['2022-2023', '2023-2024', '2024-2025'])->get();
+
+        // 5. 10 enseignants avec leurs comptes utilisateurs
         $enseignants = Enseignant::factory(10)->create();
         foreach ($enseignants as $enseignant) {
             $enseignant->user->assignRole($roleEnseignant);
         }
 
-        // 5. 10 cours réalistes via factory
+        // 6. 10 cours réalistes via factory, assignés à 1-3 enseignants par année académique
         $cours = Cours::factory(10)->create();
+        foreach ($cours as $cour) {
+            foreach ($enseignants->random(rand(1, 3)) as $enseignant) {
+                foreach ($annees->shuffle()->take(rand(1, 2)) as $annee) {
+                    try {
+                        $cour->enseignants()->attach($enseignant->id, ['annee_academique_id' => $annee->id]);
+                    } catch (\Illuminate\Database\QueryException $e) {
+                        // Ignorer les doublons (contrainte unique cours/enseignant/année)
+                    }
+                }
+            }
+        }
 
-        // 6. 12 séquences par cours (ordre fixe 1 à 12)
+        // 7. 12 séquences par cours (ordre fixe 1 à 12)
         foreach ($cours as $cour) {
             foreach (range(1, 12) as $ordre) {
                 Sequence::factory()->pourCours($cour->id)->create(['ordre' => $ordre]);
             }
         }
 
-        // 7. 10 ressources par séquence, enseignant aléatoire
+        // 8. 10 ressources par séquence, enseignant aléatoire
         $sequences = Sequence::whereIn('cours_id', $cours->pluck('id'))->get();
         foreach ($sequences as $sequence) {
             for ($i = 0; $i < 10; $i++) {
@@ -91,7 +114,7 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        // 8. 17 activités par enseignant
+        // 9. 17 activités par enseignant
         foreach ($enseignants as $enseignant) {
             for ($k = 0; $k < 17; $k++) {
                 Activite::factory()->create([
@@ -102,12 +125,19 @@ class DatabaseSeeder extends Seeder
             }
         }
 
+        // appeler les autres seeder pour le systeme
+        $this->call([
+            ParametreSystemeSeeder::class,
+            ParametreCalculeSeeder::class,
+        ]);
+
         $this->command->info('✅ Seeding terminé avec succès !');
-        $this->command->info('- Utilisateurs : '.User::count());
-        $this->command->info('- Enseignants  : '.Enseignant::count());
-        $this->command->info('- Cours        : '.Cours::count());
-        $this->command->info('- Séquences    : '.Sequence::count().' (12 par cours)');
-        $this->command->info('- Ressources   : '.Ressource::count().' (10 par séquence)');
-        $this->command->info('- Activités    : '.Activite::count().' (17 par enseignant)');
+        $this->command->info('- Utilisateurs      : '.User::query()->count());
+        $this->command->info('- Enseignants       : '.Enseignant::query()->count());
+        $this->command->info('- Années académiques: '.AnneeAcademique::query()->count());
+        $this->command->info('- Cours             : '.Cours::query()->count());
+        $this->command->info('- Séquences         : '.Sequence::query()->count().' (12 par cours)');
+        $this->command->info('- Ressources        : '.Ressource::query()->count().' (10 par séquence)');
+        $this->command->info('- Activités         : '.Activite::query()->count().' (17 par enseignant)');
     }
 }

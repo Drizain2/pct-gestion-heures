@@ -66,11 +66,17 @@
 
     <div class="col-md-6">
         <label class="form-label">Année académique <span class="text-danger">*</span></label>
-        <input type="text" name="annee_academique"
-            class="form-control @error('annee_academique') is-invalid @enderror"
-            value="{{ old('annee_academique', $anneeAcademique ?? date('Y').'-'.(date('Y')+1)) }}"
-            placeholder="Ex: 2025-2026">
-        @error('annee_academique') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        <select name="annee_academique_id"
+            class="form-select @error('annee_academique_id') is-invalid @enderror">
+            <option value="">-- Sélectionner --</option>
+            @foreach($annees as $annee)
+                <option value="{{ $annee->id }}"
+                    {{ old('annee_academique_id', $anneeAcademiqueId ?? '') == $annee->id ? 'selected' : '' }}>
+                    {{ $annee->libelle }}{{ $annee->active ? ' (active)' : '' }}
+                </option>
+            @endforeach
+        </select>
+        @error('annee_academique_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
 
     <div class="col-md-6">

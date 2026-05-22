@@ -9,9 +9,15 @@
             </h4>
             <p>{{ $enseignant->grade }} — {{ $enseignant->departement }}</p>
         </div>
-        <a href="{{ url()->previous() }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left me-1"></i> Retour
-        </a>
+        <div class="d-flex gap-2">
+            <a href="{{ route('exports.recapitulatif.pdf', [$enseignant, 'debut' => $debut, 'fin' => $fin]) }}"
+               class="btn btn-danger">
+                <i class="bi bi-file-pdf me-1"></i> Télécharger PDF
+            </a>
+            <a href="{{ url()->previous() }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Retour
+            </a>
+        </div>
     </div>
 
     <!-- Filtre période -->

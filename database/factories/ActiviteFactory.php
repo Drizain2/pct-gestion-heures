@@ -3,8 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\Activite;
-use App\Models\Enseignant;
 use App\Models\Cours;
+use App\Models\Enseignant;
+use App\Models\ParametreCalcule;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -12,52 +13,34 @@ class ActiviteFactory extends Factory
 {
     protected $model = Activite::class;
 
-    public function definition()
+    public function definition(): array
     {
-        $faker = \Faker\Factory::create('fr_FR');
+        $typeAction = $this->faker->randomElement(['creation', 'mise_a_jour']);
+        $complexite = $this->faker->randomElement(['niveau_1', 'niveau_2', 'niveau_3']);
+        $nbSequences = $this->faker->numberBetween(1, 6);
 
-        // Types d'actions possibles
-        $typeActions = ['creation', 'mise_a_jour'];
-
-        // Statuts possibles
-        $statuts = ['en_attente', 'validee', 'rejetee'];
-
-        // Complexités (mêmes que pour Ressource)
-        $complexites = ['niveau_1', 'niveau_2', 'niveau_3'];
-
-        // Commentaires typiques
-        $commentaires = [
-            'Création de nouvelles séquences pour le cours.',
-            'Mise à jour des ressources existantes.',
-            'Ajout de contenus pédagogiques supplémentaires.',
-            'Correction des erreurs dans les activités précédentes.',
-            'Préparation des évaluations pour le semestre.',
-            'Adaptation du cours aux nouveaux standards.',
-            'Intégration de feedbacks étudiants.',
-            'Optimisation des temps de charge.',
-        ];
-
-        // Date d'activité : entre -1 mois et +1 mois
-        $dateActivite = $faker->dateTimeBetween('-1 month', '+1 month')->format('Y-m-d');
-
-        // Heures calculées : entre 10 et 100 (adaptable)
-        $heuresCalculees = $faker->numberBetween(10, 100);
-
-        // Nombre de séquences : entre 1 et 10
-        $nbSequences = $faker->numberBetween(1, 10);
+        // Formule Vhtc = Vhn × S
+        $coefficient = ParametreCalcule::getCoefficient($complexite, $typeAction);
+        $heuresCalculees = round($nbSequences * $coefficient, 2);
 
         return [
             'enseignant_id' => Enseignant::factory(),
             'cours_id' => Cours::factory(),
             'nb_sequences' => $nbSequences,
-            'complexite' => $faker->randomElement($complexites),
-            'type_action' => $faker->randomElement($typeActions),
+            'complexite' => $complexite,
+            'type_action' => $typeAction,
             'heures_calculees' => $heuresCalculees,
-            'date_activite' => $dateActivite,
-            'commentaire' => $faker->randomElement($commentaires),
-            'statut' => $faker->randomElement($statuts),
-            'validee_par' => User::factory(), // Crée un utilisateur si non spécifié
-            'validee_le' => $faker->optional(0.7)->dateTimeThisMonth(), // 70% de chance d'avoir une date de validation
+            'date_activite' => $this->faker->dateTimeBetween('-12 months', 'now')->format('Y-m-d'),
+            'commentaire' => $this->faker->optional(0.6)->randomElement([
+                'Création de nouvelles séquences pour le cours.',
+                'Mise à jour des ressources existantes.',
+                'Ajout de contenus pédagogiques supplémentaires.',
+                'Adaptation du cours aux nouveaux standards.',
+                'Intégration de feedbacks étudiants.',
+            ]),
+            'statut' => $this->faker->randomElement(['en_attente', 'validee', 'rejetee']),
+            'validee_par' => User::factory(),
+            'validee_le' => $this->faker->optional(0.7)->dateTimeThisYear(),
         ];
     }
 

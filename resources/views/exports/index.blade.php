@@ -95,6 +95,22 @@
                             </a>
                         </div>
 
+                        <div class="d-flex align-items-center justify-content-between
+                                    p-3 rounded" style="background:var(---green-light);">
+                            <div>
+                                <i class="bi bi-file-earmark-bar-graph"
+                                   style="color:#1565C0; font-size:1.4rem;"></i>
+                                <span class="ms-2 fw-500">Statistiques pédagogiques</span>
+                                <small class="text-muted d-block ms-4">
+                                    Par enseignant, par cours, par complexité
+                                </small>
+                            </div>
+                            <a href="#" onclick="exporterAvecPeriode('{{ route('exports.statistiques.excel') }}')"
+                               class="btn btn-sm btn-primary">
+                                <i class="bi bi-file-excel me-1"></i>Excel
+                            </a>
+                        </div>
+
                     </div>
                 </div>
             </div>
