@@ -71,7 +71,7 @@
                             <th>Semestre</th>
                             <th>Heures</th>
                             <th>Crédits</th>
-                            <th>Enseignants</th>
+                            <th>Nbr d'enseignants</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -92,13 +92,11 @@
                                 <td>{{ $c->nombre_heures }}h</td>
                                 <td>{{ $c->nombre_credits }}</td>
                                 <td>
-                                    @forelse($c->enseignants as $enseignant)
-                                        <span class="badge badge-navy">
-                                            {{ $enseignant->nom_complet }}
-                                        </span>
-                                    @empty
-                                        <span class="text-muted small">Aucun enseignant</span>
-                                    @endforelse
+                                    @if ($c->enseignants()->count() > 0)
+                                        {{ $c->enseignants()->count() }}
+                                    @else
+                                        Aucun enseignant
+                                    @endif
                                 </td>
                                 <td>
                                     <div class="d-flex gap-1 flex-wrap">
@@ -144,16 +142,10 @@
             </div>
         </div>
 
-        @if($cours->hasPages())
-            <div class="card-footer d-flex justify-content-between align-items-center">
-                <small class="text-muted">
-                    Affichage de {{ $cours->firstItem() }}
-                    à {{ $cours->lastItem() }}
-                    sur {{ $cours->total() }} résultats
-                </small>
-                {{ $cours->withQueryString()->links() }}
-            </div>
-        @endif
+        <!-- Pagination -->
+    <div class="d-flex justify-content-center m-4">
+        {{ $cours->links('pagination::bootstrap-5') }}
+    </div>
     </div>
 
     <!-- ========================================= -->

@@ -43,8 +43,13 @@ class CoursController extends Controller
     {
         $enseignants = Enseignant::orderBy('nom')->get();
         $annees = AnneeAcademique::orderBy('date_debut', 'desc')->get();
+        $departements = Enseignant::select('departement')
+            ->distinct()
+            ->whereNotNull('departement')
+            ->orderBy('departement')
+            ->pluck('departement');
 
-        return view('cours.create', compact('enseignants', 'annees'));
+        return view('cours.create', compact('enseignants', 'annees', 'departements'));
     }
 
     /**

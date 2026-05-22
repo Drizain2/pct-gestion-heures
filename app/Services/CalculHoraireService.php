@@ -33,6 +33,13 @@ class CalculHoraireService
         return ParametreSysteme::get($cle, 100);
     }
 
+    /**
+     * fonction qui retourne le volume horaire d'un enseignant
+     * @param int $enseignantId
+     * @param string|null $debut
+     * @param string|null $fin
+     * @return array{creation: mixed|TReturnType, depasse_seuil: bool, heures_complementaires: float|int, heures_normales: float|int|mixed|TReturnType, mise_a_jour: mixed|TReturnType, nb_activites: int, par_niveau: \Illuminate\Database\Eloquent\Collection<int|string, array>|\Illuminate\Support\Collection<int|string, array>, seuil: float|int, total: mixed|TReturnType}
+     */
     public function volumeHoraireEnseignant(int $enseignantId, ?string $debut = null, ?string $fin = null): array
     {
         $enseignant = Enseignant::findOrFail($enseignantId);

@@ -200,7 +200,7 @@
                 <a href="{{ route('cours.index') }}"
                     class="nav-item {{ request()->routeIs('cours.*') ? 'active' : '' }}">
                     <i class="bi bi-book-fill"></i>
-                    <span>Cours&Ressources</span>
+                    <span>Cours & Ressources</span>
                 </a>
                 @endrole
 
@@ -353,54 +353,7 @@
 
                 {{-- HEADER DASHBOARD (Uniquement sur l'index admin) --}}
                 @if(request()->routeIs('admin.dashboard'))
-                    <div class="dashboard-header mb-5">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <div>
-                                <h2 class="fw-bold text-dark mb-1">Bienvenue, Administrateur 👋</h2>
-                                <p class="text-muted mb-0">Gérez et supervisez les heures d'enseignement de l'ensemble du
-                                    corps professoral de l'UVCI pour l'année universitaire 2025–2026.</p>
-                            </div>
-                        </div>
-
-                        <div class="row g-4">
-                            <div class="col-12 col-sm-6 col-xl-3">
-                                <div class="stat-card blue">
-                                    <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
-                                    <div class="stat-info">
-                                        <div class="stat-number">{{ $stats['enseignants'] ?? 0 }}</div>
-                                        <div class="stat-label">Enseignants</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-xl-3">
-                                <div class="stat-card green">
-                                    <div class="stat-icon"><i class="bi bi-book-fill"></i></div>
-                                    <div class="stat-info">
-                                        <div class="stat-number">{{ $stats['cours'] ?? 0 }}</div>
-                                        <div class="stat-label">Cours actifs</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-xl-3">
-                                <div class="stat-card orange">
-                                    <div class="stat-icon"><i class="bi bi-clock-fill"></i></div>
-                                    <div class="stat-info">
-                                        <div class="stat-number">{{ $heuresMois ?? 0 }}h</div>
-                                        <div class="stat-label">Heures ce mois</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-xl-3">
-                                <div class="stat-card navy">
-                                    <div class="stat-icon"><i class="bi bi-collection-fill"></i></div>
-                                    <div class="stat-info">
-                                        <div class="stat-number">{{ $stats['ressources'] ?? 0 }}</div>
-                                        <div class="stat-label">Ressources</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 @endif
 
                 {{-- Flash Messages --}}
@@ -462,8 +415,8 @@
             if (e.key === 'Escape') closeSidebar();
         });
 
-        // ── Auto-fermeture des alertes après 5s ───────────────────
-        document.querySelectorAll('.alert').forEach(alert => {
+        // ── Auto-fermeture des alertes après 5s (sauf data-permanent) ─────
+        document.querySelectorAll('.alert:not([data-permanent])').forEach(alert => {
             setTimeout(() => {
                 alert.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
                 alert.style.opacity = '0';

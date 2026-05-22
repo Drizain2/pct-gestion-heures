@@ -14,7 +14,14 @@
         <input type="text" name="filiere"
             class="form-control @error('filiere') is-invalid @enderror"
             value="{{ old('filiere', $cour->filiere ?? '') }}"
-            placeholder="Ex: Génie Logiciel">
+            placeholder="Ex: Génie Logiciel"
+            list="departements-list"
+            autocomplete="off">
+        <datalist id="departements-list">
+            @foreach($departements ?? [] as $dept)
+                <option value="{{ $dept }}">
+            @endforeach
+        </datalist>
         @error('filiere') <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
 
