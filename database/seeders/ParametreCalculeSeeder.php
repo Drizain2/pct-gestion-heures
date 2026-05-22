@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\ParametreCalcule;
+use Illuminate\Database\Seeder;
 
 class ParametreCalculeSeeder extends Seeder
 {
@@ -15,22 +14,22 @@ class ParametreCalculeSeeder extends Seeder
     {
         $parametres = [
             [
-                "niveau_complexite" => "niveau_1",
-                "description" => "Contenus simple + quiz + evaluation",
-                "coefficient_creation" => 0.40,
-                "coefficient_mise_a_jour" => 0.20
+                'niveau_complexite' => 'niveau_1',
+                'description' => 'Contenus simple + quiz + evaluation',
+                'coefficient_creation' => 8,
+                'coefficient_mise_a_jour' => 4,
             ],
             [
-                "niveau_complexite" => "niveau_2",
-                "description" => "Niveau 1 + 25% activités interactives + quiz + evaluation",
-                "coefficient_creation" => 0.75,
-                "coefficient_mise_a_jour" => 0.375
+                'niveau_complexite' => 'niveau_2',
+                'description' => 'Niveau 1 + 25% activités interactives + quiz + evaluation',
+                'coefficient_creation' => 15,
+                'coefficient_mise_a_jour' => 7.5,
             ],
             [
-                "niveau_complexite" => "niveau_3",
-                "description" => "Serious games, simulation, haute qualité",
-                "coefficient_creation" => 1.5,
-                "coefficient_mise_a_jour" => 0.75
+                'niveau_complexite' => 'niveau_3',
+                'description' => 'Serious games, simulation, haute qualité',
+                'coefficient_creation' => 30,
+                'coefficient_mise_a_jour' => 15,
             ],
         ];
 

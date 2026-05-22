@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ressources', function (Blueprint $table) {
             $table->id();
             $table->foreignId("sequence_id")->constrained("sequences")->onDelete("cascade");
-            $table->foreignId("enseignant_id")->constrained("enseignants")->onDelete("cascade");
+            $table->foreignId("enseignant_id")->nullable()->constrained("enseignants")->onDelete("set null");
             $table->string("titre");
             $table->enum(
                 "type",

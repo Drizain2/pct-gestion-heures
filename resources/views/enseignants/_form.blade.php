@@ -10,12 +10,11 @@
     @endif
 
     <div class="card shadow-sm mb-4">
-        <div class="card-header bg-primary text-white">
-            <h2 class="h5 mb-0">
-                {{ isset($enseignant) ? 'Modifier un enseignant' : 'Créer un nouvel enseignant' }}
-            </h2>
+        <div class="card-header">
+            <i class="bi bi-person-fill me-2"></i>
+            {{ isset($enseignant) ? 'Modifier un enseignant' : 'Créer un nouvel enseignant' }}
         </div>
-        <div class="card-body">
+        <div class="card-body p-4">
             <div class="row g-3">
                 <!-- Ligne 1: Nom et Prénom -->
                 <div class="col-md-6">
@@ -116,8 +115,16 @@
                         id="departement"
                         name="departement"
                         value="{{ old('departement', $enseignant->departement ?? '') }}"
+                        list="departements-list"
+                        autocomplete="off"
+                        placeholder="Saisir ou choisir un département..."
                         required
                     >
+                    <datalist id="departements-list">
+                        @foreach($departements ?? [] as $dept)
+                            <option value="{{ $dept }}">
+                        @endforeach
+                    </datalist>
                     @error('departement')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -159,7 +166,8 @@
                     </label>
                     <input
                         type="number"
-                        step="0.01"
+                        step="500"
+                        min="0"
                         class="form-control @error('taux_horaire') is-invalid @enderror"
                         id="taux_horaire"
                         name="taux_horaire"
@@ -182,10 +190,12 @@
         </div>
         @if(!isset($enseignant))
            <div class="col-12">
-               <div class="alert py-2" style="background: #f0fdf4;border-left:4px solid #2E7D32;">
-                   <i class="bi bi-info-circle me-2" style="color: #2E7D32;"></i>
-                   Un compte d'enseignant sera créer pour cet enseignant avec l'email saisie.
-                   Le mot de passe par defaut sera : <strong>uvci@2026</strong>.
+               <div class="alert m-3" data-permanent style="background:var(---green-light); border-left:4px solid var(---green);">
+                   <i class="bi bi-info-circle me-2" style="color:var(---green);"></i>
+                   <div class="align-items-center">
+                     Un compte d'enseignant sera créer pour cet enseignant avec l'email saisie.
+                     Le mot de passe par defaut sera : <span class="fw-bold">uvci@2026</span>.
+                   </div>
                </div>
            </div>
            @endif

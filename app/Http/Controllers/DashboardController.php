@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activite;
+use App\Models\AnneeAcademique;
 use App\Models\Cours;
 use App\Models\Enseignant;
 use App\Models\Ressource;
@@ -22,7 +23,9 @@ class DashboardController extends Controller
             'cours' => Cours::count(),
             'ressources' => Ressource::count(),
             'activites' => Activite::where('statut', 'validee')->count(),
+            'annee_academique'=>AnneeAcademique::anneeAcademiqueActuelle()->libelle,
         ];
+        // dd($stats);
 
         // Total heures validées ce mois
         $heuresMois = Activite::where('statut', 'validee')
@@ -34,8 +37,7 @@ class DashboardController extends Controller
         $activitesEnAttente = Activite::where('statut', 'en_attente')
             ->with(['enseignant', 'ressource'])
             ->latest()
-            ->take(5)
-            ->get();
+            ->paginate(5);
 
         // Top 5 enseignants par heures ce mois
         $topEnseignants = Activite::where('statut', 'validee')

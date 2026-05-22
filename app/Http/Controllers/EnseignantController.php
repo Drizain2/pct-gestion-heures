@@ -36,7 +36,7 @@ class EnseignantController extends Controller
             $query->where('grade', $request->input('grade'));
         }
 
-        $enseignants = $query->orderBy('id', 'desc')->paginate(5);
+        $enseignants = $query->orderBy('id', 'desc')->paginate(20);
 
         return view('enseignants.index', compact('enseignants'));
     }
@@ -46,7 +46,13 @@ class EnseignantController extends Controller
      */
     public function create()
     {
-        return view('enseignants.create');
+        $departements = Enseignant::select('departement')
+            ->distinct()
+            ->whereNotNull('departement')
+            ->orderBy('departement')
+            ->pluck('departement');
+
+        return view('enseignants.create', compact('departements'));
     }
 
     /**
@@ -88,7 +94,13 @@ class EnseignantController extends Controller
      */
     public function edit(Enseignant $enseignant)
     {
-        return view('enseignants.edit', compact('enseignant'));
+        $departements = Enseignant::select('departement')
+            ->distinct()
+            ->whereNotNull('departement')
+            ->orderBy('departement')
+            ->pluck('departement');
+
+        return view('enseignants.edit', compact('enseignant', 'departements'));
     }
 
     /**

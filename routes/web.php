@@ -65,46 +65,35 @@ Route::middleware(['auth'])->group(function () {
     // Accessible a admin et Secretaire
     Route::middleware(['role:admin|secretaire'])
         ->group(function () {
-            // routes partagées
             Route::resource('enseignants', EnseignantController::class);
+            Route::get('enseignants/{enseignant}/cours', [CoursController::class, 'getCoursByEnseignant'])
+                ->name('enseignants.cours');
             Route::resource('cours', CoursController::class);
-            // Sequence imbriquées dans cours
-            // Route::resource('cours.sequences', SequenceController::class)->except(['show']);
-            // Ressource imbriquées dans cours
-            // Route::resource('cours.sequences.ressources', RessourceController::class)->except(['index', 'show']);
-            // Activités
+            // Séquences : gestion de la structure du cours (admin/secretaire uniquement)
+            Route::resource('cours.sequences', SequenceController::class)->except(['show']);
+            // Activités : validation/rejet
             Route::post('activites/{activite}/valider', [ActiviteController::class, 'valider'])->name('activites.valider');
             Route::post('activites/{activite}/rejeter', [ActiviteController::class, 'rejeter'])->name('activites.rejeter');
-            // Route::get('activites/{enseignant}/recapitulatif', [ActiviteController::class, 'recapitulatif'])->name('activites.recapitulatif');
-             Route::get('/exports', [ExportController::class, 'index'])
-                ->name('exports.index');
-
-            // PDF
-            Route::get('enseignants/{enseignant}/pdf',
-                [ExportController::class, 'ficheEnseignantPdf'])
-                ->name('exports.fiche.pdf');
-            Route::get('paiements/pdf',
-                [ExportController::class, 'etatPaiementsPdf'])
-                ->name('exports.paiements.pdf');
-            // Excel
-            Route::get('enseignants/{enseignant}/excel',
-                [ExportController::class, 'heuresEnseignantExcel'])
-                ->name('exports.heures.enseignant.excel');
-            Route::get('heures/excel',
-                [ExportController::class, 'heuresGlobalExcel'])
-                ->name('exports.heures.global.excel');
-            Route::get('paiements/excel',
-                [ExportController::class, 'paiementsExcel'])
-                ->name('exports.paiements.excel');
+            // Exports
+            Route::get('/exports', [ExportController::class, 'index'])->name('exports.index');
+            Route::get('enseignants/{enseignant}/pdf', [ExportController::class, 'ficheEnseignantPdf'])->name('exports.fiche.pdf');
+            Route::get('paiements/pdf', [ExportController::class, 'etatPaiementsPdf'])->name('exports.paiements.pdf');
+            Route::get('enseignants/{enseignant}/excel', [ExportController::class, 'heuresEnseignantExcel'])->name('exports.heures.enseignant.excel');
+            Route::get('heures/excel', [ExportController::class, 'heuresGlobalExcel'])->name('exports.heures.global.excel');
+            Route::get('paiements/excel', [ExportController::class, 'paiementsExcel'])->name('exports.paiements.excel');
+            Route::get('statistiques/excel', [ExportController::class, 'statistiquesExcel'])->name('exports.statistiques.excel');
         });
 
+    // Accessible à tous les utilisateurs authentifiés
     Route::get('activites/{enseignant}/recapitulatif', [ActiviteController::class, 'recapitulatif'])->name('activites.recapitulatif');
-    // Sequence imbriquées dans cours
-    Route::resource('cours.sequences', SequenceController::class)->except(['show']);
-    // Ressource imbriquées dans cours
+    Route::get('enseignants/{enseignant}/recapitulatif/pdf', [ExportController::class, 'recapitulatifPdf'])->name('exports.recapitulatif.pdf');
+    // Ressources pédagogiques : les enseignants produisent le contenu (Policy gère les droits fins)
     Route::resource('cours.sequences.ressources', RessourceController::class)->except(['index', 'show']);
     Route::resource('activites', ActiviteController::class)->except(['edit', 'update']);
 
 });
+Route::get('/heures', function () {
+    return view('index');
+})->name('heures.index');
 
 require __DIR__.'/auth.php';

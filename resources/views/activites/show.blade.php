@@ -34,21 +34,21 @@
                         </div>
                         <div class="col-md-6">
                             <small class="text-muted d-block">Complexité</small>
-                            <span class="badge bg-secondary">
+                            <span class="badge badge-gray">
                                 {{ $activite->complexite }}
                             </span>
                         </div>
                         <div class="col-md-6">
                             <small class="text-muted d-block">Type d'action</small>
                             @if($activite->type_action === 'creation')
-                                <span class="badge bg-success">Création</span>
+                                <span class="badge badge-green">Création</span>
                             @else
-                                <span class="badge" style="background:#1565C0;">Mise à jour</span>
+                                <span class="badge badge-blue">Mise à jour</span>
                             @endif
                         </div>
                         <div class="col-md-6">
                             <small class="text-muted d-block">Heures calculées</small>
-                            <strong style="color:#E65100; font-size:1.3rem;">
+                            <strong style="color:var(---orange); font-size:1.3rem;">
                                 {{ $activite->heures_calculees }}h
                             </strong>
                         </div>

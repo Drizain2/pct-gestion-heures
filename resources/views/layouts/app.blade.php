@@ -11,10 +11,123 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- CSS UVCI -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     @stack('styles')
+
+    <style>
+        :root {
+            --sidebar-width: 260px;
+        }
+
+        /* --- SIDEBAR FIXE --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: linear-gradient(180deg, var(---blue-dark) 0%, var(---blue) 100%);
+            z-index: 1050;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-brand {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- TOPBAR --- */
+        .topbar {
+            height: 70px;
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* --- LAYOUT ADJUSTMENTS --- */
+        .main-wrapper {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-content {
+            padding: 2rem;
+            flex-grow: 1;
+        }
+
+        @media (max-width: 991.98px) {
+            .sidebar {
+                left: calc(-1 * var(--sidebar-width));
+            }
+
+            .sidebar.is-open {
+                left: 0;
+            }
+
+            .main-wrapper {
+                margin-left: 0;
+            }
+
+            .sidebar-overlay.is-open {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1040;
+            }
+        }
+
+        /* --- PROFIL TOPBAR --- */
+        .topbar-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+
+        .topbar-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(---blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .nav-link {
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
 </head>
 
 <body>
@@ -24,6 +137,7 @@
 
     <div class="app-wrapper">
 
+
         {{-- ══════════════════════════════════════════════════════
         SIDEBAR
         ══════════════════════════════════════════════════════ --}}
@@ -31,17 +145,17 @@
 
             {{-- Logo --}}
             <a href="
-            @role('admin'){{ route('admin.dashboard') }}
-            @elserole('secretaire'){{ route('secretaire.dashboard') }}
-            @elserole('enseignant'){{ route('enseignant.dashboard') }}
-            @endrole
-        " class="sidebar-brand">
+                @role('admin'){{ route('admin.dashboard') }}
+                @elserole('secretaire'){{ route('secretaire.dashboard') }}
+                @elserole('enseignant'){{ route('enseignant.dashboard') }}
+                @endrole
+            " class="sidebar-brand text-decoration-none">
                 <div class="sidebar-brand-icon">
-                    <i class="bi bi-mortarboard-fill"></i>
+                    <i class="bi bi-mortarboard-fill text-white fs-3"></i>
                 </div>
                 <div class="sidebar-brand-text">
-                    <h4>UVCI</h4>
-                    <span>Gestion des Heures</span>
+                    <h4 class="text-white mb-0 fw-bold">UVCI</h4>
+                    <span class="text-white-50 small">Gestion des Heures</span>
                 </div>
             </a>
 
@@ -88,13 +202,12 @@
                 <a href="{{ route('cours.index') }}"
                     class="nav-item {{ request()->routeIs('cours.*') ? 'active' : '' }}">
                     <i class="bi bi-book-fill"></i>
-                    <span>Cours</span>
+                    <span>Cours & Ressources</span>
                 </a>
                 @endrole
 
                 {{-- ── ACTIVITÉS (Tous les rôles) ────────────── --}}
                 @role('admin|secretaire|enseignant')
-
                 @php
                     $nbEnAttente = \App\Models\Activite::where('statut', 'en_attente')
                         ->when(
@@ -127,34 +240,14 @@
 
                 {{-- ── RÉCAPITULATIFS (Admin + Secrétaire) ───── --}}
                 @role('admin|secretaire')
-                <a href="{{ route('enseignants.index') }}#recapitulatifs"
-                    class="nav-item {{ request()->routeIs('activites.recapitulatif') ? 'active' : '' }}">
-                    <i class="bi bi-person-lines-fill"></i>
+                <a href="{{ route('exports.index') }}"
+                    class="nav-item {{ request()->routeIs('exports.index') && !request()->has('view') ? 'active' : '' }}">
+                    <i class="bi bi-file-earmark-bar-graph-fill"></i>
                     <span>Récapitulatifs</span>
                 </a>
                 @endrole
 
                 {{-- ── EXPORTS (Admin + Secrétaire) ─────────── --}}
-                @role('admin|secretaire')
-                <div class="sidebar-section-label">Exports</div>
-
-                <a href="{{ route('exports.index') }}"
-                    class="nav-item {{ request()->routeIs('exports.*') ? 'active' : '' }}">
-                    <i class="bi bi-download"></i>
-                    <span>Exports & Rapports</span>
-                </a>
-                @endrole
-
-                {{-- ── TÉLÉCHARGEMENT (Enseignant) ───────────── --}}
-                @role('enseignant')
-                @if(auth()->user()->enseignant)
-                    <div class="sidebar-section-label">Documents</div>
-                    <a href="{{ route('exports.fiche.pdf', auth()->user()->enseignant) }}" class="nav-item" target="_blank">
-                        <i class="bi bi-file-earmark-pdf"></i>
-                        <span>Ma fiche PDF</span>
-                    </a>
-                @endif
-                @endrole
 
                 {{-- ── ADMINISTRATION (Admin uniquement) ─────── --}}
                 @role('admin')
@@ -171,45 +264,41 @@
                     <i class="bi bi-gear-fill"></i>
                     <span>Paramètres</span>
                 </a>
-
-                <a href="{{ route('admin.annees.index') }}"
-                    class="nav-item {{ request()->routeIs('admin.annees.*') ? 'active' : '' }}">
-                    <i class="bi bi-calendar-fill"></i>
-                    <span>Années académiques</span>
-                </a>
                 @endrole
 
             </nav>
 
             {{-- ── PROFIL + DÉCONNEXION ───────────────────────── --}}
             <div class="sidebar-footer">
-                <div class="sidebar-user">
-                    <div class="sidebar-avatar">
-                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                    </div>
-                    <div class="sidebar-user-info">
-                        <div class="sidebar-user-name">
-                            {{ Str::limit(auth()->user()->name, 20) }}
+                @auth
+                    <div class="sidebar-user">
+                        <div class="sidebar-avatar">
+                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                         </div>
-                        <div class="sidebar-user-role">
-                            {{ ucfirst(auth()->user()->getRoleNames()->first()) }}
+                        <div class="sidebar-user-info">
+                            <div class="sidebar-user-name">
+                                {{ Str::limit(auth()->user()->name, 20) }}
+                            </div>
+                            <div class="sidebar-user-role">
+                                {{ ucfirst(auth()->user()->getRoleNames()->first() ?? 'Utilisateur') }}
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="btn-logout">
-                        <i class="bi bi-box-arrow-left"></i>
-                        Déconnexion
-                    </button>
-                </form>
+                    <form method="POST" action="{{ route('logout') }}" class="px-3 pb-3">
+                        @csrf
+                        <button type="submit"
+                            class="btn btn-outline-danger btn-sm w-100 py-2 d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Déconnexion</span>
+                        </button>
+                    </form>
+                @endauth
             </div>
-
         </aside>
 
         {{-- ══════════════════════════════════════════════════════
-        MAIN
+        MAIN WRAPPER
         ══════════════════════════════════════════════════════ --}}
         <div class="main-wrapper">
 
@@ -217,25 +306,24 @@
             <header class="topbar">
                 <div class="topbar-left">
                     {{-- Toggle mobile --}}
-                    <button class="sidebar-toggle" id="sidebarToggle" type="button">
+                    <button class="btn btn-light d-lg-none me-3" id="sidebarToggle">
                         <i class="bi bi-list fs-5"></i>
                     </button>
 
-                    {{-- Fil d'ariane --}}
+                    {{-- Fil d'ariane / Titre --}}
                     <div>
-                        <h5 class="topbar-title">{{ $title ?? 'Tableau de bord' }}</h5>
+                        <h5 class="topbar-title mb-0 fw-bold">{{ $title ?? 'Tableau de bord' }}</h5>
                     </div>
                 </div>
 
                 <div class="topbar-right">
-
                     {{-- Notification activités en attente --}}
                     @role('admin|secretaire')
                     @php
                         $notifCount = \App\Models\Activite::where('statut', 'en_attente')->count();
                     @endphp
-                    <a href="{{ route('activites.index', ['statut' => 'en_attente']) }}" class="topbar-notif"
-                        title="{{ $notifCount }} activité(s) en attente">
+                    <a href="{{ route('activites.index', ['statut' => 'en_attente']) }}"
+                        class="topbar-notif text-decoration-none" title="{{ $notifCount }} activité(s) en attente">
                         <i class="bi bi-bell"></i>
                         @if($notifCount > 0)
                             <span class="topbar-notif-dot"></span>
@@ -244,66 +332,52 @@
                     @endrole
 
                     {{-- Profil utilisateur --}}
-                    <div class="topbar-user">
-                        <div class="topbar-avatar">
-                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                        </div>
-                        <div class="d-none d-md-block">
-                            <div class="topbar-user-name">
-                                {{ Str::limit(auth()->user()->name, 18) }}
+                    @auth
+                        <div class="topbar-user ms-3">
+                            <div class="topbar-avatar">
+                                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                             </div>
-                            <div class="topbar-user-role">
-                                {{ ucfirst(auth()->user()->getRoleNames()->first()) }}
+                            <div class="d-none d-md-block">
+                                <div class="topbar-user-name fw-bold small">
+                                    {{ Str::limit(auth()->user()->name, 18) }}
+                                </div>
+                                <div class="topbar-user-role text-muted" style="font-size: 0.7rem;">
+                                    {{ ucfirst(auth()->user()->getRoleNames()->first() ?? 'Utilisateur') }}
+                                </div>
                             </div>
                         </div>
-                    </div>
-
+                    @endauth
                 </div>
             </header>
 
             {{-- ── CONTENU PRINCIPAL ──────────────────────────── --}}
             <main class="page-content">
 
-                {{-- Flash success --}}
+                {{-- HEADER DASHBOARD (Uniquement sur l'index admin) --}}
+                @if(request()->routeIs('admin.dashboard'))
+                    
+                @endif
+
+                {{-- Flash Messages --}}
                 @if(session('success'))
-                    <div class="alert alert-success fade-in-up" id="flash-success">
+                    <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2 mb-4 border-0 shadow-sm"
+                        role="alert">
                         <i class="bi bi-check-circle-fill"></i>
-                        <span>{{ session('success') }}</span>
+                        <div>{{ session('success') }}</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
 
-                {{-- Flash error --}}
                 @if(session('error'))
-                    <div class="alert alert-danger fade-in-up" id="flash-error">
+                    <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center gap-2 mb-4 border-0 shadow-sm"
+                        role="alert">
                         <i class="bi bi-exclamation-triangle-fill"></i>
-                        <span>{{ session('error') }}</span>
+                        <div>{{ session('error') }}</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
 
-                {{-- Flash warning --}}
-                @if(session('warning'))
-                    <div class="alert alert-warning fade-in-up">
-                        <i class="bi bi-exclamation-circle-fill"></i>
-                        <span>{{ session('warning') }}</span>
-                    </div>
-                @endif
-
-                {{-- Erreurs de validation globales --}}
-                @if($errors->any())
-                    <div class="alert alert-danger fade-in-up">
-                        <i class="bi bi-exclamation-triangle-fill"></i>
-                        <div>
-                            <strong>Erreurs de validation :</strong>
-                            <ul class="mb-0 mt-1" style="padding-left:16px;">
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                @endif
-
-                {{-- Contenu de la page --}}
+                {{-- Contenu Variable --}}
                 {{ $slot }}
 
             </main>
@@ -315,25 +389,26 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // ── Toggle sidebar mobile ──────────────────────────────────
+        // --- LOGIQUE DE LA SIDEBAR ---
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebarOverlay');
-        const toggleBtn = document.getElementById('sidebarToggle');
+        const sidebarToggle = document.getElementById('sidebarToggle');
 
         function openSidebar() {
-            sidebar.classList.add('is-open');
-            overlay.classList.add('is-open');
+            sidebar?.classList.add('is-open');
+            overlay?.classList.add('is-open');
             document.body.style.overflow = 'hidden';
         }
 
         function closeSidebar() {
-            sidebar.classList.remove('is-open');
-            overlay.classList.remove('is-open');
+            sidebar?.classList.remove('is-open');
+            overlay?.classList.remove('is-open');
             document.body.style.overflow = '';
         }
 
-        toggleBtn?.addEventListener('click', () => {
-            sidebar.classList.contains('is-open') ? closeSidebar() : openSidebar();
+        sidebarToggle?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar?.classList.contains('is-open') ? closeSidebar() : openSidebar();
         });
 
         overlay?.addEventListener('click', closeSidebar);
@@ -342,8 +417,8 @@
             if (e.key === 'Escape') closeSidebar();
         });
 
-        // ── Auto-fermeture des alertes après 5s ───────────────────
-        document.querySelectorAll('.alert').forEach(alert => {
+        // ── Auto-fermeture des alertes après 5s (sauf data-permanent) ─────
+        document.querySelectorAll('.alert:not([data-permanent])').forEach(alert => {
             setTimeout(() => {
                 alert.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
                 alert.style.opacity = '0';

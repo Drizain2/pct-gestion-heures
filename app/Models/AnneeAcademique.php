@@ -23,4 +23,13 @@ class AnneeAcademique extends Model
         self::where('id', '!=', $id)->update(['active'=> false]);
         self::where('id', $id)->update(['active'=> true]);
     } 
+
+    
+    public static function anneeAcademiqueActuelle(){
+        return self::where('active', true)->first();
+    }   
+
+    public static function anneeAcademiqueValide(int $annee){
+        return self::where('libelle', $annee)->where('active', true)->first();
+    }   
 }

@@ -1,39 +1,39 @@
 <!-- resources/views/exports/index.blade.php -->
 <x-app-layout>
-    <x-slot name="title">Exports & Rapports</x-slot>
+    <x-slot name="title">Récapitulatifs & Rapports</x-slot>
 
-    <div class="mb-4">
-        <h4 class="fw-bold mb-0" style="color:#2E7D32;">
-            <i class="bi bi-download me-2"></i>Exports & Rapports
-        </h4>
-        <small class="text-muted">Générez vos documents PDF et Excel</small>
+    <div class="page-header">
+        <div class="page-header-left">
+            <h4>
+                <i class="bi bi-file-earmark-bar-graph-fill me-2"></i>
+                Récapitulatifs & Rapports
+            </h4>
+            <p>Générez vos documents PDF et Excel pour la période souhaitée</p>
+        </div>
     </div>
 
     <!-- Filtre période global -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="bi bi-calendar-range me-2"></i>Période (optionnelle)
-        </div>
-        <div class="card-body py-3">
-            <form id="filterForm" class="row g-2 align-items-end">
-                <div class="col-md-3">
-                    <label class="form-label mb-1 small">Date début</label>
+    <div class="filter-card">
+        <form id="filterForm">
+            <div class="filter-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                <div class="filter-field">
+                    <label class="form-label">Date début</label>
                     <input type="date" id="debut" class="form-control"
                            value="{{ request('debut') }}">
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label mb-1 small">Date fin</label>
+                <div class="filter-field">
+                    <label class="form-label">Date fin</label>
                     <input type="date" id="fin" class="form-control"
                            value="{{ request('fin') }}">
                 </div>
-                <div class="col-md-3">
-                    <small class="text-muted d-block">
+                <div class="filter-field d-flex align-items-end">
+                    <small class="text-muted pb-2">
                         <i class="bi bi-info-circle me-1"></i>
                         Laissez vide pour toute la période
                     </small>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 
     <div class="row g-4">
@@ -44,14 +44,14 @@
                 <div class="card-header">
                     <i class="bi bi-globe me-2"></i>Exports globaux
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
                     <div class="d-grid gap-3">
 
                         <div class="d-flex align-items-center justify-content-between
-                                    p-3 rounded" style="background:#f0fdf4;">
+                                    p-3 rounded" style="background:var(---green-light);">
                             <div>
                                 <i class="bi bi-file-earmark-pdf"
-                                   style="color:#E65100; font-size:1.4rem;"></i>
+                                   style="color:var(---orange); font-size:1.4rem;"></i>
                                 <span class="ms-2 fw-500">État des paiements</span>
                                 <small class="text-muted d-block ms-4">
                                     Tous les enseignants avec montants
@@ -64,10 +64,10 @@
                         </div>
 
                         <div class="d-flex align-items-center justify-content-between
-                                    p-3 rounded" style="background:#f0fdf4;">
+                                    p-3 rounded" style="background:var(---green-light);">
                             <div>
                                 <i class="bi bi-file-earmark-excel"
-                                   style="color:#2E7D32; font-size:1.4rem;"></i>
+                                   style="color:var(---green); font-size:1.4rem;"></i>
                                 <span class="ms-2 fw-500">État global des heures</span>
                                 <small class="text-muted d-block ms-4">
                                     Toutes les activités validées
@@ -80,10 +80,10 @@
                         </div>
 
                         <div class="d-flex align-items-center justify-content-between
-                                    p-3 rounded" style="background:#f0fdf4;">
+                                    p-3 rounded" style="background:var(---green-light);">
                             <div>
                                 <i class="bi bi-file-earmark-excel"
-                                   style="color:#2E7D32; font-size:1.4rem;"></i>
+                                   style="color:var(---green); font-size:1.4rem;"></i>
                                 <span class="ms-2 fw-500">Paiements Excel</span>
                                 <small class="text-muted d-block ms-4">
                                     Tableau des montants à payer
@@ -91,6 +91,22 @@
                             </div>
                             <a href="#" onclick="exporterAvecPeriode('{{ route('exports.paiements.excel') }}')"
                                class="btn btn-sm btn-success">
+                                <i class="bi bi-file-excel me-1"></i>Excel
+                            </a>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-between
+                                    p-3 rounded" style="background:var(---green-light);">
+                            <div>
+                                <i class="bi bi-file-earmark-bar-graph"
+                                   style="color:#1565C0; font-size:1.4rem;"></i>
+                                <span class="ms-2 fw-500">Statistiques pédagogiques</span>
+                                <small class="text-muted d-block ms-4">
+                                    Par enseignant, par cours, par complexité
+                                </small>
+                            </div>
+                            <a href="#" onclick="exporterAvecPeriode('{{ route('exports.statistiques.excel') }}')"
+                               class="btn btn-sm btn-primary">
                                 <i class="bi bi-file-excel me-1"></i>Excel
                             </a>
                         </div>
@@ -104,10 +120,9 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <i class="bi bi-person-lines-fill me-2"></i>
-                    Fiche individuelle enseignant
+                    <i class="bi bi-person-lines-fill me-2"></i>Fiche individuelle enseignant
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
                     <div class="mb-3">
                         <label class="form-label">Sélectionner un enseignant</label>
                         <select id="enseignant_select" class="form-select">
