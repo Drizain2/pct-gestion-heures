@@ -17,6 +17,12 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+         // appeler les autres seeder pour le systeme
+        $this->call([
+            ParametreSystemeSeeder::class,
+            ParametreCalculeSeeder::class,
+        ]);
+        
         // 1. Rôles et permissions
         $roleAdmin = Role::firstOrCreate(['name' => 'admin']);
         $roleSecretaire = Role::firstOrCreate(['name' => 'secretaire']);
@@ -125,11 +131,7 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        // appeler les autres seeder pour le systeme
-        $this->call([
-            ParametreSystemeSeeder::class,
-            ParametreCalculeSeeder::class,
-        ]);
+       
 
         $this->command->info('✅ Seeding terminé avec succès !');
         $this->command->info('- Utilisateurs      : '.User::query()->count());
