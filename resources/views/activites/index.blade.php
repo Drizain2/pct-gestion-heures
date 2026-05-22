@@ -219,15 +219,8 @@
 
         {{-- Pagination --}}
         @if($activites->hasPages())
-        <div class="table-footer">
-            <span class="pagination-info">
-                Affichage de {{ $activites->firstItem() }}
-                à {{ $activites->lastItem() }}
-                sur {{ $activites->total() }} résultats
-            </span>
-            <div class="pagination-wrapper">
-                {{ $activites->withQueryString()->links() }}
-            </div>
+        <div class="d-flex justify-content-center m-4">
+            {{ $activites->links('pagination::bootstrap-5') }}
         </div>
         @endif
     </div>{{-- /table-card --}}

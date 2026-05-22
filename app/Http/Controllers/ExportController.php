@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\HeuresEnseignantExport;
+use App\Exports\HeuresGlobalExport;
 use App\Exports\PaiementsExport;
 use App\Exports\StatistiquesExport;
 use App\Models\Activite;
@@ -92,14 +93,14 @@ class ExportController extends Controller
     }
 
     /**
-     *EXcel Etat global des heures
+     * Excel État global des heures (détail activités + récapitulatif par enseignant)
      */
     public function heuresGlobalExcel(Request $request)
     {
         $debut = $request->input('debut');
         $fin = $request->input('fin');
 
-        return Excel::download(new PaiementsExport($debut, $fin), 'paiements_'.now()->format('Y-m-d').'.xlsx');
+        return Excel::download(new HeuresGlobalExport($debut, $fin), 'etat_global_heures_'.now()->format('Y-m-d').'.xlsx');
     }
 
     /**

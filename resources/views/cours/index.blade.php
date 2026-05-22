@@ -27,7 +27,7 @@
                     <label class="form-label">Niveau</label>
                     <select name="niveau" class="form-select">
                         <option value="">Tous les niveaux</option>
-                        @foreach(['L1', 'L2', 'L3', 'M1', 'M2'] as $n)
+                        @foreach (['L1', 'L2', 'L3', 'M1', 'M2'] as $n)
                             <option value="{{ $n }}" {{ request('niveau') == $n ? 'selected' : '' }}>
                                 {{ $n }}
                             </option>
@@ -38,7 +38,7 @@
                     <label class="form-label">Semestre</label>
                     <select name="semestre" class="form-select">
                         <option value="">Tous les semestres</option>
-                        @foreach(['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10'] as $s)
+                        @foreach (['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10'] as $s)
                             <option value="{{ $s }}" {{ request('semestre') == $s ? 'selected' : '' }}>
                                 {{ $s }}
                             </option>
@@ -114,7 +114,8 @@
                                             onsubmit="return confirm('Supprimer ce cours ?')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Supprimer">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                title="Supprimer">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </form>
@@ -141,10 +142,9 @@
                 </table>
             </div>
         </div>
-
         <!-- Pagination -->
-    <div class="d-flex justify-content-center m-4">
-        {{ $cours->links('pagination::bootstrap-5') }}
-    </div>
+        <div class="d-flex justify-content-center m-4">
+            {{ $cours->links('pagination::bootstrap-5') }}
+        </div>
     </div>
 </x-app-layout>

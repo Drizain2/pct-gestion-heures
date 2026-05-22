@@ -1184,16 +1184,15 @@ body {
 /* ── COMPOSANT MODAL ──────────────────────────────────────── */
 .modal-content {
   background-color: #fff !important;
-  border: 2px solid #6f42c1 !important;
   border-radius: var(--radius-lg);
-  box-shadow: 0 5px 15px rgba(111, 66, 193, 0.3) !important;
+  box-shadow: 0 5px 15px !important;
 }
 
 .modal-header {
-  background-color: #6f42c1 !important;
-  border-bottom: 1px solid #5a32a3;
+  background-color: #003B7A;
+  border-bottom: 1px solid var(--blue-light);
   padding: 16px 20px;
-  color: #fff !important;
+  color: var(--white) !important;
 }
 
 .modal-title {
@@ -1644,4 +1643,13 @@ a[href*="password.request"]:hover {
   .data-table thead th,
   .data-table tbody td { padding: 10px 10px; }
   .cell-actions { gap: 4px; }
+}
+
+
+.nav-pills .nav-link:hover {
+    background: rgba(255,255,255,0.15) !important;
+    color: var(---blue) !important;
+    /* font-weight: 700 !important; */
+    border-radius: var(--radius-md) !important;
+    border: 1px solid var(---blue) !important;
 }
