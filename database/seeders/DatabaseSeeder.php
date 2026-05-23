@@ -86,6 +86,7 @@ class DatabaseSeeder extends Seeder
         $enseignants = Enseignant::factory(10)->create();
         foreach ($enseignants as $enseignant) {
             $enseignant->user->assignRole($roleEnseignant);
+            
         }
 
         // 6. 10 cours réalistes via factory, assignés à 1-3 enseignants par année académique

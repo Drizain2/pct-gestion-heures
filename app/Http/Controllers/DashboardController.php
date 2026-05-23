@@ -169,7 +169,7 @@ class DashboardController extends Controller
             ->get();
 
 
-
+        // dd($stats); 
         return view('dashboard.enseignant', compact('enseignant', 'stats', 'derniereActivites', 'repartitionTypes', 'volume'));
     }
 }

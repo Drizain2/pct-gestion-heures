@@ -13,9 +13,9 @@
         <div class="card mb-4" style="background:linear-gradient(135deg,var(---blue-dark),var(---blue)); color:#fff;">
             <div class="card-body p-4 d-flex align-items-center gap-3">
                 <div style="width:60px; height:60px; border-radius:50%;
-                                        background:rgba(255,255,255,0.2);
-                                        display:flex; align-items:center; justify-content:center;
-                                        font-size:1.5rem; font-weight:700;">
+                                                    background:rgba(255,255,255,0.2);
+                                                    display:flex; align-items:center; justify-content:center;
+                                                    font-size:1.5rem; font-weight:700;">
                     {{ strtoupper(substr($enseignant->prenom, 0, 1)) }}
                 </div>
                 <div>
@@ -100,25 +100,27 @@
                 <div style="background:var(--border-color); border-radius:20px; height:12px; overflow:hidden;">
                     <!-- Heures normales -->
                     <div style="
-                                width: {{ min($stats['pourcentage_charge'], 100) }}%;
-                                height: 100%;
-                                background: {{ $stats['depasse_seuil']
-            ? 'linear-gradient(90deg, var(---green), var(--orange))'
-            : 'linear-gradient(90deg, var(---blue), var(---green))' }};
-                                border-radius: 20px;
-                                transition: width 0.8s ease;
-                            "></div>
+                    width: {{ min($stats['pourcentage_charge'], 100) }}%;
+                    height: 100%;
+                    background: {{ $stats['depasse_seuil']
+                    ? 'linear-gradient(90deg, #00A86B, #F5A623)'
+                    : 'linear-gradient(90deg, #003B7A, #00A86B)' }};
+                        border-radius: 20px;
+                        transition: width 0.8s ease;
+                    "></div>
                 </div>
 
                 @if($stats['depasse_seuil'])
-                    <div class="alert alert-warning mt-3 mb-0">
-                        <i class="bi bi-lightning-fill me-2"></i>
-                        Vous avez dépassé votre seuil de <strong>{{ $stats['seuil'] }}h</strong>.
-                        <strong>{{ $stats['heures_complementaires'] }}h complémentaires</strong>
-                        seront rémunérées à un taux différent.
+                    <div class="alert  alert-warning mt-3 mb-0 " data-permanent>
+                        <div class="d-flex gap-1">
+                            <i class="bi bi-lightning-fill me-2"></i>
+                            Vous avez dépassé votre seuil de <strong>{{ $stats['seuil'] }}h</strong>.
+                            <strong>{{ $stats['heures_complementaires'] }}h complémentaires</strong>
+                            seront rémunérées à un taux différent.
+                        </div>
                     </div>
                 @else
-                    <div class="alert alert-info mt-3 mb-0">
+                    <div class="alert alert-info mt-3 mb-0" data-permanent>
                         <i class="bi bi-info-circle me-2"></i>
                         Il vous reste
                         <strong>{{ $stats['seuil'] - $stats['heures_totales'] }}h</strong>
@@ -128,11 +130,10 @@
             </div>
         </div>
 
-        <div class="row g-4">
-
+        <div class="row g-4 ">
             <!-- Mes dernières activités -->
             <div class="col-md-8">
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <span>
                             <i class="bi bi-clock-history me-2"></i>Mes dernières activités
@@ -198,7 +199,7 @@
             </div>
 
             <!-- Répartition par type -->
-            <div class="col-md-4">
+            <div class="col-md-4 h-100">
                 <div class="card">
                     <div class="card-header">
                         <i class="bi bi-pie-chart-fill me-2"></i>
@@ -210,16 +211,16 @@
                                 Aucune donnée disponible
                             </div>
                         @else
-                            <canvas id="chartTypes" height="220"></canvas>
+                            <canvas id="chartTypes" height="300"></canvas>
                         @endif
                     </div>
                 </div>
 
                 <!-- Lien récapitulatif -->
                 <div class="card mt-3">
-                    <div class="card-body text-center py-3">
-                        <a href="{{ route('activites.recapitulatif', $enseignant) }}" class="btn btn-primary w-100">
-                            <i class="bi bi-file-earmark-text me-2"></i>
+                    <div class="card-body text-center py-3 w-100">
+                        <a href="{{ route('activites.recapitulatif', $enseignant) }}" class="btn btn-primary w-100 p-2 text-center">
+                            <i class="bi bi-file-earmark-text me-1"></i>
                             Voir mon récapitulatif complet
                         </a>
                     </div>
@@ -231,52 +232,54 @@
     @endif
 
     @push('scripts')
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
-            @if (!$repartitionTypes->isEmpty())
-                const labelsTypes = @json(
-                    $repartitionTypes->map(function ($r) {
-                        switch ($r->type_action) {
-                            case 'creation':
-                                return 'Creation';
-                            case 'mise_a_jour':
-                                return 'Mise à jour';
-                            default:
-                                return $r->type;
-                        }
-                    })
-                );
+            document.addEventListener('DOMContentLoaded', function () {
+                @if (!$repartitionTypes->isEmpty())
+                    const labelsTypes = @json(
+                        $repartitionTypes->map(function ($r) {
+                            switch ($r->type_action) {
+                                case 'creation':
+                                    return 'Creation';
+                                case 'mise_a_jour':
+                                    return 'Mise à jour';
+                                default:
+                                    return $r->type;
+                            }
+                        })
+                    );
 
-                const dataTypes = @json($repartitionTypes->pluck('total'));
+                    const dataTypes = @json($repartitionTypes->pluck('total'));
 
-                new Chart(document.getElementById('chartTypes'), {
-                    type: 'doughnut',
-                    data: {
-                        labels: labelsTypes,
-                        datasets: [{
-                            data: dataTypes,
-                            backgroundColor: [
-                                '#2E7D32', '#1565C0', '#6A1B9A',
-                                '#E65100', '#00838F', '#AD1457'
-                            ],
-                            borderWidth: 2,
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    font: {
-                                        size: 11
+                    new Chart(document.getElementById('chartTypes'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: labelsTypes,
+                            datasets: [{
+                                data: dataTypes,
+                                backgroundColor: [
+                                    '#2E7D32', '#1565C0', '#6A1B9A',
+                                    '#E65100', '#00838F', '#AD1457'
+                                ],
+                                borderWidth: 2,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        font: {
+                                            size: 11
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                });
-            @endif
+                    });
+                @endif
+                })
         </script>
     @endpush
 </x-app-layout>

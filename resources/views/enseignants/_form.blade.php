@@ -194,7 +194,7 @@
                    <i class="bi bi-info-circle me-2" style="color:var(---green);"></i>
                    <div class="align-items-center">
                      Un compte d'enseignant sera créer pour cet enseignant avec l'email saisie.
-                     Le mot de passe par defaut sera : <span class="fw-bold">uvci@2026</span>.
+                     Le mot de passe par defaut sera : <span class="fw-bold">password</span>.
                    </div>
                </div>
            </div>

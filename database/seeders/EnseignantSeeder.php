@@ -61,7 +61,7 @@ class EnseignantSeeder extends Seeder
             $user = User::create([
                 "name" => $data['prenom'] . " " . $data['nom'],
                 "email" => $data['email'],
-                "password" => "uvci@2026"
+                "password" => "password"
             ]);
             $user->assignRole('enseignant');
             Enseignant::create([

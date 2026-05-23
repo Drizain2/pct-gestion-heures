@@ -4,7 +4,7 @@
     <div class="dashboard-header mb-5">
         <div class="d-flex align-items-center justify-content-between mb-4">
             <div>
-                <h2 class="fw-bold text-dark mb-1">Bienvenue, Secretaire 👋</h2>
+                <h2 class="fw-bold text-dark mb-1">Bienvenue, {{ Auth::user()->name }}</h2>
                 <p class="text-muted mb-0">Visualisez et gérez les heures d'enseignement des differents enseignants.</p>
             </div>
         </div>

@@ -57,7 +57,7 @@
                 <div class="card-body">
                     <h6 class="fw-semibold mb-4">Heures validées - 6 derniers mois</h6>
                     <div class="card-body">
-                        <canvas id="chartMois" height="120"></canvas>
+                        <canvas id="chartMois" height="300"></canvas>
                     </div>
                 </div>
             </div>
@@ -351,8 +351,9 @@
     </div>
 
     @push('scripts')
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){
             // Données pour le graphique des mois
             const labelsMois = JSON.parse('{!! $statsParMois->map(function ($s) {
                     return date('M Y', mktime(0, 0, 0, $s->mois, 1, $s->annee));
@@ -374,6 +375,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         legend: {
                             display: false
@@ -425,6 +427,8 @@
                     }
                 }
             });
+        
+        })
         </script>
     @endpush
 </x-app-layout>

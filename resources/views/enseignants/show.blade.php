@@ -82,7 +82,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <small class="text-muted d-block">Mot de passe par defaut</small>
-                                        <strong>uvci@2026</strong>
+                                        <strong>password</strong>
                                         <small class="text-muted d-block ">
                                             L'enseignant peut le changer depuis son profil
                                         </small>

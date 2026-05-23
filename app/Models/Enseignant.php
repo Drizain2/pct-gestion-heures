@@ -64,16 +64,16 @@ class Enseignant extends Model
     }
 
     // POurcentage de charge utilisé
-    // public function getPourcentageChargeAttribute()
-    // {
-    //     $seuil = $this->seuil_heures;
-    //     if ($seuil == 0) {
-    //         return 0;
-    //     }
-    //     $total = Activite::where('enseignant_id', $this->id)
-    //         ->where('statut', 'validee')
-    //         ->sum('heures_calculees');
+    public function getPourcentageChargeAttribute()
+    {
+        $seuil = $this->seuil_heures;
+        if ($seuil == 0) {
+            return 0;
+        }
+        $total = Activite::where('enseignant_id', $this->id)
+            ->where('statut', 'validee')
+            ->sum('heures_calculees');
 
-    //     return min(100, round(($total / $seuil) * 100, 1));
-    // }
+        return min(100, round(($total / $seuil) * 100, 1));
+    }
 }

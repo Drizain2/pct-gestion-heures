@@ -22,7 +22,7 @@ class EnseignantFactory extends Factory
         // Statuts possibles
         $statuts = ["Permanent","Vacataire"];
 
-        // Départements (exemples pour une université)
+        // Départements 
         $departements = [
             'Informatique', 'Mathématiques', 'Physique', 'Chimie',
             'Économie', 'Gestion', 'Droit', 'Lettres', 'Sciences Sociales'

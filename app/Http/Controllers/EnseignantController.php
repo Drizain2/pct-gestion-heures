@@ -64,7 +64,7 @@ class EnseignantController extends Controller
         $user = User::create([
             'name' => $request->nom.' '.$request->prenom,
             'email' => $request->email,
-            'password' => 'uvci@2026',
+            'password' => 'password',
         ]);
 
         // 2- Assigner le role
@@ -78,7 +78,7 @@ class EnseignantController extends Controller
 
         return redirect()
             ->route('enseignants.index')
-            ->with('success', "Enseignant crée. Identifiants : {$request->email} / uvci@2026");
+            ->with('success', "Enseignant crée. Identifiants : {$request->email} / password");
     }
 
     /**
