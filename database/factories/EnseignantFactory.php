@@ -29,17 +29,18 @@ class EnseignantFactory extends Factory
         ];
 
         $email = $faker->unique()->safeEmail;
-
+        $nom= $faker->lastName;
+        $prenom = $faker->firstName;
         return [
-            'nom' => $faker->lastName,
-            'prenom' => $faker->firstName,
+            'nom' => $nom,
+            'prenom' => $prenom,
             'grade' => $faker->randomElement($grades),
             'statut' => $faker->randomElement($statuts),
             'departement' => $faker->randomElement($departements),
             'email' => $email,
             'telephone' => $faker->phoneNumber, // Ex: +225 01 23 45 67 89
             'taux_horaire' => $faker->randomFloat(2, 5000, 50000), // Taux en XOF (ex: 5000 à 50000)
-            'user_id' => User::factory()->state(['email' => $email]),
+            'user_id' => User::factory()->state(['email' => $email,'name'=>"{$nom} {$prenom}"]),
         ];
     }
 

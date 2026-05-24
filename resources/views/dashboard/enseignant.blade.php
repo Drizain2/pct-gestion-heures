@@ -142,7 +142,7 @@
                             <i class="bi bi-plus-lg me-1"></i>Nouvelle
                         </a>
                     </div>
-                    <div class="card-body p-0">
+                    <div class="table-wrapper p-0">
                         <table class="table table-hover mb-0">
                             <thead>
                                 <tr>
@@ -150,7 +150,7 @@
                                     <th>Cours</th>
                                     <th>Action</th>
                                     <th>Complexité</th>
-                                    <th>Nb. Séquences</th>
+                                    <th>Nb Séq</th>
                                     <th>Volume</th>
                                     <th>Statut</th>
                                 </tr>
