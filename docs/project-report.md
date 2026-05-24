@@ -49,7 +49,7 @@ Ce projet est réalisé par une équipe de 6 personnes. Ci-dessous la répartiti
 - **Testeur / QA** : tests Pest, cas de tests, revue qualité.
 - **Documentaliste / UI/UX** : maquettage, documentation utilisateur, captures.
 
-Répartition des tâches (exemple) :
+Répartition des tâches :
 
 - Sprint 1 : structure DB, modèles `User`/`Enseignant`, auth (Back-end lead)
 - Sprint 2 : CRUD Enseignant, formulaire, validations (Back-end + Front-end)
@@ -91,7 +91,7 @@ Objectifs principaux :
 - Fournir aux enseignants un récapitulatif de leurs heures validées.
 - Exporter des rapports PDF/Excel pour la paie et le reporting.
 
-### Extrait du cahier des charges (PCT BD DAS 2026)
+### Extrait du cahier des charges
 
 Contexte : L'Université Virtuelle de Côte d'Ivoire (UV-CI) utilise un modèle pédagogique en ligne fondé sur des ressources numériques. Les activités des enseignants incluent la dispensation de cours, la conception et mise à jour de ressources pédagogiques, la création de séquences, quiz, évaluations et activités interactives.
 
@@ -260,7 +260,7 @@ graph LR
     subgraph UseCases
         U1((Gerer utilisateurs))
         U2((Creer/Modifier/Supprimer enseignants))
-        U3((Creer/Modifier/Supprimer cours (sequences, ressources)))
+        U3((Creer/Modifier/Supprimer cours 'sequences, ressources'))
         U4((Declarer activite))
         U5((Valider activite))
         U6((Consulter recapitulatif))
@@ -644,11 +644,3 @@ jobs:
 - Livraison bêta : validations, exports, tableaux de bord — Sprint 5
 - Livraison finale : tests, documentation complète, déploiement — Sprint 6
 
----
-
-Si tu confirmes, je peux maintenant :
-
-- 1) Générer les images Mermaid et les inclure dans `docs/assets/` puis mettre à jour le Markdown pour pointer vers les images (recommandé avant PDF), ou
-- 2) Convertir directement le Markdown en PDF (mais les diagrammes Mermaid peuvent ne pas s'afficher comme images si le convertisseur ne supporte pas Mermaid inline).
-
-Que souhaites-tu que je fasse ensuite ?
