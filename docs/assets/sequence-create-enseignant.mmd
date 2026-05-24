@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant Admin
+    participant Browser
+    participant EnseignantController
+    participant UserModel
+    participant EnseignantModel
+    Note over Admin,Browser: Remplit le formulaire et soumet
+    Browser->>EnseignantController: POST /enseignants
+    EnseignantController->>UserModel: firstOrCreate(email)
+    alt User exists
+        UserModel-->>EnseignantController: existing user
+        EnseignantController->>EnseignantModel: create(..., user_id)
+    else New user
+        UserModel-->>EnseignantController: created user
+        EnseignantController->>EnseignantModel: create(..., user_id)
+    end
+    EnseignantModel-->>Browser: redirect enseignants.index

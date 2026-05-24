@@ -1,0 +1,25 @@
+graph LR
+    subgraph Actors
+        A[Admin]
+        S[Secretaire]
+        E[Enseignant]
+    end
+
+    subgraph UseCases
+        U1((Gerer utilisateurs))
+        U2((Creer/Modifier/Supprimer enseignants))
+        U3((Creer/Modifier enseignants))
+        U4((Declarer activite))
+        U5((Valider activite))
+        U6((Consulter recapitulatif))
+        U7((Generer exports))
+    end
+
+    A --> U1
+    A --> U2
+    S --> U3
+    E --> U4
+    A --> U5
+    S --> U5
+    E --> U6
+    A --> U7

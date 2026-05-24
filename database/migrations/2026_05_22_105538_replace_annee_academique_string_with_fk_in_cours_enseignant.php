@@ -24,11 +24,24 @@ return new class extends Migration
         }
 
         // 2. Remplir depuis le libellé existant
-        DB::statement('
-            UPDATE cours_enseignant ce
-            INNER JOIN annee_academiques aa ON aa.libelle = ce.annee_academique
-            SET ce.annee_academique_id = aa.id
-        ');
+        if (DB::getDriverName() === 'sqlite') {
+            $rows = DB::table('cours_enseignant')
+                ->join('annee_academiques', 'annee_academiques.libelle', '=', 'cours_enseignant.annee_academique')
+                ->select('cours_enseignant.id as ce_id', 'annee_academiques.id as aa_id')
+                ->get();
+
+            foreach ($rows as $row) {
+                DB::table('cours_enseignant')
+                    ->where('id', $row->ce_id)
+                    ->update(['annee_academique_id' => $row->aa_id]);
+            }
+        } else {
+            DB::statement('
+                UPDATE cours_enseignant ce
+                INNER JOIN annee_academiques aa ON aa.libelle = ce.annee_academique
+                SET ce.annee_academique_id = aa.id
+            ');
+        }
 
         // 3. Créer le nouvel index unique AVANT de supprimer l'ancien
         // (MySQL refuse de supprimer un index qui couvre des colonnes FK sans qu'un autre index les couvre)
@@ -57,15 +70,28 @@ return new class extends Migration
             $table->string('annee_academique')->nullable()->after('enseignant_id');
         });
 
-        DB::statement('
-            UPDATE cours_enseignant ce
-            INNER JOIN annee_academiques aa ON aa.id = ce.annee_academique_id
-            SET ce.annee_academique = aa.libelle
-        ');
+        if (DB::getDriverName() === 'sqlite') {
+            $rows = DB::table('cours_enseignant')
+                ->join('annee_academiques', 'annee_academiques.id', '=', 'cours_enseignant.annee_academique_id')
+                ->select('cours_enseignant.id as ce_id', 'annee_academiques.libelle as aa_libelle')
+                ->get();
+
+            foreach ($rows as $row) {
+                DB::table('cours_enseignant')
+                    ->where('id', $row->ce_id)
+                    ->update(['annee_academique' => $row->aa_libelle]);
+            }
+        } else {
+            DB::statement('
+                UPDATE cours_enseignant ce
+                INNER JOIN annee_academiques aa ON aa.id = ce.annee_academique_id
+                SET ce.annee_academique = aa.libelle
+            ');
+        }
 
         Schema::table('cours_enseignant', function (Blueprint $table) {
             $table->dropForeign(['annee_academique_id']);
-            $table->dropColumn('annee_academique_id');
+            $table->dropColumn('annee_academatique_id');
             $table->unique(['cours_id', 'enseignant_id', 'annee_academique']);
         });
     }

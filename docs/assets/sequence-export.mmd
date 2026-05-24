@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant User
+    participant Browser
+    participant ExportController
+    participant ServiceExport
+    participant Storage
+
+    User->>Browser: Clique "Générer export"
+    Browser->>ExportController: POST /exports/generate
+    ExportController->>ServiceExport: prepareData(filter)
+    ServiceExport->>Storage: create temporary file
+    ServiceExport-->>ExportController: file path
+    ExportController-->>Browser: redirect/download

@@ -16,17 +16,19 @@ class EnseignantFactory extends Factory
 
         // Grades typiques en Côte d'Ivoire (ou adaptables)
         $grades = [
-            "Assistant","Maitre-Assistant","Professeur"
+            'Assistant', 'Maitre-Assistant', 'Professeur',
         ];
 
         // Statuts possibles
-        $statuts = ["Permanent","Vacataire"];
+        $statuts = ['Permanent', 'Vacataire'];
 
-        // Départements 
+        // Départements
         $departements = [
             'Informatique', 'Mathématiques', 'Physique', 'Chimie',
-            'Économie', 'Gestion', 'Droit', 'Lettres', 'Sciences Sociales'
+            'Économie', 'Gestion', 'Droit', 'Lettres', 'Sciences Sociales',
         ];
+
+        $email = $faker->unique()->safeEmail;
 
         return [
             'nom' => $faker->lastName,
@@ -34,10 +36,10 @@ class EnseignantFactory extends Factory
             'grade' => $faker->randomElement($grades),
             'statut' => $faker->randomElement($statuts),
             'departement' => $faker->randomElement($departements),
-            'email' => $faker->unique()->safeEmail,
+            'email' => $email,
             'telephone' => $faker->phoneNumber, // Ex: +225 01 23 45 67 89
             'taux_horaire' => $faker->randomFloat(2, 5000, 50000), // Taux en XOF (ex: 5000 à 50000)
-            'user_id' => User::factory(), // Relation avec User (si User existe)
+            'user_id' => User::factory()->state(['email' => $email]),
         ];
     }
 

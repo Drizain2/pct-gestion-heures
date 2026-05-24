@@ -8,6 +8,7 @@ use App\Http\Controllers\CoursController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EnseignantController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RessourceController;
 use App\Http\Controllers\SequenceController;
 use Illuminate\Support\Facades\Route;
@@ -85,6 +86,10 @@ Route::middleware(['auth'])->group(function () {
         });
 
     // Accessible à tous les utilisateurs authentifiés
+    Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
     Route::get('activites/{enseignant}/recapitulatif', [ActiviteController::class, 'recapitulatif'])->name('activites.recapitulatif');
     Route::get('enseignants/{enseignant}/recapitulatif/pdf', [ExportController::class, 'recapitulatifPdf'])->name('exports.recapitulatif.pdf');
     // Ressources pédagogiques : les enseignants produisent le contenu (Policy gère les droits fins)

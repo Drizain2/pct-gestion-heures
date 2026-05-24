@@ -219,7 +219,7 @@
                 @endphp
 
                 <a href="{{ route('activites.index') }}"
-                    class="nav-item {{ request()->routeIs('activites.*') ? 'active' : '' }}">
+                    class="nav-item {{ request()->routeIs('activites.*') && ! request()->routeIs('activites.recapitulatif') ? 'active' : '' }}">
                     <i class="bi bi-clock-history"></i>
                     <span>Activités</span>
                     @if($nbEnAttente > 0)
@@ -247,6 +247,14 @@
                     <span>Récapitulatifs</span>
                 </a>
                 @endrole
+
+                @auth
+                <a href="{{ route('profile.edit') }}"
+                    class="nav-item {{ request()->routeIs('profile.*') ? 'active' : '' }}">
+                    <i class="bi bi-person"></i>
+                    <span>Mon profil</span>
+                </a>
+                @endauth
 
                 {{-- ── EXPORTS (Admin + Secrétaire) ─────────── --}}
 

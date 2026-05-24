@@ -1,0 +1,45 @@
+erDiagram
+    USERS {
+        INT id PK
+        STRING name
+        STRING email
+        STRING password
+        DATETIME created_at
+        DATETIME updated_at
+    }
+    ENSEIGNANTS {
+        INT id PK
+        STRING nom
+        STRING prenom
+        STRING grade
+        STRING statut
+        STRING departement
+        FLOAT taux_horaire
+        STRING email
+        INT user_id FK
+        DATETIME created_at
+        DATETIME updated_at
+    }
+    COURS {
+        INT id PK
+        STRING titre
+        STRING code
+        INT annee_academique_id FK
+        DATETIME created_at
+        DATETIME updated_at
+    }
+    ACTIVITES {
+        INT id PK
+        INT enseignant_id FK
+        INT cours_id FK
+        DATE date_activite
+        FLOAT heures_calculees
+        STRING statut
+        STRING commentaire
+        DATETIME created_at
+        DATETIME updated_at
+    }
+
+    USERS ||--o{ ENSEIGNANTS : has
+    ENSEIGNANTS ||--o{ ACTIVITES : déclare
+    COURS ||--o{ ACTIVITES : concerne

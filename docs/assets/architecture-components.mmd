@@ -1,0 +1,11 @@
+flowchart TB
+    subgraph Backend
+        A[Controllers] --> B[Services]
+        B --> C[Models]
+        C --> D[(Database)]
+    end
+    subgraph Frontend
+        E[Blade Views] --> A
+        F[Assets: CSS/JS] --> E
+    end
+    D -->|Exports| G[Excel/PDF]

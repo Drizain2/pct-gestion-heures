@@ -1,0 +1,6 @@
+stateDiagram-v2
+    [*] --> en_attente
+    en_attente --> valide : validation
+    en_attente --> refuse : rejet
+    valide --> annule : annulation
+    refuse --> en_attente : réouverture

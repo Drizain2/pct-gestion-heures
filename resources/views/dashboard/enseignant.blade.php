@@ -215,7 +215,6 @@
                         @endif
                     </div>
                 </div>
-
                 <!-- Lien récapitulatif -->
                 <div class="card mt-3">
                     <div class="card-body text-center py-3 w-100">

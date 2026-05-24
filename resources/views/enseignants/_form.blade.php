@@ -193,8 +193,9 @@
                <div class="alert m-3" data-permanent style="background:var(---green-light); border-left:4px solid var(---green);">
                    <i class="bi bi-info-circle me-2" style="color:var(---green);"></i>
                    <div class="align-items-center">
-                     Un compte d'enseignant sera créer pour cet enseignant avec l'email saisie.
-                     Le mot de passe par defaut sera : <span class="fw-bold">password</span>.
+                     Un compte d'enseignant sera créé pour cet enseignant avec l'email saisie.
+                     Si un utilisateur existe déjà avec cette adresse, il sera réutilisé.
+                     Le mot de passe par défaut pour un nouveau compte sera : <span class="fw-bold">password</span>.
                    </div>
                </div>
            </div>

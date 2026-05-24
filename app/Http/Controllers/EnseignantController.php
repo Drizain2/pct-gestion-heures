@@ -60,17 +60,28 @@ class EnseignantController extends Controller
      */
     public function store(StoreEnseignantRequest $request)
     {
-        // 1- Créer un utilisateur
-        $user = User::create([
-            'name' => $request->nom.' '.$request->prenom,
+        $user = User::firstOrCreate([
             'email' => $request->email,
-            'password' => 'password',
+        ], [
+            'name' => $request->nom.' '.$request->prenom,
+            'password' => bcrypt('password'),
         ]);
 
-        // 2- Assigner le role
-        $user->assignRole('enseignant');
+        if ($user->enseignant) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors(['email' => 'Cet utilisateur est déjà associé à un enseignant.']);
+        }
 
-        // 3- Créer l'enseignant
+        $user->update([
+            'name' => $request->nom.' '.$request->prenom,
+        ]);
+
+        if (! $user->hasRole('enseignant')) {
+            $user->assignRole('enseignant');
+        }
+
         Enseignant::create([
             ...$request->validated(),
             'user_id' => $user->id,
@@ -109,12 +120,13 @@ class EnseignantController extends Controller
     public function update(StoreEnseignantRequest $request, Enseignant $enseignant)
     {
         $enseignant->update($request->validated());
-        if($enseignant->user){
+        if ($enseignant->user) {
             $enseignant->user->update([
-                'name'=> $request->nom.' '.$request->prenom,
-                'email'=> $request->email,
+                'name' => $request->nom.' '.$request->prenom,
+                'email' => $request->email,
             ]);
         }
+
         return redirect()->route('enseignants.index')->with('success', 'Enseignant modifié avec succès');
     }
 
@@ -123,10 +135,11 @@ class EnseignantController extends Controller
      */
     public function destroy(Enseignant $enseignant)
     {
-        if($enseignant->user){
+        if ($enseignant->user) {
             $enseignant->user->delete();
         }
         $enseignant->delete();
+
         return redirect()->route('enseignants.index')->with('success', 'Enseignant supprimé avec succès');
     }
 }
