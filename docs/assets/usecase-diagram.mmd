@@ -8,18 +8,23 @@ graph LR
     subgraph UseCases
         U1((Gerer utilisateurs))
         U2((Creer/Modifier/Supprimer enseignants))
-        U3((Creer/Modifier enseignants))
+        U3((Creer/Modifier/Supprimer cours/sequences/ressources))
         U4((Declarer activite))
         U5((Valider activite))
         U6((Consulter recapitulatif))
         U7((Generer exports))
+        U8((Generer paramètre Systeme))
     end
 
     A --> U1
     A --> U2
+    A --> U3
+    A --> U5
     S --> U3
     E --> U4
     A --> U5
     S --> U5
+    S --> U7
     E --> U6
     A --> U7
+    A --> U8
