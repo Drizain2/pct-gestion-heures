@@ -14,6 +14,17 @@ use App\Http\Controllers\SequenceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    if (auth()->check()) {
+        $user = auth()->user();
+
+        return match (true) {
+            $user->hasRole('admin') => redirect()->route('admin.dashboard'),
+            $user->hasRole('secretaire') => redirect()->route('secretaire.dashboard'),
+            $user->hasRole('enseignant') => redirect()->route('enseignant.dashboard'),
+            default => redirect()->route('profile.edit'),
+        };
+    }
+
     return view('auth.login');
 });
 

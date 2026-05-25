@@ -35,6 +35,14 @@ class NewPasswordController extends Controller
             'token' => ['required'],
             'email' => ['required', 'email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ], [
+            'token.required' => 'Le jeton de réinitialisation est requis.',
+            'email.required' => 'L’adresse email est requise.',
+            'email.email' => 'L’adresse email doit être valide.',
+            'password.required' => 'Le mot de passe est requis.',
+            'password.confirmed' => 'La confirmation du mot de passe ne correspond pas.',
+            'password.min' => 'Le mot de passe doit contenir au moins :min caractères.',
+            'password.string' => 'Le mot de passe doit être une chaîne de caractères.',
         ]);
 
         // Here we will attempt to reset the user's password. If it is successful we
