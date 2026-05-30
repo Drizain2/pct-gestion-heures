@@ -53,7 +53,7 @@
     <div class="row g-4 py-4">
         <!-- Carte Graphique -->
         <div class="col-md-6">
-            <div class="card shadow-sm border-0 h-100">
+            <div class="card shadow-sm dashboard-card h-100">
                 <div class="card-body">
                     <h6 class="fw-semibold mb-4">Heures validées - 6 derniers mois</h6>
                     <div class="card-body">
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card shadow-sm border-0 h-100">
+            <div class="card shadow-sm dashboard-card h-100">
                 <div class="card-body p-4">
                     <h5 class="fw-semibold mb-4">
                         <i class="bi bi-pie-chart-fill text-primary me-2"></i>

@@ -77,7 +77,7 @@
         </div>
 
         <!-- Jauge de charge horaire -->
-        <div class="card mb-4 fade-in-up">
+        <div class="card dashboard-card mb-4 fade-in-up">
             <div class="card-header">
                 <h6 class="card-header-title">
                     <i class="bi bi-speedometer2"></i>
@@ -133,7 +133,7 @@
         <div class="row g-4 ">
             <!-- Mes dernières activités -->
             <div class="col-md-8">
-                <div class="card h-100">
+                <div class="card dashboard-card h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <span>
                             <i class="bi bi-clock-history me-2"></i>Mes dernières activités
