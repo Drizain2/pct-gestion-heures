@@ -12,8 +12,8 @@
 
         <div class="row g-4">
             <div class="col-12 col-sm-6 col-xl-3">
-                <div class="stat-card blue">
-                    <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
+                <div class="stat-card bg-white ">
+                    <div class="stat-icon"><i class="bi bi-people-fill text-primary"></i></div>
                     <div class="stat-info">
                         <div class="stat-number">{{ $stats['enseignants'] ?? 0 }}</div>
                         <div class="stat-label">Enseignants</div>
@@ -22,7 +22,7 @@
             </div>
             <div class="col-12 col-sm-6 col-xl-3">
                 <div class="stat-card green">
-                    <div class="stat-icon"><i class="bi bi-book-fill"></i></div>
+                    <div class="stat-icon"><i class="bi bi-book-fill text-success"></i></div>
                     <div class="stat-info">
                         <div class="stat-number">{{ $stats['cours'] ?? 0 }}</div>
                         <div class="stat-label">Cours actifs</div>
@@ -31,7 +31,7 @@
             </div>
             <div class="col-12 col-sm-6 col-xl-3">
                 <div class="stat-card orange">
-                    <div class="stat-icon"><i class="bi bi-clock-fill"></i></div>
+                    <div class="stat-icon"><i class="bi bi-clock-fill text-warning"></i></div>
                     <div class="stat-info">
                         <div class="stat-number">{{ $heuresMois ?? 0 }}h</div>
                         <div class="stat-label">Heures ce mois</div>
@@ -40,7 +40,7 @@
             </div>
             <div class="col-12 col-sm-6 col-xl-3">
                 <div class="stat-card navy">
-                    <div class="stat-icon"><i class="bi bi-collection-fill"></i></div>
+                    <div class="stat-icon"><i class="bi bi-collection-fill text-info"></i></div>
                     <div class="stat-info">
                         <div class="stat-number">{{ $stats['ressources'] ?? 0 }}</div>
                         <div class="stat-label">Ressources</div>
@@ -134,6 +134,17 @@
     </div>
 
     <style>
+        .stat-card {
+            background: #fff !important;
+            color: #000;
+        }
+
+        .stat-card .stat-number,
+        .stat-card .stat-info,
+        .stat-card .stat-label {
+            color: #000 !important;
+        }
+
         @keyframes growUp {
             from {
                 transform: scaleY(0);

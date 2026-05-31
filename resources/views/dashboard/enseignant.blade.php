@@ -2,6 +2,19 @@
 <x-app-layout>
     <x-slot name="title">Mon espace</x-slot>
 
+    <style>
+        .stat-card {
+            background: #fff !important;
+            color: #000;
+        }
+
+        .stat-card .stat-number,
+        .stat-card .stat-info,
+        .stat-card .stat-label {
+            color: #000 !important;
+        }
+    </style>
+
     @if (!$enseignant)
         <div class="alert alert-warning">
             <i class="bi bi-exclamation-triangle me-2"></i>
@@ -38,7 +51,7 @@
         <div class="row g-3 mb-4">
             <div class="col-md-3 fade-in-up">
                 <div class="stat-card blue">
-                    <div class="stat-icon"><i class="bi bi-clock-fill"></i></div>
+                    <div class="stat-icon"><i class="bi bi-clock-fill text-primary"></i></div>
                     <div class="stat-info">
                         <div class="stat-number">{{ $stats['heures_mois'] }}h</div>
                         <div class="stat-label">Heures ce mois</div>
@@ -47,7 +60,7 @@
             </div>
             <div class="col-md-3 fade-in-up">
                 <div class="stat-card green">
-                    <div class="stat-icon"><i class="bi bi-check-circle-fill"></i></div>
+                    <div class="stat-icon"><i class="bi bi-check-circle-fill text-success"></i></div>
                     <div class="stat-info">
                         <div class="stat-number">{{ $stats['heures_normales'] }}h</div>
                         <div class="stat-label">Heures normales</div>
@@ -57,7 +70,7 @@
             <div class="col-md-3 fade-in-up">
                 <div class="stat-card {{ $stats['depasse_seuil'] ? 'orange' : 'navy' }}">
                     <div class="stat-icon">
-                        <i class="bi bi-{{ $stats['depasse_seuil'] ? 'lightning-fill' : 'hourglass-split' }}"></i>
+                        <i class="bi bi-{{ $stats['depasse_seuil'] ? 'lightning-fill' : 'hourglass-split' }} text-warning"></i>
                     </div>
                     <div class="stat-info">
                         <div class="stat-number">{{ $stats['heures_complementaires'] }}h</div>
@@ -67,7 +80,7 @@
             </div>
             <div class="col-md-3 fade-in-up">
                 <div class="stat-card navy">
-                    <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
+                    <div class="stat-icon"><i class="bi bi-hourglass-split text-info"></i></div>
                     <div class="stat-info">
                         <div class="stat-number">{{ $stats['en_attente'] }}</div>
                         <div class="stat-label">En attente</div>
