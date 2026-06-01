@@ -41,46 +41,6 @@
         </form>
     </div>
 
-    <!-- Stats heures -->
-    <div class="row g-3 mb-4">
-        <div class="col-md-3">
-            <div class="stat-card blue">
-                <i class="bi bi-clock-fill stat-icon"></i>
-                <div>
-                    <div class="stat-number">{{ $volume['total'] }}h</div>
-                    <div class="stat-label">Total heures</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="stat-card blue">
-                <i class="bi bi-plus-circle-fill stat-icon"></i>
-                <div>
-                    <div class="stat-number">{{ $volume['creation'] }}h</div>
-                    <div class="stat-label">Création</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="stat-card blue">
-                <i class="bi bi-arrow-clockwise stat-icon"></i>
-                <div>
-                    <div class="stat-number">{{ $volume['mise_a_jour'] }}h</div>
-                    <div class="stat-label">Mise à jour</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="stat-card blue">
-                <i class="bi bi-list-check stat-icon"></i>
-                <div>
-                    <div class="stat-number">{{ $volume['nb_activites'] }}</div>
-                    <div class="stat-label">Activités validées</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Détail heures normales / complémentaires -->
     <div class="card mb-4">
         <div class="card-header">

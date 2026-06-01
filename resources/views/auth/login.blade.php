@@ -11,7 +11,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action ="{{ route('login') }}">
         @csrf
         @if ($errors->any())
             <div class="alert alert-danger d-flex align-items-center mb-4" role="alert">
