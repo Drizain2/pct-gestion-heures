@@ -149,6 +149,8 @@
                                 </svg>
                             </a>
 
+                            {{-- La modification d'activité n'est pas disponible à ce stade --}}
+
                             @role('admin|secretaire')
                             @if($activite->statut === 'en_attente')
 

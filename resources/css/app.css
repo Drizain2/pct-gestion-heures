@@ -446,6 +446,11 @@ body.sidebar-collapsed .main-wrapper {
   overflow: hidden;
 }
 
+.dashboard-card {
+  border: 1px solid var(---blue) !important;
+  box-shadow: var(--shadow-sm);
+}
+
 .card-header {
   padding: 16px 20px;
   background: var(--white);
