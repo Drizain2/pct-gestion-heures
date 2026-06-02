@@ -10,6 +10,20 @@ test('profile page is displayed', function () {
         ->get('/profile');
 
     $response->assertOk();
+    $response->assertSee('id="sidebarToggle"', false);
+    $response->assertSee('sidebar-toggle');
+});
+
+test('profile page shows sidebar toggle button', function () {
+    $user = User::factory()->create();
+
+    $response = $this
+        ->actingAs($user)
+        ->get('/profile');
+
+    $response->assertOk();
+    $response->assertSee('id="sidebarToggle"', false);
+    $response->assertSee('id="sidebarToggleIcon"', false);
 });
 
 test('profile information can be updated', function () {

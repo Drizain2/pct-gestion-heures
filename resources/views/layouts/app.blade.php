@@ -72,17 +72,29 @@
             flex-grow: 1;
         }
 
-        @media (max-width: 991.98px) {
+        @media (max-width: 768px) {
             .sidebar {
-                left: calc(-1 * var(--sidebar-width));
+                left: 0;
+                transform: translateX(-100%);
+                box-shadow: none;
             }
 
             .sidebar.is-open {
+                transform: translateX(0);
+                box-shadow: 4px 0 32px rgba(0, 0, 0, 0.25);
+            }
+
+            body.sidebar-collapsed .sidebar {
                 left: 0;
             }
 
             .main-wrapper {
                 margin-left: 0;
+                width: 100%;
+            }
+
+            .sidebar-overlay {
+                display: none;
             }
 
             .sidebar-overlay.is-open {
@@ -314,9 +326,9 @@
             {{-- ── TOPBAR ─────────────────────────────────────── --}}
             <header class="topbar">
                 <div class="topbar-left">
-                    {{-- Toggle mobile --}}
-                    <button class="btn btn-light d-lg-none me-3" id="sidebarToggle">
-                        <i class="bi bi-list fs-5"></i>
+                    {{-- Toggle sidebar --}}
+                    <button class="btn btn-light me-3 sidebar-toggle" id="sidebarToggle" aria-label="Basculer la barre latérale">
+                        <i class="bi bi-list fs-5" id="sidebarToggleIcon"></i>
                     </button>
 
                     {{-- Fil d'ariane / Titre --}}
@@ -364,7 +376,7 @@
 
                 {{-- HEADER DASHBOARD (Uniquement sur l'index admin) --}}
                 @if(request()->routeIs('admin.dashboard'))
-                    
+
                 @endif
 
                 {{-- Flash Messages --}}
@@ -402,29 +414,81 @@
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebarOverlay');
         const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebarToggleIcon = document.getElementById('sidebarToggleIcon');
+
+        function isMobileSidebar() {
+            return window.innerWidth <= 768;
+        }
+
+        function updateSidebarToggleIcon() {
+            const isCollapsed = document.body.classList.contains('sidebar-collapsed');
+            const isMobileOpen = sidebar?.classList.contains('is-open');
+            const sidebarVisible = isMobileSidebar() ? isMobileOpen : !isCollapsed;
+
+            if (sidebarVisible) {
+                sidebarToggleIcon?.classList.remove('bi-list');
+                sidebarToggleIcon?.classList.add('bi-x-lg');
+            } else {
+                sidebarToggleIcon?.classList.remove('bi-x-lg');
+                sidebarToggleIcon?.classList.add('bi-list');
+            }
+        }
 
         function openSidebar() {
-            sidebar?.classList.add('is-open');
-            overlay?.classList.add('is-open');
-            document.body.style.overflow = 'hidden';
+            if (isMobileSidebar()) {
+                sidebar?.classList.add('is-open');
+                overlay?.classList.add('is-open');
+                document.body.style.overflow = 'hidden';
+                document.body.classList.remove('sidebar-collapsed');
+            } else {
+                document.body.classList.remove('sidebar-collapsed');
+            }
+
+            updateSidebarToggleIcon();
         }
 
         function closeSidebar() {
-            sidebar?.classList.remove('is-open');
-            overlay?.classList.remove('is-open');
-            document.body.style.overflow = '';
+            if (isMobileSidebar()) {
+                sidebar?.classList.remove('is-open');
+                overlay?.classList.remove('is-open');
+                document.body.style.overflow = '';
+            } else {
+                document.body.classList.add('sidebar-collapsed');
+            }
+
+            updateSidebarToggleIcon();
         }
 
         sidebarToggle?.addEventListener('click', (e) => {
             e.stopPropagation();
-            sidebar?.classList.contains('is-open') ? closeSidebar() : openSidebar();
+
+            if (isMobileSidebar()) {
+                sidebar?.classList.contains('is-open') ? closeSidebar() : openSidebar();
+            } else {
+                document.body.classList.toggle('sidebar-collapsed');
+                updateSidebarToggleIcon();
+            }
         });
 
         overlay?.addEventListener('click', closeSidebar);
 
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') closeSidebar();
+        window.addEventListener('resize', () => {
+            if (!isMobileSidebar()) {
+                sidebar?.classList.remove('is-open');
+                overlay?.classList.remove('is-open');
+                document.body.style.overflow = '';
+            }
+
+            updateSidebarToggleIcon();
         });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && isMobileSidebar()) {
+                closeSidebar();
+            }
+        });
+
+        updateSidebarToggleIcon();
 
         // ── Auto-fermeture des alertes après 5s (sauf data-permanent) ─────
         document.querySelectorAll('.alert:not([data-permanent])').forEach(alert => {

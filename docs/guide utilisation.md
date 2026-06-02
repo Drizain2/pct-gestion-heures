@@ -72,7 +72,7 @@ L’email de l’enseignant est synchronisé avec le compte utilisateur lié.
 ### Créer un cours
 
 1. Ouvrez la page **Cours & Ressources**.
-2. Cliquez sur **Ajouter un cou  rs**.
+2. Cliquez sur **Ajouter un cours**.
 3. Renseignez le titre, le code, le département et les enseignants associés.
 4. Enregistrez.
 
