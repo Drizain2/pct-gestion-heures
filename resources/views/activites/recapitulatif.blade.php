@@ -1,13 +1,13 @@
 <x-app-layout>
-    <x-slot name="title">Récapitulatif — {{ $enseignant->nom_complet }}</x-slot>
+    <x-slot name="title">Récapitulatif — {{ $enseignant?->nom_complet }}</x-slot>
 
     <div class="page-header">
         <div class="page-header-left">
             <h4>
                 <i class="bi bi-person-lines-fill me-2"></i>
-                Récapitulatif : {{ $enseignant->nom_complet }}
+                Récapitulatif : {{ $enseignant?->nom_complet }}
             </h4>
-            <p>{{ $enseignant->grade }} — {{ $enseignant->departement }}</p>
+            <p>{{ $enseignant?->grade }} — {{ $enseignant?->departement }}</p>
         </div>
         <div class="d-flex gap-2">
             <a href="{{ route('exports.recapitulatif.pdf', [$enseignant, 'debut' => $debut, 'fin' => $fin]) }}"
@@ -122,27 +122,27 @@
                 <tbody>
                     @forelse($activites as $activite)
                         <tr>
-                            <td>{{ $activite->date_activite->format('d/m/Y') }}</td>
-                            <td>{{ $activite->cours->intitule }}</td>
+                            <td>{{ $activite?->date_activite?->format('d/m/Y') }}</td>
+                            <td>{{ $activite?->cours?->intitule }}</td>
                             <td>
-                                <span class="badge badge-blue">{{ $activite->nb_sequences }}</span>
+                                <span class="badge badge-blue">{{ $activite?->nb_sequences }}</span>
                             </td>
                             {{-- <td>
                                 <span class="badge"
-                                    style="background:{{ $activite->ressource->type_couleur }}; font-size:0.75rem;">
-                                    {{ $activite->ressource->type_label }}
+                                    style="background:{{ $activite?->ressource?->type_couleur }}; font-size:0.75rem;">
+                                    {{ $activite?->ressource?->type_label }}
                                 </span>
                             </td> --}}
-                            <td>{{ $activite->complexite }}</td>
+                            <td>{{ $activite?->complexite }}</td>
                             <td>
-                                @if ($activite->type_action === 'creation')
+                                @if ($activite?->type_action === 'creation')
                                     <span class="badge badge-green">Création</span>
                                 @else
                                     <span class="badge badge-blue">MAJ</span>
                                 @endif
                             </td>
                             <td>
-                                <strong style="color:var(---orange);">{{ $activite->heures_calculees }}h</strong>
+                                <strong style="color:var(---orange);">{{ $activite?->heures_calculees ?? '0' }}h</strong>
                             </td>
                         </tr>
                     @empty

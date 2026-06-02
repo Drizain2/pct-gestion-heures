@@ -7,7 +7,6 @@ use App\Models\Activite;
 use App\Models\Cours;
 use App\Models\Enseignant;
 use App\Models\ParametreCalcule;
-use App\Models\Ressource;
 use App\Services\CalculHoraireService;
 use Illuminate\Http\Request;
 
@@ -51,12 +50,20 @@ class ActiviteController extends Controller
     public function create()
     {
         $enseignants = Enseignant::orderBy('nom')->get();
-        $ressources = Ressource::with('sequence.cours')->orderBy('titre')->get();
-        $cours = Cours::with('sequences')->orderBy('intitule')->get();
-        $coefficients = ParametreCalcule::getAllCoefficients();
         $enseignantSelectionne = auth()->user()->enseignant?->id;
+        $isEnseignant = auth()->user()->hasRole('enseignant');
+        $coefficients = ParametreCalcule::getAllCoefficients();
 
-        return view('activites.create', compact('enseignants', 'cours', 'enseignantSelectionne', 'coefficients'));
+        if ($isEnseignant && $enseignantSelectionne) {
+            $cours = Cours::with('sequences')
+                ->whereHas('enseignants', fn ($q) => $q->where('enseignants.id', $enseignantSelectionne))
+                ->orderBy('intitule')
+                ->get();
+        } else {
+            $cours = Cours::with('sequences')->orderBy('intitule')->get();
+        }
+
+        return view('activites.create', compact('enseignants', 'cours', 'enseignantSelectionne', 'isEnseignant', 'coefficients'));
     }
 
     public function store(StoreActiviteRequest $request)

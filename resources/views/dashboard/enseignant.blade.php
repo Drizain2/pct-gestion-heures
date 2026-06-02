@@ -25,16 +25,17 @@
         <!-- Bienvenue -->
         <div class="card mb-4" style="background:linear-gradient(135deg,var(---blue-dark),var(---blue)); color:#fff;">
             <div class="card-body p-4 d-flex align-items-center gap-3">
-                <div style="width:60px; height:60px; border-radius:50%;
+                <div
+                    style="width:60px; height:60px; border-radius:50%;
                                                     background:rgba(255,255,255,0.2);
                                                     display:flex; align-items:center; justify-content:center;
                                                     font-size:1.5rem; font-weight:700;">
-                    {{ strtoupper(substr($enseignant->prenom, 0, 1)) }}
+                    {{ strtoupper(substr($enseignant?->prenom, 0, 1)) }}
                 </div>
                 <div>
-                    <h5 class="mb-0 fw-bold">Bonjour, {{ $enseignant->prenom }} !</h5>
+                    <h5 class="mb-0 fw-bold">Bonjour, {{ $enseignant?->prenom }} !</h5>
                     <small style="opacity:0.8;">
-                        {{ $enseignant->grade }} — {{ $enseignant->departement }}
+                        {{ $enseignant?->grade }} — {{ $enseignant?->departement }}
                     </small>
                 </div>
                 <div class="ms-auto text-end">
@@ -70,7 +71,8 @@
             <div class="col-md-3 fade-in-up">
                 <div class="stat-card {{ $stats['depasse_seuil'] ? 'orange' : 'navy' }}">
                     <div class="stat-icon">
-                        <i class="bi bi-{{ $stats['depasse_seuil'] ? 'lightning-fill' : 'hourglass-split' }} text-warning"></i>
+                        <i
+                            class="bi bi-{{ $stats['depasse_seuil'] ? 'lightning-fill' : 'hourglass-split' }} text-warning"></i>
                     </div>
                     <div class="stat-info">
                         <div class="stat-number">{{ $stats['heures_complementaires'] }}h</div>
@@ -112,18 +114,20 @@
                 <!-- Barre de progression -->
                 <div style="background:var(--border-color); border-radius:20px; height:12px; overflow:hidden;">
                     <!-- Heures normales -->
-                    <div style="
+                    <div
+                        style="
                     width: {{ min($stats['pourcentage_charge'], 100) }}%;
                     height: 100%;
                     background: {{ $stats['depasse_seuil']
-                    ? 'linear-gradient(90deg, #00A86B, #F5A623)'
-                    : 'linear-gradient(90deg, #003B7A, #00A86B)' }};
+                        ? 'linear-gradient(90deg, #00A86B, #F5A623)'
+                        : 'linear-gradient(90deg, #003B7A, #00A86B)' }};
                         border-radius: 20px;
                         transition: width 0.8s ease;
-                    "></div>
+                    ">
+                    </div>
                 </div>
 
-                @if($stats['depasse_seuil'])
+                @if ($stats['depasse_seuil'])
                     <div class="alert  alert-warning mt-3 mb-0 " data-permanent>
                         <div class="d-flex gap-1">
                             <i class="bi bi-lightning-fill me-2"></i>
@@ -231,21 +235,95 @@
                 <!-- Lien récapitulatif -->
                 <div class="card mt-3">
                     <div class="card-body text-center py-3 w-100">
-                        <a href="{{ route('activites.recapitulatif', $enseignant) }}" class="btn btn-primary w-100 p-2 text-center">
+                        <a href="{{ route('activites.recapitulatif', $enseignant) }}"
+                            class="btn btn-primary w-100 p-2 text-center">
                             <i class="bi bi-file-earmark-text me-1"></i>
                             Voir mon récapitulatif complet
                         </a>
                     </div>
                 </div>
             </div>
-
         </div>
+
+        {{-- Mes Cours --}}
+        <div class="row mt-4">
+        
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Intitulé</th>
+                                    <th>Niveau</th>
+                                    <th>Semestre</th>
+                                    <th>Heures</th>
+                                    <th>Crédits</th>
+                                    <th>Nbr Seq</th>
+                                    <th>Année académique</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($cours as $c)
+                                    <tr>
+                                        <td class="text-muted">{{ $loop->iteration }}</td>
+                                        <td><strong>{{ $c->intitule }}</strong></td>
+                                        <td>
+                                            <span class="badge badge-blue me-1 mb-1">
+                                                {{ $c->niveau }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-gray">{{ $c->semestre }}</span>
+                                        </td>
+                                        <td>{{ $c->nombre_heures }}h</td>
+                                        <td>{{ $c->nombre_credits }}</td>
+                                        <td>
+                                            @if ($c->sequences()->count() > 0)
+                                                {{ $c->sequences()->count() }}
+                                            @else
+                                                Aucune séquence
+                                            @endif
+                                        </td>
+                                        <td>
+                                           {{ $c->annee_libelle }} 
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="9" class="text-center py-5">
+                                            <div class="py-4">
+                                                <i class="bi bi-book" style="font-size: 3.5rem; color: #cbd5e1;"></i>
+                                                <h5 class="mt-3 fw-semibold">Aucun cours enregistré</h5>
+                                                <p class="text-muted mb-3">
+                                                    Commence par ajouter ton premier cours pour l’année académique en
+                                                    cours.
+                                                </p>
+                                                <a href="{{ route('cours.create') }}" class="btn btn-primary">
+                                                    <i class="bi bi-plus-lg me-1"></i> Nouveau cours
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Pagination -->
+                <div class="d-flex justify-content-center m-4">
+                    {{ $cours->links('pagination::bootstrap-5') }}
+                </div>
+            </div>
+       
+    </div>
 
     @endif
 
     @push('scripts')
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function() {
                 @if (!$repartitionTypes->isEmpty())
                     const labelsTypes = @json(
                         $repartitionTypes->map(function ($r) {
@@ -257,8 +335,7 @@
                                 default:
                                     return $r->type;
                             }
-                        })
-                    );
+                        }));
 
                     const dataTypes = @json($repartitionTypes->pluck('total'));
 
@@ -291,7 +368,7 @@
                         }
                     });
                 @endif
-                })
+            })
         </script>
     @endpush
 </x-app-layout>

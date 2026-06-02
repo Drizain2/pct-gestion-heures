@@ -7,11 +7,12 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreActiviteRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
+        if (auth()->user()->hasRole('enseignant')) {
+            return (string) $this->input('enseignant_id') === (string) auth()->user()->enseignant?->id;
+        }
+
         return true;
     }
 

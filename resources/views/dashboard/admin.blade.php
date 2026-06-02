@@ -53,6 +53,12 @@
     <div class="row g-4 py-4">
         <!-- Carte Graphique -->
         <div class="col-md-6">
+            @if ($statsParMois->isEmpty())
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Aucune donnée disponible pour les 6 derniers mois.
+                </div>
+            @else
             <div class="card shadow-sm dashboard-card h-100">
                 <div class="card-body">
                     <h6 class="fw-semibold mb-4">Heures validées - 6 derniers mois</h6>
@@ -61,9 +67,16 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
         <div class="col-md-6">
             <div class="card shadow-sm dashboard-card h-100">
+                @if ($heuresParDepartement->isEmpty())
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Aucune donnée disponible pour les départements.
+                    </div>
+                @else
                 <div class="card-body p-4">
                     <h5 class="fw-semibold mb-4">
                         <i class="bi bi-pie-chart-fill text-primary me-2"></i>
@@ -75,6 +88,7 @@
                         <canvas id="chartDept" height="300"></canvas>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
 

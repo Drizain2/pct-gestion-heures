@@ -13,13 +13,6 @@
 
     <form method="POST" action ="{{ route('login') }}">
         @csrf
-        @if ($errors->any())
-            <div class="alert alert-danger d-flex align-items-center mb-4" role="alert">
-                <i class="bi bi-x-circle-fill me-2"></i>
-                <div>Ces identifiants ne correspondent pas à nos enregistrements.</div>
-            </div>
-        @endif
-
         <div class="mb-3">
 
             <div class="mb-3">
@@ -31,11 +24,6 @@
                         class="form-control ps-5 @error('email') is-invalid @enderror" placeholder="votre@uvci.ci"
                         required autofocus>
                 </div>
-                @error('email')
-                    <div class="invalid-feedback d-block mt-1">
-                        <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
-                    </div>
-                @enderror
             </div>
 
             <div class="mb-4">
@@ -46,11 +34,6 @@
                         class="form-control ps-5 @error('password') is-invalid @enderror" placeholder="••••••••"
                         required>
                 </div>
-                @error('password')
-                    <div class="invalid-feedback d-block mt-1">
-                        <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
-                    </div>
-                @enderror
             </div>
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div class="form-check">

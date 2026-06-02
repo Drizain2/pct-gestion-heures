@@ -213,19 +213,27 @@
 
                     <div class="field">
                         <label for="enseignant_id">Enseignant <span class="required">*</span></label>
-                        <select name="enseignant_id" id="enseignant_id"
-                                class="{{ $errors->has('enseignant_id') ? 'is-invalid' : '' }}" required>
-                            <option value="">— Sélectionner —</option>
-                            @foreach($enseignants as $e)
-                                <option value="{{ $e->id }}"
-                                    {{ old('enseignant_id', $enseignantSelectionne) == $e->id ? 'selected' : '' }}>
-                                    {{ $e->nom }} {{ $e->prenom }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('enseignant_id')
-                            <span class="field-error">{{ $message }}</span>
-                        @enderror
+                        @if($isEnseignant && $enseignantSelectionne)
+                            @php $me = $enseignants->firstWhere('id', $enseignantSelectionne); @endphp
+                            <input type="text" value="{{ $me?->nom }} {{ $me?->prenom }}"
+                                   disabled
+                                   style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;font-family:inherit;background:var(--surface-alt);color:var(--text-muted);width:100%;cursor:not-allowed">
+                            <input type="hidden" name="enseignant_id" id="enseignant_id" value="{{ $enseignantSelectionne }}">
+                        @else
+                            <select name="enseignant_id" id="enseignant_id"
+                                    class="{{ $errors->has('enseignant_id') ? 'is-invalid' : '' }}" required>
+                                <option value="">— Sélectionner —</option>
+                                @foreach($enseignants as $e)
+                                    <option value="{{ $e->id }}"
+                                        {{ old('enseignant_id', $enseignantSelectionne) == $e->id ? 'selected' : '' }}>
+                                        {{ $e->nom }} {{ $e->prenom }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('enseignant_id')
+                                <span class="field-error">{{ $message }}</span>
+                            @enderror
+                        @endif
                     </div>
 
                     <div class="field">
@@ -392,11 +400,20 @@
     const iconPending  = document.getElementById('iconPending');
     const iconReady    = document.getElementById('iconReady');
 
+    /* Initialise btnMax.dataset.max si un cours est déjà sélectionné (ex: old() après erreur) */
+    (function initMaxFromPreselected () {
+        const opt = coursSelect.options[coursSelect.selectedIndex];
+        if (opt && opt.value && opt.dataset.maxSeq !== undefined) {
+            const pre = opt.dataset.maxSeq;
+            seqHint.textContent = `Ce cours comporte ${pre} séquence(s) au total`;
+            btnMax.dataset.max  = pre;
+        }
+    })();
+
     /* Bouton Max */
     coursSelect.addEventListener('change', function () {
         const opt = this.options[this.selectedIndex];
         const max = opt.dataset.maxSeq;
-        console.log("max",opt.dataset)
         if (max && parseInt(max) >= 0) {
             seqHint.textContent = `Ce cours comporte ${max} séquence(s) au total`;
             btnMax.dataset.max  = max;
@@ -480,35 +497,36 @@
     }
 
     /* Écouteurs */
+    @unless($isEnseignant)
     document.getElementById('enseignant_id').addEventListener('change', function() {
-    let enseignantId = this.value;
-    let coursSelect = document.getElementById('cours_id');
-    
-    coursSelect.innerHTML = '<option value="">Chargement...</option>';
-    
-    if(enseignantId) {
-        fetch('/enseignants/' + enseignantId + '/cours')
-            .then(response => response.json())
-            .then(data => {
-                coursSelect.innerHTML = '<option value="">— Sélectionner —</option>';
-                if(data.length > 0) {
-                    data.forEach(cours => {
-                        coursSelect.innerHTML += `<option value="${cours.id}" data-max-seq="${cours.sequences.length}">${cours.intitule}</option>`;
+        let enseignantId = this.value;
+        let coursSelect = document.getElementById('cours_id');
 
-                    });
-                } else {
-                    coursSelect.innerHTML = '<option value="">Aucun cours pour cet enseignant</option>';
-                }
-            })
-            .catch(() => {
-                coursSelect.innerHTML = '<option value="">Erreur de chargement</option>';
-            });
-    } else {
-        coursSelect.innerHTML = '<option value="">— Sélectionner —</option>';
-    }
-    
-    recalculate();
-});
+        coursSelect.innerHTML = '<option value="">Chargement...</option>';
+
+        if (enseignantId) {
+            fetch('/enseignants/' + enseignantId + '/cours')
+                .then(response => response.json())
+                .then(data => {
+                    coursSelect.innerHTML = '<option value="">— Sélectionner —</option>';
+                    if (data.length > 0) {
+                        data.forEach(cours => {
+                            coursSelect.innerHTML += `<option value="${cours.id}" data-max-seq="${cours.sequences.length}">${cours.intitule}</option>`;
+                        });
+                    } else {
+                        coursSelect.innerHTML = '<option value="">Aucun cours pour cet enseignant</option>';
+                    }
+                })
+                .catch(() => {
+                    coursSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+                });
+        } else {
+            coursSelect.innerHTML = '<option value="">— Sélectionner —</option>';
+        }
+
+        recalculate();
+    });
+    @endunless
 
 document.getElementById('date_activite').addEventListener('change', recalculate);
 nbSeqInput.addEventListener('input', recalculate);

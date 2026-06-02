@@ -19,28 +19,28 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <small class="text-muted d-block">Enseignant</small>
-                            <strong>{{ $activite->enseignant->nom_complet }}</strong>
+                            <strong>{{ $activite?->enseignant?->nom_complet }}</strong>
                         </div>
                         <div class="col-md-6">
                             <small class="text-muted d-block">Date</small>
-                            <strong>{{ $activite->date_activite->format('d/m/Y') }}</strong>
+                            <strong>{{ $activite?->date_activite?->format('d/m/Y') }}</strong>
                         </div>
                         <div class="col-md-6">
                             <small class="text-muted d-block">Cours</small>
-                            <strong>{{ $activite->cours?->intitule }}</strong>
+                            <strong>{{ $activite?->cours?->intitule }}</strong>
                             <small class="text-muted d-block">
-                                {{ $activite->nb_sequences }} séquence(s)
+                                {{ $activite?->nb_sequences }} séquence(s)
                             </small>
                         </div>
                         <div class="col-md-6">
                             <small class="text-muted d-block">Complexité</small>
                             <span class="badge badge-gray">
-                                {{ $activite->complexite }}
+                                {{ $activite?->complexite }}
                             </span>
                         </div>
                         <div class="col-md-6">
                             <small class="text-muted d-block">Type d'action</small>
-                            @if($activite->type_action === 'creation')
+                            @if($activite?->type_action === 'creation')
                                 <span class="badge badge-green">Création</span>
                             @else
                                 <span class="badge badge-blue">Mise à jour</span>
@@ -49,18 +49,18 @@
                         <div class="col-md-6">
                             <small class="text-muted d-block">Heures calculées</small>
                             <strong style="color:var(---orange); font-size:1.3rem;">
-                                {{ $activite->heures_calculees }}h
+                                {{ $activite?->heures_calculees ?? '0' }}h
                             </strong>
                         </div>
 
-                        @if($activite->commentaire)
+                        @if($activite?->commentaire)
                         <div class="col-12">
                             <small class="text-muted d-block">Commentaire</small>
-                            <p class="mb-0">{{ $activite->commentaire }}</p>
+                            <p class="mb-0">{{ $activite?->commentaire }}</p>
                         </div>
                         @endif
 
-                        @if($activite->validee_par)
+                        @if($activite?->validee_par)
                         <div class="col-12">
                             <hr>
                             <small class="text-muted d-block">

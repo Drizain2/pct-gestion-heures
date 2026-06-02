@@ -90,16 +90,16 @@
                 <tr>
                     <td data-label="Date">
                         <span class="cell-date">
-                            {{ $activite->date_activite->format('d/m/Y') }}
+                            {{ $activite?->date_activite?->format('d/m/Y') ?? 'N/A'}}
                         </span>
                     </td>
 
                     <td data-label="Enseignant">
-                        <span class="cell-enseignant">{{ $activite->enseignant->nom_complet }}</span>
+                        <span class="cell-enseignant">{{ $activite?->enseignant?->nom_complet ?? 'N/A' }}</span>
                     </td>
 
                     <td data-label="Cours">
-                        <div class="cell-cours-main">{{ $activite->cours?->intitule }}</div>
+                        <div class="cell-cours-main">{{ $activite?->cours?->intitule ?? 'N/A' }}</div>
                         <div class="cell-cours-sub">
                             {{ $activite->nb_sequences }} séquence(s)
                             &mdash; {{ $activite->complexite }}
@@ -115,20 +115,20 @@
                     </td>
 
                     <td data-label="Heures">
-                        <span class="cell-heures">{{ $activite->heures_calculees }}h</span>
+                        <span class="cell-heures">{{ $activite?->heures_calculees ?? 'N/A'}}h</span>
                     </td>
 
                     <td data-label="Statut">
                         @php
-                            $statutClass = match($activite->statut) {
+                            $statutClass = match($activite?->statut) {
                                 'validee'    => 'badge-green',
                                 'rejetee'    => 'badge-red',
                                 default      => 'badge-orange',
                             };
-                            $statutLabel = match($activite->statut) {
+                            $statutLabel = match($activite?->statut) {
                                 'validee'    => 'Validée',
                                 'rejetee'    => 'Rejetée',
-                                default      => 'En attente',
+                                default      => 'En attente' ?? 'N/A',
                             };
                         @endphp
                         <span class="badge {{ $statutClass }}">{{ $statutLabel }}</span>
@@ -152,7 +152,7 @@
                             {{-- La modification d'activité n'est pas disponible à ce stade --}}
 
                             @role('admin|secretaire')
-                            @if($activite->statut === 'en_attente')
+                            @if($activite?->statut === 'en_attente')
 
                             {{-- Valider --}}
                             <form method="POST" action="{{ route('activites.valider', $activite) }}"
@@ -183,7 +183,7 @@
                             @endif
                             @endrole
 
-                            @if($activite->statut === 'en_attente')
+                            @if($activite?->statut === 'en_attente')
                             {{-- Supprimer --}}
                             <form method="POST" action="{{ route('activites.destroy', $activite) }}"
                                   style="display:contents"
