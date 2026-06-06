@@ -18,6 +18,7 @@ rectangle  "Gestion des Heures Enseignants UVCI" {
     usecase "Calculer volume horaire" as UC9
     usecase "Gérer états et rapports" as UC10
     usecase "Consulter mes activités" as UC11
+    usecase "Créer une activité" as UC12
 }
 
 Admin --> UC1

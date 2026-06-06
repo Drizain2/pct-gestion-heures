@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Enseignant;
 use App\Models\User;
+use App\Models\Secretaire;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -41,16 +43,22 @@ class UserController extends Controller
             'password' => bcrypt($request->input('password')),
         ]);
 
-        if ($request->input('role') === 'enseignant') {
-            Enseignant::create([
-                'user_id' => $user->id,
-                'nom' => $request->input('name'),
-                'prenom' => $request->input('prenom'),
-                'email' => $request->input('email'),
-                'grade' => $request->input('grade'),
-                'departement'=>$request->input('departement'),
-            ]);
-        }
+        match($request->input('role')){
+            'admin'=>$this->createAdmin($user),
+            'secretaire'=>$this->createSecretaire($user),
+            'enseignant'=>$this->createEnseignant($user,$request->validated()),
+        };
+
+        // if ($request->input('role') === 'enseignant') {
+        //     Enseignant::create([
+        //         'user_id' => $user->id,
+        //         'nom' => $request->input('name'),
+        //         'prenom' => $request->input('prenom'),
+        //         'email' => $request->input('email'),
+        //         'grade' => $request->input('grade'),
+        //         'departement'=>$request->input('departement'),
+        //     ]);
+        // }
 
         $user->assignRole($request->input('role'));
 
@@ -94,5 +102,22 @@ class UserController extends Controller
         $user->delete();
 
         return back()->with('success', 'Utilisateur supprimé avec succès');
+    }
+
+    public function createEnseignant($user,$request){
+        Enseignant::create([
+                'user_id' => $user->id,
+                'nom' => $request->input('name'),
+                'prenom' => $request->input('prenom'),
+                'email' => $request->input('email'),
+                'grade' => $request->input('grade'),
+                'departement'=>$request->input('departement'),
+            ]);
+    }
+    public function createAdmin($user){
+        Admin::create(['user_id' => $user->id,]);
+        }
+    public function createSecretaire($user){
+        Secretaire::create(['user_id' => $user->id,]);
     }
 }

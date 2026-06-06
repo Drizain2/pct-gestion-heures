@@ -34,4 +34,10 @@ class User extends Authenticatable
     public function enseignant(){
         return $this->hasOne(Enseignant::class,"user_id");
     }
+    public function admin(){
+        return $this->hasOne(Admin::class,"user_id");
+    }
+    public function secretaire(){
+        return $this->hasOne(Secretaire::class,"user_id");
+    }
 }

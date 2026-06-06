@@ -54,7 +54,7 @@
         <!-- Carte Graphique -->
         <div class="col-md-6">
             @if ($statsParMois->isEmpty())
-                <div class="alert alert-info">
+                <div class="alert alert-info" data-permanent>
                     <i class="bi bi-info-circle me-2"></i>
                     Aucune donnée disponible pour les 6 derniers mois.
                 </div>
@@ -70,13 +70,13 @@
             @endif
         </div>
         <div class="col-md-6">
+            @if ($heuresParDepartement->isEmpty())
+            <div class="alert alert-info" data-permanent>
+                <i class="bi bi-info-circle me-2"></i>
+                Aucune donnée disponible pour les départements.
+            </div>
+            @else
             <div class="card shadow-sm dashboard-card h-100">
-                @if ($heuresParDepartement->isEmpty())
-                    <div class="alert alert-info">
-                        <i class="bi bi-info-circle me-2"></i>
-                        Aucune donnée disponible pour les départements.
-                    </div>
-                @else
                 <div class="card-body p-4">
                     <h5 class="fw-semibold mb-4">
                         <i class="bi bi-pie-chart-fill text-primary me-2"></i>
@@ -88,8 +88,8 @@
                         <canvas id="chartDept" height="300"></canvas>
                     </div>
                 </div>
-                @endif
             </div>
+            @endif
         </div>
 
         {{-- <style>

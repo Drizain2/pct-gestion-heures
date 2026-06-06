@@ -86,7 +86,6 @@
 ### Route publique
 
 - `/` : page de connexion
-- `/heures` : vue de synthèse publique (?)
 
 ### Routes protégées
 
@@ -230,7 +229,6 @@ composer run dev
 
 ### Commandes utiles
 
-- `composer run setup` : installe le projet et génère l’environnement
 - `composer run dev` : lance le serveur et Vite en mode développement
 - `composer run test` : exécute la suite de tests
 

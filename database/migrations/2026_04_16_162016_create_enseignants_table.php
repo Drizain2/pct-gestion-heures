@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('enseignants', function (Blueprint $table) {
             $table->id();
-               $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('nom');
             $table->string('prenom');
             $table->enum("grade",["Assistant","Maitre-Assistant","Professeur"]);

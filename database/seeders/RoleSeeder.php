@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Enseignant;
+use App\Models\Admin;
+use App\Models\Secretaire;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -25,18 +27,20 @@ class RoleSeeder extends Seeder
         $enseignant = Role::create(["name"=>"enseignant"]);
 
         //Administrateur
-        User::create([
+        $admintest = User::create([
             "name"=>"Administrateur Test",
             "email"=>"admin@uvci.edu.ci",
             "password"=>"password"
         ])->assignRole($admin);
+        Admin::create(['user_id'=>$admintest->id]);
 
         //Secretaire
-        User::create([
+        $secretairetest = User::create([
             "name"=>"Secretaire Test",
             "email"=>"secretaire@uvci.edu.ci",
             "password"=>"password"
         ])->assignRole($secretaire);
+        Secretaire::create(['user_id'=>$secretairetest->id]);
 
         //Enseignant
        $enseignantTest= User::create([

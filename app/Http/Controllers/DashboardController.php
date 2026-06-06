@@ -22,7 +22,7 @@ class DashboardController extends Controller
             'cours' => Cours::count(),
             'ressources' => Ressource::count(),
             'activites' => Activite::where('statut', 'validee')->count(),
-            'annee_academique' => AnneeAcademique::anneeAcademiqueActuelle()->libelle,
+            'annee_academique' => AnneeAcademique::anneeAcademiqueActuelle()?->libelle,
         ];
         // dd($stats);
 

@@ -8,6 +8,8 @@ use App\Models\Cours;
 use App\Models\Enseignant;
 use App\Models\Ressource;
 use App\Models\Sequence;
+use App\Models\Secretaire;
+use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -40,12 +42,14 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
         $admin->assignRole($roleAdmin);
+        Admin::create(['user_id'=>$admin->id]);
 
         $secretaire = User::firstOrCreate(['email' => 'secretaire@uvci.edu.ci'], [
             'name' => 'Secrétaire',
             'password' => bcrypt('password'),
         ]);
         $secretaire->assignRole($roleSecretaire);
+        Secretaire::create(['user_id'=>$secretaire->id]);
 
         // 3. Validateurs supplémentaires
         $validateurs = collect([$admin, $secretaire]);
@@ -55,6 +59,7 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
         $admin1->assignRole($roleAdmin);
+        Admin::create(['user_id'=>$admin1->id]);
         $validateurs->push($admin1);
 
         $admin2 = User::firstOrCreate(['email' => 'admin2@uvci.edu.ci'], [
@@ -62,6 +67,7 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
         $admin2->assignRole($roleAdmin);
+        Admin::create(['user_id'=>$admin2->id]);
         $validateurs->push($admin2);
 
         $sec2 = User::firstOrCreate(['email' => 'secretaire2@uvci.edu.ci'], [
@@ -69,6 +75,7 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
         $sec2->assignRole($roleSecretaire);
+        Secretaire::create(['user_id'=>$sec2->id]);
         $validateurs->push($sec2);
 
         // 4. Années académiques

@@ -72,12 +72,13 @@ class ParametreSystemeSeeder extends Seeder
         foreach ($parametres as $parametre) {
             ParametreSysteme::create($parametre);
         }
-        // // Annee academique courante
-        // AnneeAcademique::create([
-        //     'libelle' => '2025-2026',
-        //     'date_debut' => '2025-09-01',
-        //     'date_fin' => '2026-07-30',
-        //     'active' => true,
-        // ]);
+        //  $anneesData = [
+        //     ['libelle' => '2022-2023', 'date_debut' => '2022-10-01', 'date_fin' => '2023-07-31', 'active' => false],
+        //     ['libelle' => '2023-2024', 'date_debut' => '2023-10-01', 'date_fin' => '2024-07-31', 'active' => false],
+        //     ['libelle' => '2024-2025', 'date_debut' => '2024-10-01', 'date_fin' => '2025-07-31', 'active' => true],
+        // ];
+        // foreach($anneesData as $anne){
+        //     AnneeAcademique::create($anne);
+        // }
     }
 }

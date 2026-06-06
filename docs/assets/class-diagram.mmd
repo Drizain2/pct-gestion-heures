@@ -1,54 +1,65 @@
-classDiagram
-    class User {
-        +int id
-        +string name
-        +string email
-        +string password
-        +hasOne Enseignant
-    }
-    class Enseignant {
-        +int id
-        +string nom
-        +string prenom
-        +string grade
-        +string statut
-        +string departement
-        +decimal taux_horaire
-        +string email
-        +int user_id
-        +belongsTo User
-        +hasMany Activite
-        +belongsToMany Cours
-    }
-    class Cours {
-        +int id
-        +string titre
-        +string code
-        +belongsToMany Enseignant
-        +hasMany Sequence
-    }
-    class Sequence {
-        +int id
-        +string titre
-        +int cours_id
-        +hasMany Ressource
-    }
-    class Ressource {
-        +int id
-        +string titre
-        +int sequence_id
-    }
-    class Activite {
-        +int id
-        +int enseignant_id
-        +int cours_id
-        +date date_activite
-        +float heures_calculees
-        +string statut
-    }
+    classDiagram
+        class User {
+            +int id
+            +string name
+            +string email
+            +string password
+            +string role
+        }
+        class Admin {
+            +int id
+            +int user_id
+        }
+        class Secretaire {
+            +int id
+            +int user_id
+        }
+        class Enseignant {
+            +int id
+            +string nom
+            +string prenom
+            +string grade
+            +string statut
+            +string departement
+            +decimal taux_horaire
+            +string email
+            +int user_id
+            +belongsTo User
+            +hasMany Activite
+            +belongsToMany Cours
+        }
+        class Cours {
+            +int id
+            +string titre
+            +string code
+            +belongsToMany Enseignant
+            +hasMany Sequence
+        }
+        class Sequence {
+            +int id
+            +string titre
+            +int cours_id
+            +hasMany Ressource
+        }
+        class Ressource {
+            +int id
+            +string titre
+            +int sequence_id
+        }
+        class Activite {
+            +int id
+            +int enseignant_id
+            +int cours_id
+            +date date_activite
+            +float heures_calculees
+            +string statut
+        }
 
-    User "1" -- "0..1" Enseignant
-    Enseignant "1" -- "*" Activite
-    Enseignant "*" -- "*" Cours : cours_enseignant
-    Cours "1" -- "*" Sequence
-    Sequence "1" -- "*" Ressource
+        User <|-- Enseignant : hériage
+        User <|-- Admin : hériage
+        User <|-- Secretaire : hériage
+        Enseignant "*" -- "*" Cours : enseigne
+        Enseignant "1" -- "*" Activite
+        Cours "1" --> "*" Activite
+        Cours "1" --> "*" Sequence
+        Sequence "1" --> "*" Ressource
