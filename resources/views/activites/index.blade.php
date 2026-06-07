@@ -95,7 +95,7 @@
                     </td>
 
                     <td data-label="Enseignant">
-                        <span class="cell-enseignant">{{ $activite->enseignant->nom_complet }}</span>
+                        <span class="cell-enseignant">{{ $activite->enseignant->nom_complet ?? 'aucun enseignant'}}</span>
                     </td>
 
                     <td data-label="Cours">
